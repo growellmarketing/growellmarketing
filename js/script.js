@@ -295,9 +295,11 @@
                 });
             }
 
-            alert("Thank you! Your free growth audit request has been submitted. Our strategy team will reach out within 24 hours.");
             closeAuditModal();
             auditForm.reset();
+            setTimeout(function () {
+                window.location.href = "/thank-you.html";
+            }, 300);
         });
     }
 
@@ -329,8 +331,10 @@
                     window.sendLeadToGoogleSheets(leadObj);
                 }
 
-                alert("Thank you! Your message has been received. Growell Marketing team will get back to you within 24 hours.");
                 cForm.reset();
+                setTimeout(function () {
+                    window.location.href = "/thank-you.html";
+                }, 300);
             });
         });
     }
@@ -729,12 +733,25 @@
 
     document.getElementById("quizForm").addEventListener("submit", function (e) {
         e.preventDefault();
+        var qName = document.getElementById("quizName");
+        var qPhone = document.getElementById("quizPhone");
+        var qEmail = document.getElementById("quizEmail");
+        if (window.sendLeadToGoogleSheets) {
+            window.sendLeadToGoogleSheets({
+                name: qName ? qName.value.trim() : "",
+                phone: qPhone ? qPhone.value.trim() : "",
+                email: qEmail ? qEmail.value.trim() : "",
+                goal: "Proposal Quiz: " + (quizData.goal || "") + " (" + (quizData.businessType || "") + ")",
+                source: "Proposal Quiz Modal (" + window.location.pathname + ")"
+            });
+        }
         quizStep3.style.display = "none";
         quizSuccessMsg.style.display = "block";
         setTimeout(function () {
             quizModal.classList.remove("active");
             setQuizStep(1);
-        }, 3500);
+            window.location.href = "/thank-you.html";
+        }, 1200);
     });
 
     if (scopeClaimProposalBtn) {
