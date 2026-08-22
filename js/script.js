@@ -265,7 +265,7 @@
 
     // Attach openAuditModal to all "Get free growth plan" / "Get my free audit" buttons
     document.querySelectorAll(".see-button, .btn-primary, [data-open-audit]").forEach(function (btn) {
-        if (btn.tagName === "BUTTON" || (btn.tagName === "A" && btn.getAttribute("href") === "/contact.html")) {
+        if (btn.tagName === "BUTTON" || (btn.tagName === "A" && btn.getAttribute("href") === "/contact-us.html")) {
             btn.addEventListener("click", function (e) {
                 // If it's explicitly a modal trigger or primary action, open modal
                 if (btn.getAttribute("data-modal-trigger") === "true") {
