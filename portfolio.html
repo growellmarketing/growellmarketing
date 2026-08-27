@@ -112,11 +112,11 @@
             <p>Measurable growth and real ROI — a look at how we've helped brands turn strategy into revenue.</p>
         </section>
 
-        <section>
+        <!-- Clean Minimalist Case Studies Section with Scroll Animations -->
+        <section class="portfolio-case-section">
             <div class="container">
-                <!-- Filter Category Buttons -->
-                <div class="filter-btn-group">
-                    <button class="filter-btn active" data-filter="all">All Case Studies</button>
+                <div class="filter-btn-group" data-reveal>
+                    <button class="filter-btn active" data-filter="all"><i class="fa-solid fa-layer-group"></i> All Work</button>
                     <button class="filter-btn" data-filter="seo">SEO</button>
                     <button class="filter-btn" data-filter="social">Social Media</button>
                     <button class="filter-btn" data-filter="paid-ads">Paid Ads</button>
@@ -124,59 +124,106 @@
                     <button class="filter-btn" data-filter="branding">Branding</button>
                 </div>
 
-                <div class="case-study-grid">
-                    <div class="case-study-card portfolio-card-item" data-category="seo">
-                        <div class="case-study-img" style="background-image: url('/assets/SEO.webp'); background-size: cover;"></div>
-                        <div class="case-study-body">
-                            <span class="tag">SEO</span>
-                            <div class="case-study-metric">+280%</div>
-                            <h3>Skincare Brand Organic Growth</h3>
-                            <p>Challenge: stuck on page 3. Solution: technical audit and content overhaul. Result: page-one rankings across core keywords.</p>
+                <div class="case-study-grid-clean">
+                    <!-- Card 1: SEO -->
+                    <div class="clean-case-card portfolio-card-item" data-category="seo" data-reveal data-reveal-delay="1">
+                        <div class="clean-case-img-wrap">
+                            <div class="clean-case-img" style="background-image: url('/assets/SEO.webp');"></div>
+                        </div>
+                        <div class="clean-case-body">
+                            <div class="clean-case-meta">
+                                <span class="case-category">Search Engine Optimization</span>
+                            </div>
+                            <h3>Skincare D2C Brand Organic Traffic Scale</h3>
+                            <p class="case-desc">Technical schema audit, keyword cluster overhaul, and DA authority backlinks ranking 45+ target keywords on Page #1.</p>
+                            <div class="clean-case-footer">
+                                <a href="#" data-scope-target="seo" class="case-link">View Deliverables <i class="fa-solid fa-arrow-right"></i></a>
+                            </div>
                         </div>
                     </div>
-                    <div class="case-study-card portfolio-card-item" data-category="paid-ads">
-                        <div class="case-study-img" style="background-image: url('/assets/paid-advertising.webp'); background-size: cover;"></div>
-                        <div class="case-study-body">
-                            <span class="tag">Paid Ads</span>
-                            <div class="case-study-metric">4.2x ROAS</div>
-                            <h3>Home Décor Store Scale-Up</h3>
-                            <p>Challenge: rising CPAs. Solution: creative testing and audience segmentation. Result: revenue scaled 4.2x on the same budget.</p>
+
+                    <!-- Card 2: Paid Ads -->
+                    <div class="clean-case-card portfolio-card-item" data-category="paid-ads" data-reveal data-reveal-delay="2">
+                        <div class="clean-case-img-wrap">
+                            <div class="clean-case-img" style="background-image: url('/assets/paid-advertising.webp');"></div>
+                        </div>
+                        <div class="clean-case-body">
+                            <div class="clean-case-meta">
+                                <span class="case-category">Google & Meta Ads</span>
+                            </div>
+                            <h3>Home Décor Brand Acquisition & Revenue Scale</h3>
+                            <p class="case-desc">Restructured Meta CAPI funnels, high-converting video UGC testing, and custom lookalikes scaling monthly profitable revenue.</p>
+                            <div class="clean-case-footer">
+                                <a href="#" data-scope-target="paid-ads" class="case-link">View Deliverables <i class="fa-solid fa-arrow-right"></i></a>
+                            </div>
                         </div>
                     </div>
-                    <div class="case-study-card portfolio-card-item" data-category="social">
-                        <div class="case-study-img" style="background-image: url('/assets/social-media-marketing.webp'); background-size: cover;"></div>
-                        <div class="case-study-body">
-                            <span class="tag">Social</span>
-                            <div class="case-study-metric">+215%</div>
-                            <h3>Fitness Studio Community Growth</h3>
-                            <p>Challenge: low engagement. Solution: content pillar strategy. Result: follower growth up 215%, bookings up 60%.</p>
+
+                    <!-- Card 3: Social Media -->
+                    <div class="clean-case-card portfolio-card-item" data-category="social" data-reveal data-reveal-delay="3">
+                        <div class="clean-case-img-wrap">
+                            <div class="clean-case-img" style="background-image: url('/assets/social-media-marketing.webp');"></div>
+                        </div>
+                        <div class="clean-case-body">
+                            <div class="clean-case-meta">
+                                <span class="case-category">Social Media Strategy</span>
+                            </div>
+                            <h3>Fitness Studio Viral Community Growth</h3>
+                            <p class="case-desc">High-energy viral Reels production, strategic local creator collaborations, and automated lead capture DM sequences.</p>
+                            <div class="clean-case-footer">
+                                <a href="#" data-scope-target="social" class="case-link">View Deliverables <i class="fa-solid fa-arrow-right"></i></a>
+                            </div>
                         </div>
                     </div>
-                    <div class="case-study-card portfolio-card-item" data-category="web-design">
-                        <div class="case-study-img" style="background-image: url('/assets/social-media-design.webp'); background-size: cover;"></div>
-                        <div class="case-study-body">
-                            <span class="tag">Web Design</span>
-                            <div class="case-study-metric">+215%</div>
-                            <h3>Wellness Brand Website Redesign</h3>
-                            <p>Challenge: high bounce rate. Solution: full UX redesign and CRO. Result: lead generation up 215% in 3 months.</p>
+
+                    <!-- Card 4: Web Design -->
+                    <div class="clean-case-card portfolio-card-item" data-category="web-design" data-reveal data-reveal-delay="4">
+                        <div class="clean-case-img-wrap">
+                            <div class="clean-case-img" style="background-image: url('/assets/why-choose-section-home.webp');"></div>
+                        </div>
+                        <div class="clean-case-body">
+                            <div class="clean-case-meta">
+                                <span class="case-category">Web UI/UX Design</span>
+                            </div>
+                            <h3>Healthcare & Clinic High-Converting Website</h3>
+                            <p class="case-desc">Sub-second loading mobile-first architecture, frictionless patient appointment booking funnels, and modern responsive UI.</p>
+                            <div class="clean-case-footer">
+                                <a href="#" data-scope-target="web-design" class="case-link">View Deliverables <i class="fa-solid fa-arrow-right"></i></a>
+                            </div>
                         </div>
                     </div>
-                    <div class="case-study-card portfolio-card-item" data-category="social">
-                        <div class="case-study-img" style="background-image: url('/assets/content-writing.webp'); background-size: cover;"></div>
-                        <div class="case-study-body">
-                            <span class="tag">Email & Content</span>
-                            <div class="case-study-metric">+35%</div>
-                            <h3>D2C Brand Email Revenue</h3>
-                            <p>Challenge: flat email revenue. Solution: automated flow rebuild. Result: email-attributed revenue up 35%.</p>
+
+                    <!-- Card 5: Email Retention -->
+                    <div class="clean-case-card portfolio-card-item" data-category="paid-ads" data-reveal data-reveal-delay="5">
+                        <div class="clean-case-img-wrap">
+                            <div class="clean-case-img" style="background-image: url('/assets/content-writing.webp');"></div>
+                        </div>
+                        <div class="clean-case-body">
+                            <div class="clean-case-meta">
+                                <span class="case-category">Email Marketing & Automation</span>
+                            </div>
+                            <h3>D2C Apparel Brand Retention & Flow Architecture</h3>
+                            <p class="case-desc">Automated multi-tier abandoned cart recovery flows, VIP customer win-back campaigns, and high-open rate newsletters.</p>
+                            <div class="clean-case-footer">
+                                <a href="#" data-scope-target="email" class="case-link">View Deliverables <i class="fa-solid fa-arrow-right"></i></a>
+                            </div>
                         </div>
                     </div>
-                    <div class="case-study-card portfolio-card-item" data-category="branding">
-                        <div class="case-study-img" style="background-image: url('/assets/brand-identi.webp'); background-size: cover;"></div>
-                        <div class="case-study-body">
-                            <span class="tag">Branding</span>
-                            <div class="case-study-metric">+180%</div>
-                            <h3>Café Chain Rebrand</h3>
-                            <p>Challenge: dated, inconsistent identity. Solution: full brand system refresh. Result: brand recall up 180%.</p>
+
+                    <!-- Card 6: Branding -->
+                    <div class="clean-case-card portfolio-card-item" data-category="branding" data-reveal data-reveal-delay="6">
+                        <div class="clean-case-img-wrap">
+                            <div class="clean-case-img" style="background-image: url('/assets/brand-identi.webp');"></div>
+                        </div>
+                        <div class="clean-case-body">
+                            <div class="clean-case-meta">
+                                <span class="case-category">Brand Identity & System</span>
+                            </div>
+                            <h3>Artisan Café Franchise Complete Visual Refresh</h3>
+                            <p class="case-desc">Modern identity system, luxury typography guidelines, custom sustainable packaging, and consistent social brand design.</p>
+                            <div class="clean-case-footer">
+                                <a href="#" data-scope-target="branding" class="case-link">View Deliverables <i class="fa-solid fa-arrow-right"></i></a>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -295,22 +342,78 @@
             </div>
         </section>
 
-        <section class="tint">
+        <!-- Split Trusted By Section (Content Left | 3-Track Multidirectional Logo Columns Right) -->
+        <section class="split-trusted-section">
             <div class="container">
-                <div class="sec-head">
-                    <p class="mini">Trusted By</p>
-                    <h2>Brands We've Partnered With</h2>
+                <div class="split-trusted-grid">
+                    <!-- Left Side Content -->
+                    <div class="split-trusted-left">
+                        <div class="trusted-badge-pill">
+                            <i class="fa-solid fa-circle-check"></i> Verified Partnerships
+                        </div>
+                        <h2><span>Trusted by Brands</span> for Measurable ROI</h2>
+                        <p class="split-trusted-desc">We partner with ambitious startups, direct-to-consumer brands, and established enterprises across industries to engineer sustainable digital growth.</p>
+                        <div class="split-trusted-metrics">
+                            <div class="split-metric-card">
+                                <span class="split-metric-num">100+</span>
+                                <span class="split-metric-lbl"><i class="fa-solid fa-users"></i> Brands Scaled</span>
+                            </div>
+                            <div class="split-metric-card">
+                                <span class="split-metric-num">4.2x</span>
+                                <span class="split-metric-lbl"><i class="fa-solid fa-chart-line"></i> Avg ROAS</span>
+                            </div>
+                        </div>
+                    </div>
 
-                </div>
-                <div class="logo-strip">
-                    <div class="logo-placeholder">Client 1</div>
-                    <div class="logo-placeholder">Client 2</div>
-                    <div class="logo-placeholder">Client 3</div>
-                    <div class="logo-placeholder">Client 4</div>
-                    <div class="logo-placeholder">Client 5</div>
-                    <div class="logo-placeholder">Client 6</div>
-                    <div class="logo-placeholder">Client 7</div>
-                    <div class="logo-placeholder">Client 8</div>
+                    <!-- Right Side 3-Row Alternating Logo Marquee -->
+                    <div class="split-trusted-right">
+                        <div class="multi-marquee-container">
+                            <!-- Track 1: Left to Right -->
+                            <div class="multi-marquee-row row-ltr">
+                                <div class="multi-marquee-track">
+                                    <div class="client-logo-card"><img src="/clients/the-berman.svg" alt="The Berman" loading="lazy"></div>
+                                    <div class="client-logo-card"><img src="/clients/Daksh Construction.webp" alt="Daksh Construction" loading="lazy"></div>
+                                    <div class="client-logo-card"><img src="/clients/JM Build Group.webp" alt="JM Build Group" loading="lazy"></div>
+                                    <div class="client-logo-card"><img src="/clients/Jangid Interior.webp" alt="Jangid Interior" loading="lazy"></div>
+                                    <!-- Duplicate for smooth infinite loop -->
+                                    <div class="client-logo-card"><img src="/clients/the-berman.svg" alt="The Berman" loading="lazy"></div>
+                                    <div class="client-logo-card"><img src="/clients/Daksh Construction.webp" alt="Daksh Construction" loading="lazy"></div>
+                                    <div class="client-logo-card"><img src="/clients/JM Build Group.webp" alt="JM Build Group" loading="lazy"></div>
+                                    <div class="client-logo-card"><img src="/clients/Jangid Interior.webp" alt="Jangid Interior" loading="lazy"></div>
+                                </div>
+                            </div>
+
+                            <!-- Track 2: Right to Left -->
+                            <div class="multi-marquee-row row-rtl">
+                                <div class="multi-marquee-track">
+                                    <div class="client-logo-card"><img src="/clients/Jay Enterpises.webp" alt="Jay Enterprises" loading="lazy"></div>
+                                    <div class="client-logo-card"><img src="/clients/Gaj Yoga.webp" alt="Gaj Yoga" loading="lazy"></div>
+                                    <div class="client-logo-card"><img src="/clients/MMA Fata.webp" alt="MMA Fata" loading="lazy"></div>
+                                    <div class="client-logo-card"><img src="/clients/Myo.webp" alt="Myo" loading="lazy"></div>
+                                    <!-- Duplicate for smooth infinite loop -->
+                                    <div class="client-logo-card"><img src="/clients/Jay Enterpises.webp" alt="Jay Enterprises" loading="lazy"></div>
+                                    <div class="client-logo-card"><img src="/clients/Gaj Yoga.webp" alt="Gaj Yoga" loading="lazy"></div>
+                                    <div class="client-logo-card"><img src="/clients/MMA Fata.webp" alt="MMA Fata" loading="lazy"></div>
+                                    <div class="client-logo-card"><img src="/clients/Myo.webp" alt="Myo" loading="lazy"></div>
+                                </div>
+                            </div>
+
+                            <!-- Track 3: Left to Right -->
+                            <div class="multi-marquee-row row-ltr">
+                                <div class="multi-marquee-track">
+                                    <div class="client-logo-card"><img src="/clients/The Grip War.webp" alt="The Grip War" loading="lazy"></div>
+                                    <div class="client-logo-card"><img src="/clients/certificado-logo-Spain.webp" alt="Certificado Logo Spain" loading="lazy"></div>
+                                    <div class="client-logo-card"><img src="/clients/epc-logo.webp" alt="EPC Logo" loading="lazy"></div>
+                                    <div class="client-logo-card"><img src="/clients/certificado-energia-portugal.webp" alt="Certificado Energia Portugal" loading="lazy"></div>
+                                    <!-- Duplicate for smooth infinite loop -->
+                                    <div class="client-logo-card"><img src="/clients/The Grip War.webp" alt="The Grip War" loading="lazy"></div>
+                                    <div class="client-logo-card"><img src="/clients/certificado-logo-Spain.webp" alt="Certificado Logo Spain" loading="lazy"></div>
+                                    <div class="client-logo-card"><img src="/clients/epc-logo.webp" alt="EPC Logo" loading="lazy"></div>
+                                    <div class="client-logo-card"><img src="/clients/certificado-energia-portugal.webp" alt="Certificado Energia Portugal" loading="lazy"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>
@@ -344,15 +447,13 @@
                 </ul>
             </div>
             <div>
-                <h4>Services</h4>
+                                <h4>Services</h4>
                 <ul>
-                    <li><a href="/services.html">Digital Marketing</a></li>
-                    <li><a href="/services/seo.html">SEO</a></li>
+                    <li><a href="/services/seo.html">Search Engine Optimization (SEO)</a></li>
+                    <li><a href="/services/paid-advertising.html">Paid Advertising (Google & Meta Ads)</a></li>
                     <li><a href="/services/social-media-marketing-services.html">Social Media Marketing</a></li>
-                    <li><a href="/services/paid-advertising.html">Paid Advertising</a></li>
-                    <li><a href="/services/content-writing.html">Content Writing</a></li>
-                    <li><a href="/services/branding.html">Branding</a></li>
-                    <li><a href="/services/web-design.html">Website Design</a></li>
+                    <li><a href="/services/ecommerce.html">E-Commerce Marketing</a></li>
+                    <li><a href="/services/web-design.html">Website Design & Development</a></li>
                 </ul>
             </div>
             <iframe class="google-map"

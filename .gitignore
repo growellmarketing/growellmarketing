@@ -1,0 +1,8 @@
+node_modules
+.wrangler
+*.docx
+*.zip
+.system_generated
+scratch
+.DS_Store
+Thumbs.db

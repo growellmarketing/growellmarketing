@@ -44,6 +44,172 @@
 
     var reduceMotion = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
+    /* ---------- LUXURY BUTTER-SMOOTH LENIS SCROLL ENGINE ---------- */
+    (function initLenisSmoothScroll() {
+        if (reduceMotion) return;
+
+        function clamp(t, i, e) { return Math.max(t, Math.min(i, e)); }
+        var Animate = class {
+            isRunning = false; value = 0; from = 0; to = 0; currentTime = 0; lerp; duration; easing; onUpdate;
+            advance(i) {
+                if (!this.isRunning) return;
+                var e = false;
+                if (this.duration && this.easing) {
+                    this.currentTime += i;
+                    var s = clamp(0, this.currentTime / this.duration, 1);
+                    e = s >= 1;
+                    var o = e ? 1 : this.easing(s);
+                    this.value = this.from + (this.to - this.from) * o;
+                } else if (this.lerp) {
+                    var factor = 1 - Math.exp(-60 * this.lerp * i);
+                    this.value = (1 - factor) * this.value + factor * this.to;
+                    if (Math.abs(this.to - this.value) < 0.5) { this.value = this.to; e = true; }
+                } else { this.value = this.to; e = true; }
+                if (e) this.stop();
+                if (this.onUpdate) this.onUpdate(this.value, e);
+            }
+            stop() { this.isRunning = false; }
+            fromTo(t, i, opts) {
+                this.from = this.value = t; this.to = i; this.lerp = opts.lerp; this.duration = opts.duration;
+                this.easing = opts.easing; this.currentTime = 0; this.isRunning = true;
+                if (opts.onStart) opts.onStart();
+                this.onUpdate = opts.onUpdate;
+            }
+        };
+        var Dimensions = class {
+            constructor(t, i) {
+                this.wrapper = t; this.content = i;
+                this.resize();
+                window.addEventListener("resize", () => this.resize(), false);
+            }
+            width = 0; height = 0; scrollHeight = 0; scrollWidth = 0;
+            resize() {
+                this.width = window.innerWidth;
+                this.height = window.innerHeight;
+                this.scrollHeight = this.content.scrollHeight;
+                this.scrollWidth = this.content.scrollWidth;
+            }
+            get limit() { return { x: this.scrollWidth - this.width, y: Math.max(0, this.scrollHeight - this.height) }; }
+        };
+        var Emitter = class {
+            events = {};
+            emit(t, ...i) { (this.events[t] || []).forEach(fn => fn && fn(...i)); }
+            on(t, i) { (this.events[t] = this.events[t] || []).push(i); return () => this.off(t, i); }
+            off(t, i) { this.events[t] = (this.events[t] || []).filter(fn => fn !== i); }
+        };
+        var VirtualScroll = class {
+            constructor(el, opts = {}) {
+                this.element = el;
+                this.wheelMultiplier = opts.wheelMultiplier || 1;
+                this.emitter = new Emitter();
+                this.element.addEventListener("wheel", this.onWheel, { passive: false });
+            }
+            on(t, i) { return this.emitter.on(t, i); }
+            onWheel = (t) => {
+                var deltaY = t.deltaY;
+                if (t.deltaMode === 1) deltaY *= 16.666;
+                else if (t.deltaMode === 2) deltaY *= window.innerHeight;
+                deltaY *= this.wheelMultiplier;
+                this.emitter.emit("scroll", { deltaX: t.deltaX * this.wheelMultiplier, deltaY, event: t });
+            };
+        };
+        var LenisEngine = class {
+            _isScrolling = false; time = 0; targetScroll = 0; animatedScroll = 0;
+            animate = new Animate(); emitter = new Emitter();
+            constructor(opts = {}) {
+                this.wrapper = window;
+                this.content = document.documentElement;
+                this.lerp = opts.lerp || 0.085;
+                this.duration = opts.duration || 1.15;
+                this.easing = opts.easing || (t => Math.min(1, 1.001 - Math.pow(2, -10 * t)));
+                this.wheelMultiplier = opts.wheelMultiplier || 1.05;
+                this.dimensions = new Dimensions(this.wrapper, this.content);
+                this.targetScroll = this.animatedScroll = window.pageYOffset || document.documentElement.scrollTop;
+                this.virtualScroll = new VirtualScroll(window, { wheelMultiplier: this.wheelMultiplier });
+                this.virtualScroll.on("scroll", this.onVirtualScroll);
+                window.addEventListener("scroll", this.onNativeScroll, { passive: true });
+                this.raf = this.raf.bind(this);
+                requestAnimationFrame(this.raf);
+            }
+            get limit() { return this.dimensions.limit.y; }
+            onNativeScroll = () => {
+                if (!this._isScrolling) {
+                    this.animatedScroll = this.targetScroll = window.pageYOffset || document.documentElement.scrollTop;
+                }
+            };
+            onVirtualScroll = ({ deltaY, event }) => {
+                if (event.ctrlKey) return;
+                var target = event.target;
+                while (target && target !== document.body && target !== document.documentElement) {
+                    if (target.hasAttribute && target.hasAttribute("data-lenis-prevent")) {
+                        if (target.scrollHeight > target.clientHeight) return;
+                    }
+                    if (target.classList && (
+                        target.classList.contains("audit-modal-overlay") ||
+                        target.classList.contains("chatbot-window") ||
+                        target.classList.contains("chat-messages") ||
+                        target.classList.contains("scope-checklist") ||
+                        target.classList.contains("dropdown-menu")
+                    )) {
+                        if (target.scrollHeight > target.clientHeight) return;
+                    }
+                    target = target.parentElement;
+                }
+                event.preventDefault();
+                this.scrollTo(this.targetScroll + deltaY);
+            };
+            scrollTo(target, opts = {}) {
+                if (typeof target === "string") {
+                    var el = document.querySelector(target);
+                    if (el) {
+                        var offset = opts.offset || -75;
+                        target = el.getBoundingClientRect().top + window.pageYOffset + offset;
+                    }
+                }
+                if (typeof target === "number") {
+                    target = Math.max(0, Math.min(target, this.limit));
+                    this.targetScroll = target;
+                    this._isScrolling = true;
+                    this.animate.fromTo(this.animatedScroll, target, {
+                        duration: opts.duration || this.duration,
+                        easing: opts.easing || this.easing,
+                        lerp: opts.lerp || this.lerp,
+                        onUpdate: (val, isDone) => {
+                            this.animatedScroll = val;
+                            window.scrollTo(0, Math.round(val));
+                            if (isDone) this._isScrolling = false;
+                        }
+                    });
+                }
+            }
+            raf(time) {
+                var delta = time - (this.time || time);
+                this.time = time;
+                this.animate.advance(0.001 * delta);
+                requestAnimationFrame(this.raf);
+            }
+        };
+
+        window.lenis = new LenisEngine({
+            lerp: 0.085,
+            duration: 1.15,
+            wheelMultiplier: 1.05
+        });
+
+        document.documentElement.classList.add("lenis", "lenis-smooth");
+
+        document.addEventListener("click", function (e) {
+            var anchor = e.target.closest('a[href^="#"]');
+            if (!anchor) return;
+            var href = anchor.getAttribute("href");
+            if (href === "#" || href === "#!") return;
+            if (document.querySelector(href)) {
+                e.preventDefault();
+                window.lenis.scrollTo(href, { offset: -75 });
+            }
+        });
+    })();
+
     /* ---------- 1. Auto-tag elements for scroll reveal ---------- */
     var revealSelectors = [
         ".benefit-card", ".pillar-card", ".team-card", ".stat-card",
@@ -89,31 +255,79 @@
         onScrollNavbar();
     }
 
-    /* ---------- 2.5 Mobile Hamburger Navigation Toggle ---------- */
+    /* ---------- 2.5 Mobile Hamburger Navigation & Dropdown Accordion Toggle ---------- */
     var navbaar = document.querySelector(".navbaar");
     var navLeft = document.querySelector(".nav-left");
     if (navbaar && navLeft) {
-        var existingBtn = navbaar.querySelector(".mobile-nav-toggle");
-        if (!existingBtn) {
-            var mobileBtn = document.createElement("button");
+        var mobileBtn = navbaar.querySelector(".mobile-nav-toggle");
+        if (!mobileBtn) {
+            mobileBtn = document.createElement("button");
             mobileBtn.className = "mobile-nav-toggle";
             mobileBtn.setAttribute("aria-label", "Toggle Mobile Menu");
             mobileBtn.innerHTML = '<i class="fa-solid fa-bars"></i>';
             navbaar.appendChild(mobileBtn);
+        }
 
-            mobileBtn.addEventListener("click", function (e) {
-                e.stopPropagation();
-                var isOpen = navLeft.classList.toggle("open");
-                mobileBtn.innerHTML = isOpen ? '<i class="fa-solid fa-xmark"></i>' : '<i class="fa-solid fa-bars"></i>';
-            });
+        function closeMobileNav() {
+            if (navLeft.classList.contains("open")) {
+                navLeft.classList.remove("open");
+                mobileBtn.innerHTML = '<i class="fa-solid fa-bars"></i>';
+            }
+        }
 
-            document.addEventListener("click", function (e) {
-                if (!navbaar.contains(e.target) && navLeft.classList.contains("open")) {
-                    navLeft.classList.remove("open");
-                    mobileBtn.innerHTML = '<i class="fa-solid fa-bars"></i>';
+        function toggleMobileNav(e) {
+            e.stopPropagation();
+            var isOpen = navLeft.classList.toggle("open");
+            mobileBtn.innerHTML = isOpen ? '<i class="fa-solid fa-xmark"></i>' : '<i class="fa-solid fa-bars"></i>';
+        }
+
+        mobileBtn.addEventListener("click", toggleMobileNav);
+
+        // Outside tap to close menu
+        document.addEventListener("click", function (e) {
+            if (navLeft.classList.contains("open") && !navLeft.contains(e.target) && !mobileBtn.contains(e.target)) {
+                closeMobileNav();
+            }
+        });
+
+        // Setup mobile dropdown accordion toggling
+        var dropdownLis = navLeft.querySelectorAll("ul li");
+        dropdownLis.forEach(function (li) {
+            var subMenu = li.querySelector(".dropdown-menu");
+            if (subMenu) {
+                li.classList.add("has-dropdown");
+                var parentLink = li.querySelector(":scope > a");
+                if (parentLink) {
+                    var existingArrow = li.querySelector(".dropdown-toggle-arrow");
+                    if (!existingArrow) {
+                        var arrowBtn = document.createElement("button");
+                        arrowBtn.type = "button";
+                        arrowBtn.className = "dropdown-toggle-arrow";
+                        arrowBtn.setAttribute("aria-label", "Toggle Submenu");
+                        arrowBtn.innerHTML = '<i class="fa-solid fa-chevron-down"></i>';
+
+                        // Insert arrow button right after the Services link
+                        parentLink.insertAdjacentElement("afterend", arrowBtn);
+
+                        // Clicking the arrow button toggles the dropdown submenu
+                        arrowBtn.addEventListener("click", function (e) {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            li.classList.toggle("dropdown-open");
+                        });
+                    }
+                }
+            }
+        });
+
+        // Close mobile nav when clicking any navigation link (including Services page link or submenu links)
+        navLeft.querySelectorAll("a").forEach(function (a) {
+            a.addEventListener("click", function (e) {
+                if (window.innerWidth <= 768) {
+                    closeMobileNav();
                 }
             });
-        }
+        });
     }
 
     /* ---------- 3. Smooth FAQ accordion ---------- */
@@ -193,19 +407,31 @@
     }
 
     /* ---------- 5. Back-to-top button ---------- */
-    var backToTop = document.createElement("button");
-    backToTop.className = "back-to-top";
-    backToTop.setAttribute("aria-label", "Back to top");
-    backToTop.innerHTML = "&#8593;";
-    document.body.appendChild(backToTop);
+    var backToTop = document.getElementById("backToTop");
+    if (!backToTop) {
+        backToTop = document.createElement("button");
+        backToTop.id = "backToTop";
+        backToTop.className = "back-to-top";
+        backToTop.setAttribute("aria-label", "Back to top");
+        backToTop.innerHTML = '<i class="fa-solid fa-arrow-up"></i>';
+        document.body.appendChild(backToTop);
+    }
 
     backToTop.addEventListener("click", function () {
-        window.scrollTo({ top: 0, behavior: "smooth" });
+        if (window.lenis) window.lenis.scrollTo(0);
+        else window.scrollTo({ top: 0, behavior: "smooth" });
     });
 
     window.addEventListener("scroll", function () {
-        if (window.scrollY > 500) backToTop.classList.add("show");
-        else backToTop.classList.remove("show");
+        if (window.scrollY > 450) {
+            backToTop.classList.add("show");
+            backToTop.style.opacity = "1";
+            backToTop.style.visibility = "visible";
+        } else {
+            backToTop.classList.remove("show");
+            backToTop.style.opacity = "0";
+            backToTop.style.visibility = "hidden";
+        }
     }, { passive: true });
 
     /* ---------- 6. Pricing Toggle (Monthly vs Annual) ---------- */
@@ -339,6 +565,39 @@
         });
     }
 
+    /* Newsletter Form Submissions */
+    var newsletterForms = document.querySelectorAll("#newsletterForm, .newsletter-form");
+    if (newsletterForms.length) {
+        newsletterForms.forEach(function (nForm) {
+            nForm.addEventListener("submit", function (e) {
+                e.preventDefault();
+                var emailInput = nForm.querySelector('input[type="email"]');
+                var emailVal = emailInput ? emailInput.value.trim() : "";
+                if (!emailVal) return;
+
+                if (window.sendLeadToGoogleSheets) {
+                    window.sendLeadToGoogleSheets({
+                        email: emailVal,
+                        goal: "Newsletter Subscription",
+                        source: "Blog Newsletter Form (" + window.location.pathname + ")"
+                    });
+                }
+
+                var btn = nForm.querySelector('button[type="submit"], .btn-primary');
+                if (btn) {
+                    var oldText = btn.innerHTML;
+                    btn.innerHTML = '<i class="fa-solid fa-check"></i> Subscribed!';
+                    btn.style.background = "#25D366";
+                    setTimeout(function () {
+                        btn.innerHTML = oldText;
+                        btn.style.background = "";
+                    }, 4000);
+                }
+                nForm.reset();
+            });
+        });
+    }
+
     /* ---------- 9. Before vs After Comparison Slider ---------- */
     var baInput = document.getElementById("baSliderInput");
     var baFg = document.getElementById("baFgImage");
@@ -445,14 +704,15 @@
             ]
         },
         "paid-ads": {
-            title: "Paid Advertising (Google & Meta Ads)",
+            title: "Performance Marketing (Google & Meta Ads)",
             badge: "Instant Traffic & High-ROAS Conversions",
             timeline: "Est. Turnaround: Campaigns Live in 5 Days",
             deliverables: [
                 "Full Account Audit & Structure Setup",
+                "Google Search, Shopping & Meta Ads",
                 "Ad Copywriting & Custom Visual Creatives",
                 "Conversion Tracking & Pixel / CAPI",
-                "Laser-Targeted Audience Segmentation",
+                "Laser-Targeted Audience & Lead Segmentation",
                 "A/B Creative & Headline Split Testing",
                 "Daily Bid Management & ROAS Scaling"
             ]
@@ -520,6 +780,19 @@
                 "24/7 Brand Mention & Review Monitoring",
                 "Professional Review Response Handling",
                 "Monthly Reputation Health Scorecard"
+            ]
+        },
+        "ecommerce": {
+            title: "E-Commerce Marketing & Store Scale",
+            badge: "D2C Scaling & High-ROAS Growth",
+            timeline: "Est. Turnaround: Continuous Monthly Scaling",
+            deliverables: [
+                "Shopify / WooCommerce Conversion Rate Optimization (CRO)",
+                "Meta & Google Dynamic Product Catalog Ads",
+                "Amazon & Marketplace Listing SEO & Scale",
+                "Abandoned Cart & Post-Purchase Upsell Flows",
+                "Product Page UI/UX & Sub-Second Speed Overhaul",
+                "Weekly ROAS, CAC & Unit Economics Growth Reports"
             ]
         }
     };
@@ -711,6 +984,9 @@
             var parent = this.parentElement;
             parent.querySelectorAll(".quiz-option-card").forEach(function (c) { c.classList.remove("selected"); });
             this.classList.add("selected");
+            var val = this.getAttribute("data-quiz-val");
+            if (this.closest("#quizStep1")) quizData.businessType = val;
+            if (this.closest("#quizStep2")) quizData.goal = val;
         });
     });
 
@@ -769,6 +1045,19 @@
             e.preventDefault();
             quizModal.classList.add("active");
             setQuizStep(1);
+        }
+    });
+
+    // Close any active modal overlay when ESC key is pressed
+    document.addEventListener("keydown", function (e) {
+        if (e.key === "Escape" || e.keyCode === 27) {
+            if (auditModal) auditModal.classList.remove("active");
+            if (scopeModal) scopeModal.classList.remove("active");
+            if (quizModal) quizModal.classList.remove("active");
+            var chatWin = document.getElementById("chatWindow");
+            if (chatWin) chatWin.classList.remove("active");
+            var waPop = document.getElementById("waPopup");
+            if (waPop) waPop.classList.remove("active");
         }
     });
 
@@ -887,13 +1176,18 @@
                 var phoneInput = document.getElementById("chatPhone");
 
                 if (!nameInput || !nameInput.value.trim()) {
-                    alert("Please enter your name!");
+                    nameInput.style.borderColor = "#ff4444";
+                    nameInput.focus();
                     return;
                 }
+                nameInput.style.borderColor = "";
+
                 if (!phoneInput || !phoneInput.value.trim() || phoneInput.value.trim().length < 8) {
-                    alert("Please enter a valid phone/WhatsApp number!");
+                    phoneInput.style.borderColor = "#ff4444";
+                    phoneInput.focus();
                     return;
                 }
+                phoneInput.style.borderColor = "";
 
                 leadData.name = nameInput.value.trim();
                 leadData.phone = phoneInput.value.trim();
@@ -958,7 +1252,7 @@
             },
             {
                 keywords: ["team", "founder", "owner", "harsh", "aniket", "pintu", "simran", "who is", "people"],
-                reply: "👥 <b>Growell Leadership Team</b>:<br>• <b>Harsh Panwar</b> — Founder & Marketing Head (8+ Yrs Exp)<br>• <b>Aniket Singh Sisodia</b> — Managing Partner & Creative Head (8+ Yrs Exp)<br>• <b>Pintu Nath</b> — Marketing Manager & Tech Lead (4+ Yrs Exp)<br>• <b>Pintu Nath</b> — Lead Brand & Content Director (5+ Yrs Exp)<br><br>👉 <a href='/about.html' style='color:#654E9F;font-weight:700;'>Read Leadership Bios →</a>"
+                reply: "👥 <b>Growell Leadership Team</b>:<br>• <b>Harsh Panwar</b> — Founder & Marketing Head (8+ Yrs Exp)<br>• <b>Aniket Singh Sisodia</b> — Managing Partner & Creative Head (8+ Yrs Exp)<br>• <b>Pintu Nath</b> — Marketing Manager & Tech Lead (4+ Yrs Exp)<br><br>👉 <a href='/about.html' style='color:#654E9F;font-weight:700;'>Read Leadership Bios →</a>"
             },
             {
                 keywords: ["price", "pricing", "cost", "charge", "budget", "fees", "retainer"],
@@ -966,7 +1260,7 @@
             },
             {
                 keywords: ["contact", "phone", "mobile", "whatsapp", "call", "email", "number", "reach"],
-                reply: "📞 <b>Contact Growell Marketing</b>:<br>• <b>Phone / WhatsApp</b>: +91 8114456687<br>• <b>Email</b>: hello@growellmarketing.com<br>• <b>Office</b>: Ajmer, Rajasthan, India<br><br>👉 <a href='https://wa.me/918114456687' target='_blank' style='color:#25D366;font-weight:700;'>Start Live Chat on WhatsApp 💬</a>"
+                reply: "📞 <b>Contact Growell Marketing</b>:<br>• <b>Phone / WhatsApp</b>: +91 8114456687<br>• <b>Email</b>: info@growellmarketing.com<br>• <b>Office</b>: Ajmer, Rajasthan, India<br><br>👉 <a href='https://wa.me/918114456687' target='_blank' style='color:#25D366;font-weight:700;'>Start Live Chat on WhatsApp 💬</a>"
             }
         ];
 
