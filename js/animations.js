@@ -847,7 +847,7 @@
             },
             {
                 keywords: ["team", "founder", "owner", "harsh", "aniket", "pintu", "simran", "who is", "people"],
-                reply: "👥 <b>Growell Leadership Team</b>:<br>• <b>Harsh Panwar</b> — Founder & Marketing Head (8+ Yrs Exp)<br>• <b>Aniket Singh Sisodia</b> — Managing Partner & Creative Head (8+ Yrs Exp)<br>• <b>Pintu Nath</b> — Marketing Manager & Tech Lead (4+ Yrs Exp)<br>• <b>Pintu Nath</b> — Lead Brand & Content Director (5+ Yrs Exp)<br><br>👉 <a href='/about.html' style='color:#654E9F;font-weight:700;'>Read Leadership Bios →</a>"
+                reply: "👥 <b>Growell Leadership Team</b>:<br>• <b>Harsh Panwar</b> — Founder & Marketing Head (8+ Yrs Exp)<br>• <b>Aniket Singh Sisodia</b> — Managing Partner & Creative Head (8+ Yrs Exp)<br>• <b>Pintu Nath</b> — Marketing Manager & Tech Lead (4+ Yrs Exp)<br>• <b>Pintu Nath</b> — Lead Brand & Content Director (5+ Yrs Exp)<br><br>👉 <a href='/about-us.html' style='color:#654E9F;font-weight:700;'>Read Leadership Bios →</a>"
             },
             {
                 keywords: ["price", "pricing", "cost", "charge", "budget", "fees", "retainer"],

@@ -330,30 +330,51 @@
         });
     }
 
-    /* ---------- 3. Smooth FAQ accordion ---------- */
+    /* ---------- 3. Smooth FAQ accordion (Instant '+' icon rotation & snappy collapse) ---------- */
     document.querySelectorAll(".faq-item").forEach(function (item) {
         var summary = item.querySelector("summary");
         var content = item.querySelector("p");
         if (!summary || !content) return;
 
         content.style.overflow = "hidden";
-        content.style.maxHeight = "0px";
-        content.style.opacity = "0";
-        content.style.paddingBottom = "0px";
+
+        if (item.hasAttribute("open")) {
+            item.classList.add("faq-active");
+            content.style.maxHeight = content.scrollHeight + 20 + "px";
+            content.style.opacity = "1";
+            content.style.paddingBottom = "18px";
+        } else {
+            content.style.maxHeight = "0px";
+            content.style.opacity = "0";
+            content.style.paddingBottom = "0px";
+        }
 
         summary.addEventListener("click", function (e) {
             e.preventDefault();
-            var isOpen = item.hasAttribute("open");
+            var isOpen = item.classList.contains("faq-active") || (item.hasAttribute("open") && !item.classList.contains("faq-closing"));
 
             if (isOpen) {
+                // Instantly rotate '+' icon back to 0deg (0ms delay) and collapse content smoothly
+                item.classList.remove("faq-active");
+                item.classList.add("faq-closing");
+                item.setAttribute("data-closing", "true");
+
                 content.style.maxHeight = "0px";
                 content.style.opacity = "0";
                 content.style.paddingBottom = "0px";
+
                 window.setTimeout(function () {
                     item.removeAttribute("open");
-                }, 380);
+                    item.removeAttribute("data-closing");
+                    item.classList.remove("faq-closing");
+                }, 280);
             } else {
+                // Instantly rotate '+' icon to 45deg (0ms delay) and expand content smoothly
+                item.classList.remove("faq-closing");
+                item.removeAttribute("data-closing");
                 item.setAttribute("open", "");
+                item.classList.add("faq-active");
+
                 requestAnimationFrame(function () {
                     content.style.maxHeight = content.scrollHeight + 20 + "px";
                     content.style.opacity = "1";
@@ -1252,7 +1273,7 @@
             },
             {
                 keywords: ["team", "founder", "owner", "harsh", "aniket", "pintu", "simran", "who is", "people"],
-                reply: "👥 <b>Growell Leadership Team</b>:<br>• <b>Harsh Panwar</b> — Founder & Marketing Head (8+ Yrs Exp)<br>• <b>Aniket Singh Sisodia</b> — Managing Partner & Creative Head (8+ Yrs Exp)<br>• <b>Pintu Nath</b> — Marketing Manager & Tech Lead (4+ Yrs Exp)<br><br>👉 <a href='/about.html' style='color:#654E9F;font-weight:700;'>Read Leadership Bios →</a>"
+                reply: "👥 <b>Growell Leadership Team</b>:<br>• <b>Harsh Panwar</b> — Founder & Marketing Head (8+ Yrs Exp)<br>• <b>Aniket Singh Sisodia</b> — Managing Partner & Creative Head (8+ Yrs Exp)<br>• <b>Pintu Nath</b> — Marketing Manager & Tech Lead (4+ Yrs Exp)<br><br>👉 <a href='/about-us.html' style='color:#654E9F;font-weight:700;'>Read Leadership Bios →</a>"
             },
             {
                 keywords: ["price", "pricing", "cost", "charge", "budget", "fees", "retainer"],
