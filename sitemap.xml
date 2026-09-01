@@ -128,7 +128,13 @@
 
   <!-- Dedicated Blog Articles (Weekly) -->
   <url>
-    <loc>https://www.growellmarketing.com/blog/high-converting-content-strategy.html</loc>
+      <url>
+    <loc>https://www.growellmarketing.com/blog/how-to-grow-your-business-organically-using-social-media.html</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+<loc>https://www.growellmarketing.com/blog/high-converting-content-strategy.html</loc>
     <lastmod>2026-08-31</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.80</priority>
