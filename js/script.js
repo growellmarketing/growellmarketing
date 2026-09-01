@@ -815,6 +815,19 @@
                 "Product Page UI/UX & Sub-Second Speed Overhaul",
                 "Weekly ROAS, CAC & Unit Economics Growth Reports"
             ]
+        },
+        "whatsapp": {
+            title: "WhatsApp Marketing & Automation",
+            badge: "Conversational Commerce & Automation",
+            timeline: "Est. Turnaround: 5 to 7 Days System Setup",
+            deliverables: [
+                "Official Meta WhatsApp Cloud API Setup & Verification",
+                "Automated Abandoned Cart & Order Notification Flows",
+                "24/7 Conversational AI Chatbot & Lead Routing",
+                "Segmented Bulk Broadcast Campaigns with Rich Media",
+                "Click-to-WhatsApp Ads (CTWA) Funnel Architecture",
+                "Shopify, WooCommerce, Zoho & HubSpot CRM Integration"
+            ]
         }
     };
 

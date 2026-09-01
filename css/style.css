@@ -1485,6 +1485,7 @@ ul {
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: .5px;
+    text-align: center;
 }
 
 .sec-head h2 {
