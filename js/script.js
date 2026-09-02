@@ -46,7 +46,7 @@
 
     /* ---------- LUXURY BUTTER-SMOOTH LENIS SCROLL ENGINE ---------- */
     (function initLenisSmoothScroll() {
-        if (reduceMotion) return;
+        if (reduceMotion || window.innerWidth < 992 || ('ontouchstart' in window) || (navigator.maxTouchPoints && navigator.maxTouchPoints > 0)) return;
 
         function clamp(t, i, e) { return Math.max(t, Math.min(i, e)); }
         var Animate = class {
