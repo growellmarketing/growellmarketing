@@ -1,8 +1,8 @@
-﻿/* ===================================================================
-   GROWELL ? SITE ANIMATIONS
+/* ===================================================================
+   GROWELL -- SITE ANIMATIONS
    Scroll-reveal, smooth FAQ accordion, header shadow on scroll,
    animated stat counters, and a back-to-top button.
-   No HTML edits required ? targets existing class names site-wide.
+   No HTML edits required -- targets existing class names site-wide.
 =================================================================== */
 (function () {
     "use strict";
@@ -311,11 +311,11 @@
     if (pricingToggle && starterEl && scaleEl) {
         pricingToggle.addEventListener("change", function () {
             if (this.checked) {
-                starterEl.innerHTML = "₹20,000<span> /month (billed annually)</span>";
-                scaleEl.innerHTML = "₹48,000<span> /month (billed annually)</span>";
+                starterEl.innerHTML = "?20,000<span> /month (billed annually)</span>";
+                scaleEl.innerHTML = "?48,000<span> /month (billed annually)</span>";
             } else {
-                starterEl.innerHTML = "₹25,000<span> /month</span>";
-                scaleEl.innerHTML = "₹60,000<span> /month</span>";
+                starterEl.innerHTML = "?25,000<span> /month</span>";
+                scaleEl.innerHTML = "?60,000<span> /month</span>";
             }
         });
     }
@@ -520,7 +520,7 @@
         // Single master scale: Target Traffic scales proportionally (10:1 ratio)
         var traffic = Math.round(budget / 10);
 
-        if (budgetValEl) budgetValEl.textContent = "₹" + budget.toLocaleString("en-IN") + " /mo";
+        if (budgetValEl) budgetValEl.textContent = "?" + budget.toLocaleString("en-IN") + " /mo";
         if (trafficValEl) trafficValEl.textContent = traffic.toLocaleString("en-IN") + " visitors/mo";
 
         // 1. Estimated Qualified Leads (Target Conversion Rate ~3.8% + Ad Lead Scaling)
@@ -691,7 +691,7 @@
                 </div>
                 <p style="font-size: 14.5px; color: #555; margin-bottom: 15px;">Key deliverables included in this service package:</p>
                 <div class="scope-checklist" id="scopeChecklist"></div>
-                <button class="btn-primary" id="scopeClaimProposalBtn" style="width: 100%; margin-top: 15px; text-align: center;">Get Proposal For This Scope ?</button>
+                <button class="btn-primary" id="scopeClaimProposalBtn" style="width: 100%; margin-top: 15px; text-align: center;">Get Proposal For This Scope &rarr;</button>
             </div>
         </div>
     `;
@@ -777,7 +777,7 @@
                     </div>
                     <div class="quiz-nav-btns">
                         <div></div>
-                        <button class="btn-primary" id="quizNext1">Next: Select Goal ?</button>
+                        <button class="btn-primary" id="quizNext1">Next: Select Goal &rarr;</button>
                     </div>
                 </div>
 
@@ -803,8 +803,8 @@
                         </div>
                     </div>
                     <div class="quiz-nav-btns">
-                        <button class="btn-secondary" id="quizBack2">? Back</button>
-                        <button class="btn-primary" id="quizNext2">Next: Contact Info ?</button>
+                        <button class="btn-secondary" id="quizBack2">&larr; Back</button>
+                        <button class="btn-primary" id="quizNext2">Next: Contact Info &rarr;</button>
                     </div>
                 </div>
 
@@ -822,8 +822,8 @@
                             <input type="email" id="quizEmail" placeholder="Email Address" required style="width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 8px;">
                         </div>
                         <div class="quiz-nav-btns">
-                            <button type="button" class="btn-secondary" id="quizBack3">? Back</button>
-                            <button type="submit" class="btn-primary">Claim My Growth Roadmap ?</button>
+                            <button type="button" class="btn-secondary" id="quizBack3">&larr; Back</button>
+                            <button type="submit" class="btn-primary">Claim My Growth Roadmap &rarr;</button>
                         </div>
                     </form>
                 </div>
@@ -1009,16 +1009,16 @@
                 if (group) group.remove();
 
                 showTyping(function () {
-                    appendMsg("Great choice! ?? Growell marketing strategies are proven to scale " + leadData.goal + ".", "bot");
+                    appendMsg("Great choice! Growell marketing strategies are proven to scale " + leadData.goal + ".", "bot");
                     showTyping(function () {
                         appendMsg("What is your approximate monthly marketing budget?", "bot");
 
                         var budgetGroup = document.createElement("div");
                         budgetGroup.className = "chat-options-group";
                         budgetGroup.id = "chatStep2Options";
-                        budgetGroup.innerHTML = '<button class="chat-opt-btn" data-budget="?25,000 - ?50,000/mo">?? ?25,000 - ?50,000 / month ($300 - $600)</button>' +
-                            '<button class="chat-opt-btn" data-budget="?50,000 - ?1,00,000/mo">?? ?50,000 - ?1,00,000 / month ($600 - $1.2k)</button>' +
-                            '<button class="chat-opt-btn" data-budget="?1,00,000+/mo">?? ?1,00,000+ / month ($1.2k+)</button>';
+                        budgetGroup.innerHTML = '<button class="chat-opt-btn" data-budget="&#8377;25,000 - &#8377;50,000/mo">&#8377;25,000 - &#8377;50,000 / month ($300 - $600)</button>' +
+                            '<button class="chat-opt-btn" data-budget="&#8377;50,000 - &#8377;1,00,000/mo">&#8377;50,000 - &#8377;1,00,000 / month ($600 - $1.2k)</button>' +
+                            '<button class="chat-opt-btn" data-budget="&#8377;1,00,000+/mo">&#8377;1,00,000+ / month ($1.2k+)</button>';
                         chatMessages.appendChild(budgetGroup);
                         chatMessages.scrollTop = chatMessages.scrollHeight;
                     });
@@ -1043,7 +1043,7 @@
                         formDiv.id = "chatLeadFormWrap";
                         formDiv.innerHTML = '<input type="text" id="chatName" placeholder="Your Full Name *" required>' +
                             '<input type="tel" id="chatPhone" placeholder="WhatsApp / Phone Number *" required>' +
-                            '<button class="chat-submit-btn" id="chatFormSubmit">Get Free Audit Plan ?</button>';
+                            '<button class="chat-submit-btn" id="chatFormSubmit">Get Free Audit Plan &rarr;</button>';
                         chatMessages.appendChild(formDiv);
                         chatMessages.scrollTop = chatMessages.scrollHeight;
                     });
@@ -1087,10 +1087,10 @@
                 var formWrap = document.getElementById("chatLeadFormWrap");
                 if (formWrap) formWrap.remove();
 
-                appendMsg("?? Name: " + leadData.name + "<br>?? Phone: " + leadData.phone, "user");
+                appendMsg("<b>Name:</b> " + leadData.name + "<br><b>Phone:</b> " + leadData.phone, "user");
 
                 showTyping(function () {
-                    var successText = "?? Superb, " + leadData.name + "! Your request has been registered.<br><br>Our Growth Team will contact you within 15 minutes!";
+                    var successText = "Superb, " + leadData.name + "! Your request has been registered.<br><br>Our Growth Team will contact you within 15 minutes!";
                     appendMsg(successText, "bot");
 
                     showTyping(function () {
@@ -1110,39 +1110,39 @@
         var websiteKnowledge = [
             {
                 keywords: ["address", "location", "office", "where", "city", "ajmer", "rajasthan", "map", "direction"],
-                reply: "?? <b>Growell Marketing Office Address</b>:<br>2nd Floor, Janta Colony, Vaishali Nagar, Ajmer, Rajasthan 305001, ajmer.<br><br>?? <a href='https://maps.app.goo.gl/U7BGknhtbDs6S8NAA' target='_blank' style='color:#654E9F;font-weight:700;'>Get Directions on Google Maps ???</a>"
+                reply: "<i class=\"fa-solid fa-location-dot\"></i> <b>Growell Marketing Office Address</b>:<br>2nd Floor, Janta Colony, Vaishali Nagar, Ajmer, Rajasthan 305001, ajmer.<br><br><a href='https://maps.app.goo.gl/U7BGknhtbDs6S8NAA' target='_blank' style='color:#654E9F;font-weight:700;'>Get Directions on Google Maps &rarr;</a>"
             },
             {
                 keywords: ["seo", "rank", "google ranking", "search engine", "organic traffic", "keywords"],
-                reply: "?? <b>Search Engine Optimization (SEO)</b>:<br>We rank your website #1 on Google. Inclusions:<br>? Technical SEO & PageSpeed Optimization<br>? On-Page & Keyword Strategy<br>? High-Authority Backlink Building<br>? Monthly Performance Reports<br><br>?? <a href='/services/seo.html' style='color:#654E9F;font-weight:700;'>View SEO Services ?</a>"
+                reply: "<i class=\"fa-solid fa-chart-line\"></i> <b>Search Engine Optimization (SEO)</b>:<br>We rank your website #1 on Google. Inclusions:<br>&bull; Technical SEO & PageSpeed Optimization<br>&bull; On-Page & Keyword Strategy<br>&bull; High-Authority Backlink Building<br>&bull; Monthly Performance Reports<br><br><a href='/services/seo' style='color:#654E9F;font-weight:700;'>View SEO Services &rarr;</a>"
             },
             {
                 keywords: ["ads", "paid ads", "google ads", "meta ads", "facebook ads", "instagram ads", "ppc", "roas"],
-                reply: "?? <b>Paid Advertising (Google & Meta Ads)</b>:<br>We run high-converting ad campaigns with 3.5x - 4.5x average ROAS. Inclusions:<br>? Meta (FB/IG) & Google Search/Shopping Ads<br>? High-Converting Copy & Ad Creatives<br>? Audience Targeting & Retargeting Funnels<br><br>?? <a href='/services/paid-advertising.html' style='color:#654E9F;font-weight:700;'>Explore Paid Ads ?</a>"
+                reply: "<i class=\"fa-solid fa-bullhorn\"></i> <b>Paid Advertising (Google & Meta Ads)</b>:<br>We run high-converting ad campaigns with 3.5x - 4.5x average ROAS. Inclusions:<br>&bull; Meta (FB/IG) & Google Search/Shopping Ads<br>&bull; High-Converting Copy & Ad Creatives<br>&bull; Audience Targeting & Retargeting Funnels<br><br><a href='/services/paid-advertising' style='color:#654E9F;font-weight:700;'>Explore Paid Ads &rarr;</a>"
             },
             {
                 keywords: ["web", "website", "design", "development", "developer", "web design", "site"],
-                reply: "?? <b>Website Design & Full-Stack Development</b>:<br>Sub-second loading speed, mobile responsive, high-converting custom code websites:<br>? Modern Responsive UI/UX<br>? Lead Generation Funnels<br>? SEO Ready Architecture & Security<br><br>?? <a href='/services/web-design.html' style='color:#654E9F;font-weight:700;'>Explore Web Development ?</a>"
+                reply: "<i class=\"fa-solid fa-laptop-code\"></i> <b>Website Design & Full-Stack Development</b>:<br>Sub-second loading speed, mobile responsive, high-converting custom code websites:<br>&bull; Modern Responsive UI/UX<br>&bull; Lead Generation Funnels<br>&bull; SEO Ready Architecture & Security<br><br><a href='/services/web-design' style='color:#654E9F;font-weight:700;'>Explore Web Development &rarr;</a>"
             },
             {
                 keywords: ["social", "social media", "instagram", "facebook", "reels", "posts", "content strategy"],
-                reply: "?? <b>Social Media Marketing</b>:<br>We build your brand visual identity and engage your target audience:<br>? Custom Graphic & Video Creatives<br>? Content Calendar & Copywriting<br>? Organic Growth & Community Management<br><br>?? <a href='/services/social-media-marketing-services.html' style='color:#654E9F;font-weight:700;'>Explore Social Media ?</a>"
+                reply: "<i class=\"fa-solid fa-hashtag\"></i> <b>Social Media Marketing</b>:<br>We build your brand visual identity and engage your target audience:<br>&bull; Custom Graphic & Video Creatives<br>&bull; Content Calendar & Copywriting<br>&bull; Organic Growth & Community Management<br><br><a href='/services/social-media-marketing-services' style='color:#654E9F;font-weight:700;'>Explore Social Media &rarr;</a>"
             },
             {
                 keywords: ["services", "service", "what do you do", "offer"],
-                reply: "?? <b>Growell Marketing Services</b>:<br>1. Search Engine Optimization (SEO)<br>2. Meta & Google Paid Ads<br>3. Website Design & Development<br>4. Social Media Marketing<br>5. Content Writing & Copywriting<br>6. Brand Identity & Strategy<br>7. Email Marketing & Automation<br>8. Online Reputation Management (ORM)<br><br>?? <a href='/services.html' style='color:#654E9F;font-weight:700;'>View All Services ?</a>"
+                reply: "<i class=\"fa-solid fa-briefcase\"></i> <b>Growell Marketing Services</b>:<br>1. Search Engine Optimization (SEO)<br>2. Meta & Google Paid Ads<br>3. Website Design & Development<br>4. Social Media Marketing<br>5. Content Writing & Copywriting<br>6. Brand Identity & Strategy<br>7. Email Marketing & Automation<br>8. Online Reputation Management (ORM)<br><br><a href='/services' style='color:#654E9F;font-weight:700;'>View All Services &rarr;</a>"
             },
             {
                 keywords: ["team", "founder", "owner", "harsh", "aniket", "pintu", "simran", "who is", "people"],
-                reply: "?? <b>Growell Leadership Team</b>:<br>? <b>Harsh Panwar</b> ? Founder & Marketing Head (8+ Yrs Exp)<br>? <b>Aniket Singh Sisodia</b> ? Managing Partner & Creative Head (8+ Yrs Exp)<br>? <b>Pintu Nath</b> ? Marketing Manager & Tech Lead (4+ Yrs Exp)<br><br>?? <a href='/about-us.html' style='color:#654E9F;font-weight:700;'>Read Leadership Bios ?</a>"
+                reply: "<i class=\"fa-solid fa-users\"></i> <b>Growell Leadership Team</b>:<br>&bull; <b>Harsh Panwar</b> &mdash; Founder & Marketing Head (8+ Yrs Exp)<br>&bull; <b>Aniket Singh Sisodia</b> &mdash; Managing Partner & Creative Head (8+ Yrs Exp)<br>&bull; <b>Pintu Nath</b> &mdash; Marketing Manager & Tech Lead (4+ Yrs Exp)<br><br><a href='/about-us' style='color:#654E9F;font-weight:700;'>Read Leadership Bios &rarr;</a>"
             },
             {
                 keywords: ["price", "pricing", "cost", "charge", "budget", "fees", "retainer"],
-                reply: "?? <b>Growell Pricing & Retainers</b>:<br>We offer customized growth retainers starting from <b>?25,000 / month ($300/mo)</b> depending on business goals and scope. Zero hidden fees & transparent monthly reporting.<br><br>?? <a href='/pricing.html' style='color:#654E9F;font-weight:700;'>Open Growth Estimator ?</a>"
+                reply: "<i class=\"fa-solid fa-tags\"></i> <b>Growell Pricing & Retainers</b>:<br>We offer customized growth retainers starting from <b>&#8377;25,000 / month ($300/mo)</b> depending on business goals and scope. Zero hidden fees & transparent monthly reporting.<br><br><a href='/pricing' style='color:#654E9F;font-weight:700;'>Open Growth Estimator &rarr;</a>"
             },
             {
                 keywords: ["contact", "phone", "mobile", "whatsapp", "call", "email", "number", "reach"],
-                reply: "?? <b>Contact Growell Marketing</b>:<br>? <b>Phone / WhatsApp</b>: +91 8114456687<br>? <b>Email</b>: info@growellmarketing.com<br>? <b>Office</b>: Ajmer, Rajasthan, ajmer<br><br>?? <a href='https://wa.me/918114456687' target='_blank' style='color:#25D366;font-weight:700;'>Start Live Chat on WhatsApp ??</a>"
+                reply: "<i class=\"fa-solid fa-headset\"></i> <b>Contact Growell Marketing</b>:<br>&bull; <b>Phone / WhatsApp</b>: +91 8114456687<br>&bull; <b>Email</b>: info@growellmarketing.com<br>&bull; <b>Office</b>: Ajmer, Rajasthan, ajmer<br><br><a href='https://wa.me/918114456687' target='_blank' style='color:#25D366;font-weight:700;'>Start Live Chat on WhatsApp &rarr;</a>"
             }
         ];
 
@@ -1167,7 +1167,7 @@
                     if (answer) break;
                 }
                 if (!answer) {
-                    answer = "?? Growell Marketing is a 360? Performance Marketing Agency. We scale businesses through Paid Ads, SEO, Web Development, and Brand Strategy.<br><br>Contact our team directly: ?? <b>+91 8114456687</b> or <a href='https://wa.me/918114456687' target='_blank' style='color:#25D366;font-weight:700;'>Chat on WhatsApp ??</a>";
+                    answer = "Growell Marketing is a 360&deg; Performance Marketing Agency. We scale businesses through Paid Ads, SEO, Web Development, and Brand Strategy.<br><br>Contact our team directly: <b>+91 8114456687</b> or <a href='https://wa.me/918114456687' target='_blank' style='color:#25D366;font-weight:700;'>Chat on WhatsApp &rarr;</a>";
                 }
                 appendMsg(answer, "bot");
             });
@@ -1195,20 +1195,20 @@
                 <div class="audit-modal-content exit-intent-content" style="max-width: 480px;">
                     <button class="modal-close-btn" id="closeExitIntentBtn">&times;</button>
                     <div style="text-align: center; margin-bottom: 12px;">
-                        <span style="background: rgba(101, 78, 159, 0.15); color: #654E9F; font-size: 12px; font-weight: 700; padding: 4px 12px; border-radius: 20px; text-transform: uppercase;">? Special Free Growth Offer</span>
+                        <span style="background: rgba(101, 78, 159, 0.15); color: #654E9F; font-size: 12px; font-weight: 700; padding: 4px 12px; border-radius: 20px; text-transform: uppercase;"><i class=\"fa-solid fa-bolt\"></i> Special Free Growth Offer</span>
                     </div>
                     <div class="audit-modal-header" style="text-align: center; margin-bottom: 16px;">
-                        <h2 style="font-size: 22px; margin-bottom: 6px;">Wait! Before You Leave... ??</h2>
-                        <p style="font-size: 14px; color: #555;">Get Our Free <b>7-Point Digital Audit & Growth Strategy Report</b> ($200 Value ? 100% Free)</p>
+                        <h2 style="font-size: 22px; margin-bottom: 6px;">Wait! Before You Leave...</h2>
+                        <p style="font-size: 14px; color: #555;">Get Our Free <b>7-Point Digital Audit & Growth Strategy Report</b> (&#8377;15,000 Value &mdash; 100% Free)</p>
                     </div>
                     <form id="exitIntentForm" style="display: flex; flex-direction: column; gap: 12px;">
                         <input type="text" id="exitName" placeholder="Your Full Name *" required style="padding: 12px 14px; border: 1px solid #ddd; border-radius: 8px; font-size: 14px;">
                         <input type="tel" id="exitPhone" placeholder="WhatsApp / Phone Number *" required style="padding: 12px 14px; border: 1px solid #ddd; border-radius: 8px; font-size: 14px;">
                         <input type="text" id="exitGoal" placeholder="Website URL or Primary Business Goal" style="padding: 12px 14px; border: 1px solid #ddd; border-radius: 8px; font-size: 14px;">
-                        <button type="submit" class="btn-primary" style="width: 100%; padding: 14px; font-weight: 700; margin-top: 6px;">Claim Free Audit Report ?</button>
+                        <button type="submit" class="btn-primary" style="width: 100%; padding: 14px; font-weight: 700; margin-top: 6px;">Claim Free Audit Report &rarr;</button>
                     </form>
                     <div style="margin-top: 14px; text-align: center; font-size: 11.5px; color: #777; line-height: 1.5;">
-                        ? <b>150+ Brands Scaled</b> ? ? <b>4.9? Google Rating</b> ? ?? <b>100% Free & No Spam</b>
+                        <i class=\"fa-solid fa-circle-check\" style=\"color:#25D366;\"></i> <b>150+ Brands Scaled</b> &bull; <i class=\"fa-solid fa-star\" style=\"color:#ffb703;\"></i> <b>4.9 Google Rating</b> &bull; <i class=\"fa-solid fa-lock\" style=\"color:#654E9F;\"></i> <b>100% Free &amp; No Spam</b>
                     </div>
                 </div>
             </div>
@@ -1324,6 +1324,202 @@
                     }
                 }
             });
+        }
+    })();
+
+    /* ==========================================================================
+       Interactive 3D Mouse Cursor & Comet Tail Engine
+       ========================================================================== */
+    (function init3DCursor() {
+        // Guard: Run strictly on desktop screens with fine pointer (no touch screens, no mobile)
+        if (window.innerWidth < 992) return;
+        if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+        // Create Root Container
+        var root = document.createElement('div');
+        root.id = 'cursor-3d-root';
+        root.className = 'cursor-hidden';
+        root.setAttribute('aria-hidden', 'true');
+
+        // Magnetic Aura Ring
+        var ring = document.createElement('div');
+        ring.className = 'cursor-3d-ring';
+        root.appendChild(ring);
+
+        // 3D Comet Tail Nodes
+        var tailWrap = document.createElement('div');
+        tailWrap.className = 'cursor-3d-tail';
+        var tailCount = 7;
+        var tailDots = [];
+        var tailPositions = [];
+
+        for (var i = 0; i < tailCount; i++) {
+            var dot = document.createElement('div');
+            dot.className = 'cursor-tail-dot dot-' + i;
+            tailWrap.appendChild(dot);
+            tailDots.push(dot);
+            tailPositions.push({ x: -100, y: -100 });
+        }
+        root.appendChild(tailWrap);
+
+        // 3D Lead Orb
+        var orb = document.createElement('div');
+        orb.className = 'cursor-3d-orb';
+        var glint = document.createElement('div');
+        glint.className = 'cursor-orb-specular';
+        orb.appendChild(glint);
+        root.appendChild(orb);
+
+        document.body.appendChild(root);
+
+        // State Variables
+        var mouseX = -100, mouseY = -100;
+        var orbX = -100, orbY = -100;
+        var ringX = -100, ringY = -100;
+        var ringScale = 1;
+        var targetRingScale = 1;
+        var orbScale = 1;
+        var targetOrbScale = 1;
+
+        var prevMouseX = -100, prevMouseY = -100;
+        var velocityX = 0, velocityY = 0;
+        var speed = 0;
+        var angle = 0;
+        var isHovering = false;
+        var isClicking = false;
+        var isVisible = false;
+        var animId = null;
+
+        // Tail physics lag factors (from closest to farthest node)
+        var tailLagFactors = [0.38, 0.32, 0.28, 0.24, 0.20, 0.17, 0.14];
+
+        // Mouse Movement Listener
+        window.addEventListener('mousemove', function(e) {
+            if (!isVisible) {
+                isVisible = true;
+                root.classList.remove('cursor-hidden');
+                document.body.classList.add('has-custom-cursor');
+                orbX = mouseX = e.clientX;
+                orbY = mouseY = e.clientY;
+                ringX = e.clientX;
+                ringY = e.clientY;
+                for (var j = 0; j < tailCount; j++) {
+                    tailPositions[j].x = e.clientX;
+                    tailPositions[j].y = e.clientY;
+                }
+            }
+
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+
+            if (!animId) {
+                animId = requestAnimationFrame(render);
+            }
+        }, { passive: true });
+
+        // Window boundary handling
+        document.addEventListener('mouseleave', function() {
+            isVisible = false;
+            root.classList.add('cursor-hidden');
+            document.body.classList.remove('has-custom-cursor');
+        });
+
+        document.addEventListener('mouseenter', function() {
+            isVisible = true;
+            root.classList.remove('cursor-hidden');
+            document.body.classList.add('has-custom-cursor');
+        });
+
+        // Hover Detection on Interactive Elements
+        var hoverSelector = 'a, button, [role="button"], input, textarea, select, .service-main-card, .btn-primary, .btn-secondary, .btn-details, .btn-scope, .blog-card, .faq-question, .pricing-card, .explore-card';
+
+        document.addEventListener('mouseover', function(e) {
+            if (e.target && e.target.closest && e.target.closest(hoverSelector)) {
+                isHovering = true;
+                root.classList.add('cursor-hover');
+                targetRingScale = 1.45;
+                targetOrbScale = 1.25;
+            }
+        }, { passive: true });
+
+        document.addEventListener('mouseout', function(e) {
+            if (e.target && e.target.closest && e.target.closest(hoverSelector)) {
+                isHovering = false;
+                root.classList.remove('cursor-hover');
+                targetRingScale = 1;
+                targetOrbScale = 1;
+            }
+        }, { passive: true });
+
+        // Mousedown & Mouseup Elastic Click State
+        document.addEventListener('mousedown', function() {
+            isClicking = true;
+            root.classList.add('cursor-click');
+            targetRingScale = 0.85;
+            targetOrbScale = 0.75;
+        }, { passive: true });
+
+        document.addEventListener('mouseup', function() {
+            isClicking = false;
+            root.classList.remove('cursor-click');
+            targetRingScale = isHovering ? 1.45 : 1;
+            targetOrbScale = isHovering ? 1.25 : 1;
+        }, { passive: true });
+
+        // High-Performance RAF Render Loop
+        function render() {
+            // Calculate velocity & 3D tilt
+            velocityX = mouseX - prevMouseX;
+            velocityY = mouseY - prevMouseY;
+            prevMouseX = mouseX;
+            prevMouseY = mouseY;
+
+            speed = Math.hypot(velocityX, velocityY);
+            if (speed > 1) {
+                angle = Math.atan2(velocityY, velocityX);
+            }
+
+            // Dynamic 3D aerodynamic squash & stretch
+            var stretch = 1 + Math.min(speed * 0.0025, 0.45);
+            var squeeze = 1 / stretch;
+
+            // Smooth Lead Orb
+            orbX += (mouseX - orbX) * 0.45;
+            orbY += (mouseY - orbY) * 0.45;
+            orbScale += (targetOrbScale - orbScale) * 0.2;
+
+            orb.style.transform = 'translate3d(' + orbX + 'px, ' + orbY + 'px, 0) rotate(' + angle + 'rad) scale(' + (stretch * orbScale) + ', ' + (squeeze * orbScale) + ')';
+
+            // Smooth Aura Ring
+            ringX += (mouseX - ringX) * 0.16;
+            ringY += (mouseY - ringY) * 0.16;
+            ringScale += (targetRingScale - ringScale) * 0.2;
+
+            ring.style.transform = 'translate3d(' + ringX + 'px, ' + ringY + 'px, 0) scale(' + ringScale + ')';
+
+            // Smooth 3D Comet Tail
+            var prevNodeX = orbX;
+            var prevNodeY = orbY;
+
+            for (var k = 0; k < tailCount; k++) {
+                var lag = tailLagFactors[k];
+                tailPositions[k].x += (prevNodeX - tailPositions[k].x) * lag;
+                tailPositions[k].y += (prevNodeY - tailPositions[k].y) * lag;
+
+                tailDots[k].style.transform = 'translate3d(' + tailPositions[k].x + 'px, ' + tailPositions[k].y + 'px, 0)';
+
+                prevNodeX = tailPositions[k].x;
+                prevNodeY = tailPositions[k].y;
+            }
+
+            // Energy-efficient loop termination when stationary
+            var totalMovement = Math.abs(mouseX - orbX) + Math.abs(mouseY - orbY) + Math.abs(mouseX - ringX) + Math.abs(mouseY - ringY) + speed;
+
+            if (totalMovement > 0.1 || isHovering || isClicking) {
+                animId = requestAnimationFrame(render);
+            } else {
+                animId = null;
+            }
         }
     })();
 })();
