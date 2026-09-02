@@ -1349,7 +1349,7 @@
         // 3D Comet Tail Nodes
         var tailWrap = document.createElement('div');
         tailWrap.className = 'cursor-3d-tail';
-        var tailCount = 7;
+        var tailCount = 14;
         var tailDots = [];
         var tailPositions = [];
 
@@ -1391,7 +1391,7 @@
         var animId = null;
 
         // Tail physics lag factors — higher = snappier (from closest to farthest)
-        var tailLagFactors = [0.55, 0.48, 0.42, 0.36, 0.30, 0.24, 0.18];
+        var tailLagFactors = [0.55, 0.50, 0.44, 0.38, 0.33, 0.28, 0.24, 0.20, 0.17, 0.14, 0.11, 0.09, 0.07, 0.05];
 
         // Mouse Movement Listener
         window.addEventListener('mousemove', function(e) {
@@ -1434,20 +1434,32 @@
         var hoverSelector = 'a, button, [role="button"], input, textarea, select, .service-main-card, .btn-primary, .btn-secondary, .btn-details, .btn-scope, .blog-card, .faq-question, .pricing-card, .explore-card';
 
         document.addEventListener('mouseover', function(e) {
-            if (e.target && e.target.closest && e.target.closest(hoverSelector)) {
-                isHovering = true;
-                root.classList.add('cursor-hover');
-                targetRingScale = 1.45;
-                targetOrbScale = 1.25;
+            var hovered = e.target && e.target.closest && e.target.closest(hoverSelector);
+            if (hovered) {
+                // Only trigger if we weren't already inside this same element
+                var from = e.relatedTarget;
+                if (!from || !hovered.contains(from)) {
+                    isHovering = true;
+                    root.classList.add('cursor-hover');
+                    targetRingScale = 1.45;
+                    targetOrbScale = 1.25;
+                    if (!animId) animId = requestAnimationFrame(render);
+                }
             }
         }, { passive: true });
 
         document.addEventListener('mouseout', function(e) {
-            if (e.target && e.target.closest && e.target.closest(hoverSelector)) {
-                isHovering = false;
-                root.classList.remove('cursor-hover');
-                targetRingScale = 1;
-                targetOrbScale = 1;
+            var hovered = e.target && e.target.closest && e.target.closest(hoverSelector);
+            if (hovered) {
+                // Only trigger if we're actually leaving this element (not just moving to a child)
+                var to = e.relatedTarget;
+                if (!to || !hovered.contains(to)) {
+                    isHovering = false;
+                    root.classList.remove('cursor-hover');
+                    targetRingScale = 1;
+                    targetOrbScale = 1;
+                    if (!animId) animId = requestAnimationFrame(render);
+                }
             }
         }, { passive: true });
 
