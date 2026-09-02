@@ -1390,8 +1390,8 @@
         var isVisible = false;
         var animId = null;
 
-        // Tail physics lag factors (from closest to farthest node)
-        var tailLagFactors = [0.38, 0.32, 0.28, 0.24, 0.20, 0.17, 0.14];
+        // Tail physics lag factors — higher = snappier (from closest to farthest)
+        var tailLagFactors = [0.55, 0.48, 0.42, 0.36, 0.30, 0.24, 0.18];
 
         // Mouse Movement Listener
         window.addEventListener('mousemove', function(e) {
@@ -1479,21 +1479,21 @@
                 angle = Math.atan2(velocityY, velocityX);
             }
 
-            // Dynamic 3D aerodynamic squash & stretch
-            var stretch = 1 + Math.min(speed * 0.0025, 0.45);
+            // Dynamic squash & stretch
+            var stretch = 1 + Math.min(speed * 0.002, 0.35);
             var squeeze = 1 / stretch;
 
-            // Smooth Lead Orb
-            orbX += (mouseX - orbX) * 0.45;
-            orbY += (mouseY - orbY) * 0.45;
-            orbScale += (targetOrbScale - orbScale) * 0.2;
+            // Snappy Lead Orb — higher lerp = faster
+            orbX += (mouseX - orbX) * 0.72;
+            orbY += (mouseY - orbY) * 0.72;
+            orbScale += (targetOrbScale - orbScale) * 0.25;
 
             orb.style.transform = 'translate3d(' + orbX + 'px, ' + orbY + 'px, 0) rotate(' + angle + 'rad) scale(' + (stretch * orbScale) + ', ' + (squeeze * orbScale) + ')';
 
-            // Smooth Aura Ring
-            ringX += (mouseX - ringX) * 0.16;
-            ringY += (mouseY - ringY) * 0.16;
-            ringScale += (targetRingScale - ringScale) * 0.2;
+            // Snappy Aura Ring — higher lerp = faster
+            ringX += (mouseX - ringX) * 0.30;
+            ringY += (mouseY - ringY) * 0.30;
+            ringScale += (targetRingScale - ringScale) * 0.25;
 
             ring.style.transform = 'translate3d(' + ringX + 'px, ' + ringY + 'px, 0) scale(' + ringScale + ')';
 
