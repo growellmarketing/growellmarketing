@@ -1,8 +1,8 @@
 /* ===================================================================
-   GROWELL — SITE ANIMATIONS
+   GROWELL ? SITE ANIMATIONS
    Scroll-reveal, smooth FAQ accordion, header shadow on scroll,
    animated stat counters, and a back-to-top button.
-   No HTML edits required — targets existing class names site-wide.
+   No HTML edits required ? targets existing class names site-wide.
 =================================================================== */
 (function () {
     "use strict";
@@ -463,11 +463,11 @@
     if (pricingToggle && starterEl && scaleEl) {
         pricingToggle.addEventListener("change", function () {
             if (this.checked) {
-                starterEl.innerHTML = "₹20,000<span> /month (billed annually)</span>";
-                scaleEl.innerHTML = "₹48,000<span> /month (billed annually)</span>";
+                starterEl.innerHTML = "?20,000<span> /month (billed annually)</span>";
+                scaleEl.innerHTML = "?48,000<span> /month (billed annually)</span>";
             } else {
-                starterEl.innerHTML = "₹25,000<span> /month</span>";
-                scaleEl.innerHTML = "₹60,000<span> /month</span>";
+                starterEl.innerHTML = "?25,000<span> /month</span>";
+                scaleEl.innerHTML = "?60,000<span> /month</span>";
             }
         });
     }
@@ -672,7 +672,7 @@
         // Single master scale: Target Traffic scales proportionally (10:1 ratio)
         var traffic = Math.round(budget / 10);
 
-        if (budgetValEl) budgetValEl.textContent = "₹" + budget.toLocaleString("en-IN") + " /mo";
+        if (budgetValEl) budgetValEl.textContent = "?" + budget.toLocaleString("en-IN") + " /mo";
         if (trafficValEl) trafficValEl.textContent = traffic.toLocaleString("en-IN") + " visitors/mo";
 
         // 1. Estimated Qualified Leads (Target Conversion Rate ~3.8% + Ad Lead Scaling)
@@ -843,7 +843,7 @@
                 </div>
                 <p style="font-size: 14.5px; color: #555; margin-bottom: 15px;">Key deliverables included in this service package:</p>
                 <div class="scope-checklist" id="scopeChecklist"></div>
-                <button class="btn-primary" id="scopeClaimProposalBtn" style="width: 100%; margin-top: 15px; text-align: center;">Get Proposal For This Scope →</button>
+                <button class="btn-primary" id="scopeClaimProposalBtn" style="width: 100%; margin-top: 15px; text-align: center;">Get Proposal For This Scope ?</button>
             </div>
         </div>
     `;
@@ -929,7 +929,7 @@
                     </div>
                     <div class="quiz-nav-btns">
                         <div></div>
-                        <button class="btn-primary" id="quizNext1">Next: Select Goal →</button>
+                        <button class="btn-primary" id="quizNext1">Next: Select Goal ?</button>
                     </div>
                 </div>
 
@@ -955,8 +955,8 @@
                         </div>
                     </div>
                     <div class="quiz-nav-btns">
-                        <button class="btn-secondary" id="quizBack2">← Back</button>
-                        <button class="btn-primary" id="quizNext2">Next: Contact Info →</button>
+                        <button class="btn-secondary" id="quizBack2">? Back</button>
+                        <button class="btn-primary" id="quizNext2">Next: Contact Info ?</button>
                     </div>
                 </div>
 
@@ -974,8 +974,8 @@
                             <input type="email" id="quizEmail" placeholder="Email Address" required style="width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 8px;">
                         </div>
                         <div class="quiz-nav-btns">
-                            <button type="button" class="btn-secondary" id="quizBack3">← Back</button>
-                            <button type="submit" class="btn-primary">Claim My Growth Roadmap →</button>
+                            <button type="button" class="btn-secondary" id="quizBack3">? Back</button>
+                            <button type="submit" class="btn-primary">Claim My Growth Roadmap ?</button>
                         </div>
                     </form>
                 </div>
@@ -1161,16 +1161,16 @@
                 if (group) group.remove();
 
                 showTyping(function () {
-                    appendMsg("Great choice! 📈 Growell marketing strategies are proven to scale " + leadData.goal + ".", "bot");
+                    appendMsg("Great choice! ?? Growell marketing strategies are proven to scale " + leadData.goal + ".", "bot");
                     showTyping(function () {
                         appendMsg("What is your approximate monthly marketing budget?", "bot");
 
                         var budgetGroup = document.createElement("div");
                         budgetGroup.className = "chat-options-group";
                         budgetGroup.id = "chatStep2Options";
-                        budgetGroup.innerHTML = '<button class="chat-opt-btn" data-budget="₹25,000 - ₹50,000/mo">💰 ₹25,000 - ₹50,000 / month ($300 - $600)</button>' +
-                            '<button class="chat-opt-btn" data-budget="₹50,000 - ₹1,00,000/mo">🚀 ₹50,000 - ₹1,00,000 / month ($600 - $1.2k)</button>' +
-                            '<button class="chat-opt-btn" data-budget="₹1,00,000+/mo">🔥 ₹1,00,000+ / month ($1.2k+)</button>';
+                        budgetGroup.innerHTML = '<button class="chat-opt-btn" data-budget="?25,000 - ?50,000/mo">?? ?25,000 - ?50,000 / month ($300 - $600)</button>' +
+                            '<button class="chat-opt-btn" data-budget="?50,000 - ?1,00,000/mo">?? ?50,000 - ?1,00,000 / month ($600 - $1.2k)</button>' +
+                            '<button class="chat-opt-btn" data-budget="?1,00,000+/mo">?? ?1,00,000+ / month ($1.2k+)</button>';
                         chatMessages.appendChild(budgetGroup);
                         chatMessages.scrollTop = chatMessages.scrollHeight;
                     });
@@ -1195,7 +1195,7 @@
                         formDiv.id = "chatLeadFormWrap";
                         formDiv.innerHTML = '<input type="text" id="chatName" placeholder="Your Full Name *" required>' +
                             '<input type="tel" id="chatPhone" placeholder="WhatsApp / Phone Number *" required>' +
-                            '<button class="chat-submit-btn" id="chatFormSubmit">Get Free Audit Plan →</button>';
+                            '<button class="chat-submit-btn" id="chatFormSubmit">Get Free Audit Plan ?</button>';
                         chatMessages.appendChild(formDiv);
                         chatMessages.scrollTop = chatMessages.scrollHeight;
                     });
@@ -1239,10 +1239,10 @@
                 var formWrap = document.getElementById("chatLeadFormWrap");
                 if (formWrap) formWrap.remove();
 
-                appendMsg("👤 Name: " + leadData.name + "<br>📞 Phone: " + leadData.phone, "user");
+                appendMsg("?? Name: " + leadData.name + "<br>?? Phone: " + leadData.phone, "user");
 
                 showTyping(function () {
-                    var successText = "🎉 Superb, " + leadData.name + "! Your request has been registered.<br><br>Our Growth Team will contact you within 15 minutes!";
+                    var successText = "?? Superb, " + leadData.name + "! Your request has been registered.<br><br>Our Growth Team will contact you within 15 minutes!";
                     appendMsg(successText, "bot");
 
                     showTyping(function () {
@@ -1262,39 +1262,39 @@
         var websiteKnowledge = [
             {
                 keywords: ["address", "location", "office", "where", "city", "ajmer", "rajasthan", "map", "direction"],
-                reply: "📍 <b>Growell Marketing Office Address</b>:<br>2nd Floor, Janta Colony, Vaishali Nagar, Ajmer, Rajasthan 305001, India.<br><br>👉 <a href='https://maps.app.goo.gl/U7BGknhtbDs6S8NAA' target='_blank' style='color:#654E9F;font-weight:700;'>Get Directions on Google Maps 🗺️</a>"
+                reply: "?? <b>Growell Marketing Office Address</b>:<br>2nd Floor, Janta Colony, Vaishali Nagar, Ajmer, Rajasthan 305001, ajmer.<br><br>?? <a href='https://maps.app.goo.gl/U7BGknhtbDs6S8NAA' target='_blank' style='color:#654E9F;font-weight:700;'>Get Directions on Google Maps ???</a>"
             },
             {
                 keywords: ["seo", "rank", "google ranking", "search engine", "organic traffic", "keywords"],
-                reply: "🔍 <b>Search Engine Optimization (SEO)</b>:<br>We rank your website #1 on Google. Inclusions:<br>• Technical SEO & PageSpeed Optimization<br>• On-Page & Keyword Strategy<br>• High-Authority Backlink Building<br>• Monthly Performance Reports<br><br>👉 <a href='/services/seo.html' style='color:#654E9F;font-weight:700;'>View SEO Services →</a>"
+                reply: "?? <b>Search Engine Optimization (SEO)</b>:<br>We rank your website #1 on Google. Inclusions:<br>? Technical SEO & PageSpeed Optimization<br>? On-Page & Keyword Strategy<br>? High-Authority Backlink Building<br>? Monthly Performance Reports<br><br>?? <a href='/services/seo.html' style='color:#654E9F;font-weight:700;'>View SEO Services ?</a>"
             },
             {
                 keywords: ["ads", "paid ads", "google ads", "meta ads", "facebook ads", "instagram ads", "ppc", "roas"],
-                reply: "📈 <b>Paid Advertising (Google & Meta Ads)</b>:<br>We run high-converting ad campaigns with 3.5x - 4.5x average ROAS. Inclusions:<br>• Meta (FB/IG) & Google Search/Shopping Ads<br>• High-Converting Copy & Ad Creatives<br>• Audience Targeting & Retargeting Funnels<br><br>👉 <a href='/services/paid-advertising.html' style='color:#654E9F;font-weight:700;'>Explore Paid Ads →</a>"
+                reply: "?? <b>Paid Advertising (Google & Meta Ads)</b>:<br>We run high-converting ad campaigns with 3.5x - 4.5x average ROAS. Inclusions:<br>? Meta (FB/IG) & Google Search/Shopping Ads<br>? High-Converting Copy & Ad Creatives<br>? Audience Targeting & Retargeting Funnels<br><br>?? <a href='/services/paid-advertising.html' style='color:#654E9F;font-weight:700;'>Explore Paid Ads ?</a>"
             },
             {
                 keywords: ["web", "website", "design", "development", "developer", "web design", "site"],
-                reply: "🌐 <b>Website Design & Full-Stack Development</b>:<br>Sub-second loading speed, mobile responsive, high-converting custom code websites:<br>• Modern Responsive UI/UX<br>• Lead Generation Funnels<br>• SEO Ready Architecture & Security<br><br>👉 <a href='/services/web-design.html' style='color:#654E9F;font-weight:700;'>Explore Web Development →</a>"
+                reply: "?? <b>Website Design & Full-Stack Development</b>:<br>Sub-second loading speed, mobile responsive, high-converting custom code websites:<br>? Modern Responsive UI/UX<br>? Lead Generation Funnels<br>? SEO Ready Architecture & Security<br><br>?? <a href='/services/web-design.html' style='color:#654E9F;font-weight:700;'>Explore Web Development ?</a>"
             },
             {
                 keywords: ["social", "social media", "instagram", "facebook", "reels", "posts", "content strategy"],
-                reply: "📲 <b>Social Media Marketing</b>:<br>We build your brand visual identity and engage your target audience:<br>• Custom Graphic & Video Creatives<br>• Content Calendar & Copywriting<br>• Organic Growth & Community Management<br><br>👉 <a href='/services/social-media-marketing-services.html' style='color:#654E9F;font-weight:700;'>Explore Social Media →</a>"
+                reply: "?? <b>Social Media Marketing</b>:<br>We build your brand visual identity and engage your target audience:<br>? Custom Graphic & Video Creatives<br>? Content Calendar & Copywriting<br>? Organic Growth & Community Management<br><br>?? <a href='/services/social-media-marketing-services.html' style='color:#654E9F;font-weight:700;'>Explore Social Media ?</a>"
             },
             {
                 keywords: ["services", "service", "what do you do", "offer"],
-                reply: "🚀 <b>Growell Marketing Services</b>:<br>1. Search Engine Optimization (SEO)<br>2. Meta & Google Paid Ads<br>3. Website Design & Development<br>4. Social Media Marketing<br>5. Content Writing & Copywriting<br>6. Brand Identity & Strategy<br>7. Email Marketing & Automation<br>8. Online Reputation Management (ORM)<br><br>👉 <a href='/services.html' style='color:#654E9F;font-weight:700;'>View All Services →</a>"
+                reply: "?? <b>Growell Marketing Services</b>:<br>1. Search Engine Optimization (SEO)<br>2. Meta & Google Paid Ads<br>3. Website Design & Development<br>4. Social Media Marketing<br>5. Content Writing & Copywriting<br>6. Brand Identity & Strategy<br>7. Email Marketing & Automation<br>8. Online Reputation Management (ORM)<br><br>?? <a href='/services.html' style='color:#654E9F;font-weight:700;'>View All Services ?</a>"
             },
             {
                 keywords: ["team", "founder", "owner", "harsh", "aniket", "pintu", "simran", "who is", "people"],
-                reply: "👥 <b>Growell Leadership Team</b>:<br>• <b>Harsh Panwar</b> — Founder & Marketing Head (8+ Yrs Exp)<br>• <b>Aniket Singh Sisodia</b> — Managing Partner & Creative Head (8+ Yrs Exp)<br>• <b>Pintu Nath</b> — Marketing Manager & Tech Lead (4+ Yrs Exp)<br><br>👉 <a href='/about-us.html' style='color:#654E9F;font-weight:700;'>Read Leadership Bios →</a>"
+                reply: "?? <b>Growell Leadership Team</b>:<br>? <b>Harsh Panwar</b> ? Founder & Marketing Head (8+ Yrs Exp)<br>? <b>Aniket Singh Sisodia</b> ? Managing Partner & Creative Head (8+ Yrs Exp)<br>? <b>Pintu Nath</b> ? Marketing Manager & Tech Lead (4+ Yrs Exp)<br><br>?? <a href='/about-us.html' style='color:#654E9F;font-weight:700;'>Read Leadership Bios ?</a>"
             },
             {
                 keywords: ["price", "pricing", "cost", "charge", "budget", "fees", "retainer"],
-                reply: "💰 <b>Growell Pricing & Retainers</b>:<br>We offer customized growth retainers starting from <b>₹25,000 / month ($300/mo)</b> depending on business goals and scope. Zero hidden fees & transparent monthly reporting.<br><br>👉 <a href='/pricing.html' style='color:#654E9F;font-weight:700;'>Open Growth Estimator →</a>"
+                reply: "?? <b>Growell Pricing & Retainers</b>:<br>We offer customized growth retainers starting from <b>?25,000 / month ($300/mo)</b> depending on business goals and scope. Zero hidden fees & transparent monthly reporting.<br><br>?? <a href='/pricing.html' style='color:#654E9F;font-weight:700;'>Open Growth Estimator ?</a>"
             },
             {
                 keywords: ["contact", "phone", "mobile", "whatsapp", "call", "email", "number", "reach"],
-                reply: "📞 <b>Contact Growell Marketing</b>:<br>• <b>Phone / WhatsApp</b>: +91 8114456687<br>• <b>Email</b>: info@growellmarketing.com<br>• <b>Office</b>: Ajmer, Rajasthan, India<br><br>👉 <a href='https://wa.me/918114456687' target='_blank' style='color:#25D366;font-weight:700;'>Start Live Chat on WhatsApp 💬</a>"
+                reply: "?? <b>Contact Growell Marketing</b>:<br>? <b>Phone / WhatsApp</b>: +91 8114456687<br>? <b>Email</b>: info@growellmarketing.com<br>? <b>Office</b>: Ajmer, Rajasthan, ajmer<br><br>?? <a href='https://wa.me/918114456687' target='_blank' style='color:#25D366;font-weight:700;'>Start Live Chat on WhatsApp ??</a>"
             }
         ];
 
@@ -1319,7 +1319,7 @@
                     if (answer) break;
                 }
                 if (!answer) {
-                    answer = "💡 Growell Marketing is a 360° Performance Marketing Agency. We scale businesses through Paid Ads, SEO, Web Development, and Brand Strategy.<br><br>Contact our team directly: 📞 <b>+91 8114456687</b> or <a href='https://wa.me/918114456687' target='_blank' style='color:#25D366;font-weight:700;'>Chat on WhatsApp 💬</a>";
+                    answer = "?? Growell Marketing is a 360? Performance Marketing Agency. We scale businesses through Paid Ads, SEO, Web Development, and Brand Strategy.<br><br>Contact our team directly: ?? <b>+91 8114456687</b> or <a href='https://wa.me/918114456687' target='_blank' style='color:#25D366;font-weight:700;'>Chat on WhatsApp ??</a>";
                 }
                 appendMsg(answer, "bot");
             });
@@ -1347,20 +1347,20 @@
                 <div class="audit-modal-content exit-intent-content" style="max-width: 480px;">
                     <button class="modal-close-btn" id="closeExitIntentBtn">&times;</button>
                     <div style="text-align: center; margin-bottom: 12px;">
-                        <span style="background: rgba(101, 78, 159, 0.15); color: #654E9F; font-size: 12px; font-weight: 700; padding: 4px 12px; border-radius: 20px; text-transform: uppercase;">⚡ Special Free Growth Offer</span>
+                        <span style="background: rgba(101, 78, 159, 0.15); color: #654E9F; font-size: 12px; font-weight: 700; padding: 4px 12px; border-radius: 20px; text-transform: uppercase;">? Special Free Growth Offer</span>
                     </div>
                     <div class="audit-modal-header" style="text-align: center; margin-bottom: 16px;">
-                        <h2 style="font-size: 22px; margin-bottom: 6px;">Wait! Before You Leave... 🚀</h2>
-                        <p style="font-size: 14px; color: #555;">Get Our Free <b>7-Point Digital Audit & Growth Strategy Report</b> ($200 Value — 100% Free)</p>
+                        <h2 style="font-size: 22px; margin-bottom: 6px;">Wait! Before You Leave... ??</h2>
+                        <p style="font-size: 14px; color: #555;">Get Our Free <b>7-Point Digital Audit & Growth Strategy Report</b> ($200 Value ? 100% Free)</p>
                     </div>
                     <form id="exitIntentForm" style="display: flex; flex-direction: column; gap: 12px;">
                         <input type="text" id="exitName" placeholder="Your Full Name *" required style="padding: 12px 14px; border: 1px solid #ddd; border-radius: 8px; font-size: 14px;">
                         <input type="tel" id="exitPhone" placeholder="WhatsApp / Phone Number *" required style="padding: 12px 14px; border: 1px solid #ddd; border-radius: 8px; font-size: 14px;">
                         <input type="text" id="exitGoal" placeholder="Website URL or Primary Business Goal" style="padding: 12px 14px; border: 1px solid #ddd; border-radius: 8px; font-size: 14px;">
-                        <button type="submit" class="btn-primary" style="width: 100%; padding: 14px; font-weight: 700; margin-top: 6px;">Claim Free Audit Report →</button>
+                        <button type="submit" class="btn-primary" style="width: 100%; padding: 14px; font-weight: 700; margin-top: 6px;">Claim Free Audit Report ?</button>
                     </form>
                     <div style="margin-top: 14px; text-align: center; font-size: 11.5px; color: #777; line-height: 1.5;">
-                        ⚡ <b>150+ Brands Scaled</b> • ⭐ <b>4.9★ Google Rating</b> • 🔒 <b>100% Free & No Spam</b>
+                        ? <b>150+ Brands Scaled</b> ? ? <b>4.9? Google Rating</b> ? ?? <b>100% Free & No Spam</b>
                     </div>
                 </div>
             </div>
@@ -1428,8 +1428,54 @@
         document.body.insertAdjacentHTML("beforeend", mobileBarHtml);
     })();
 
+
+    /* ---------- 12. LOCAL & LOCALHOST NAVIGATION RESOLVER ---------- */
+    (function () {
+        var isLocalEnv = window.location.protocol === 'file:' || 
+                         window.location.hostname === 'localhost' || 
+                         window.location.hostname === '127.0.0.1' || 
+                         window.location.hostname.indexOf('192.168.') === 0 ||
+                         window.location.hostname.endsWith('.local');
+
+        if (isLocalEnv) {
+            document.addEventListener('click', function (e) {
+                var a = e.target.closest('a');
+                if (!a) return;
+                var href = a.getAttribute('href');
+                if (!href || href.startsWith('#') || href.startsWith('http') || href.startsWith('mailto:') || href.startsWith('tel:') || href.startsWith('javascript:')) return;
+
+                if (href.startsWith('/')) {
+                    e.preventDefault();
+                    
+                    var hashPart = '';
+                    var cleanHref = href;
+                    if (cleanHref.includes('#')) {
+                        var parts = cleanHref.split('#');
+                        cleanHref = parts[0];
+                        hashPart = '#' + parts[1];
+                    }
+
+                    if (window.location.protocol === 'file:') {
+                        var pathname = window.location.pathname;
+                        var rootMatch = pathname.match(/^.*?[\\\/]Growell(?:%20|\s)Marketing[\\\/]/i);
+                        var rootDir = rootMatch ? rootMatch[0] : pathname.substring(0, pathname.lastIndexOf('/') + 1);
+
+                        var target = cleanHref.replace(/^\/+/, '');
+                        if (target === '' || target === '/') {
+                            window.location.href = rootDir + 'index.html' + hashPart;
+                        } else {
+                            window.location.href = rootDir + target + '.html' + hashPart;
+                        }
+                    } else {
+                        // Localhost / 127.0.0.1 (Live Server, http-server, etc.)
+                        if (cleanHref === '' || cleanHref === '/') {
+                            window.location.href = '/index.html' + hashPart;
+                        } else {
+                            window.location.href = cleanHref + '.html' + hashPart;
+                        }
+                    }
+                }
+            });
+        }
+    })();
 })();
-
-
-
-

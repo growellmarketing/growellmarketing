@@ -823,7 +823,7 @@
         var websiteKnowledge = [
             {
                 keywords: ["address", "location", "office", "where", "city", "ajmer", "rajasthan", "map", "direction"],
-                reply: "📍 <b>Growell Marketing Office Address</b>:<br>2nd Floor, Janta Colony, Vaishali Nagar, Ajmer, Rajasthan 305001, India.<br><br>👉 <a href='https://maps.app.goo.gl/U7BGknhtbDs6S8NAA' target='_blank' style='color:#654E9F;font-weight:700;'>Get Directions on Google Maps 🗺️</a>"
+                reply: "📍 <b>Growell Marketing Office Address</b>:<br>2nd Floor, Janta Colony, Vaishali Nagar, Ajmer, Rajasthan 305001, ajmer.<br><br>👉 <a href='https://maps.app.goo.gl/U7BGknhtbDs6S8NAA' target='_blank' style='color:#654E9F;font-weight:700;'>Get Directions on Google Maps 🗺️</a>"
             },
             {
                 keywords: ["seo", "rank", "google ranking", "search engine", "organic traffic", "keywords"],
@@ -855,7 +855,7 @@
             },
             {
                 keywords: ["contact", "phone", "mobile", "whatsapp", "call", "email", "number", "reach"],
-                reply: "📞 <b>Contact Growell Marketing</b>:<br>• <b>Phone / WhatsApp</b>: +91 8114456687<br>• <b>Email</b>: hello@growellmarketing.com<br>• <b>Office</b>: Ajmer, Rajasthan, India<br><br>👉 <a href='https://wa.me/918114456687' target='_blank' style='color:#25D366;font-weight:700;'>Start Live Chat on WhatsApp 💬</a>"
+                reply: "📞 <b>Contact Growell Marketing</b>:<br>• <b>Phone / WhatsApp</b>: +91 8114456687<br>• <b>Email</b>: hello@growellmarketing.com<br>• <b>Office</b>: Ajmer, Rajasthan, ajmer<br><br>👉 <a href='https://wa.me/918114456687' target='_blank' style='color:#25D366;font-weight:700;'>Start Live Chat on WhatsApp 💬</a>"
             }
         ];
 
