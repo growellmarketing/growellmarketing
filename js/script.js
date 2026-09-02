@@ -1,4 +1,4 @@
-/* ===================================================================
+﻿/* ===================================================================
    GROWELL ? SITE ANIMATIONS
    Scroll-reveal, smooth FAQ accordion, header shadow on scroll,
    animated stat counters, and a back-to-top button.
@@ -44,171 +44,19 @@
 
     var reduceMotion = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-    /* ---------- LUXURY BUTTER-SMOOTH LENIS SCROLL ENGINE ---------- */
-    (function initLenisSmoothScroll() {
-        if (reduceMotion || window.innerWidth < 992 || ('ontouchstart' in window) || (navigator.maxTouchPoints && navigator.maxTouchPoints > 0)) return;
-
-        function clamp(t, i, e) { return Math.max(t, Math.min(i, e)); }
-        var Animate = class {
-            isRunning = false; value = 0; from = 0; to = 0; currentTime = 0; lerp; duration; easing; onUpdate;
-            advance(i) {
-                if (!this.isRunning) return;
-                var e = false;
-                if (this.duration && this.easing) {
-                    this.currentTime += i;
-                    var s = clamp(0, this.currentTime / this.duration, 1);
-                    e = s >= 1;
-                    var o = e ? 1 : this.easing(s);
-                    this.value = this.from + (this.to - this.from) * o;
-                } else if (this.lerp) {
-                    var factor = 1 - Math.exp(-60 * this.lerp * i);
-                    this.value = (1 - factor) * this.value + factor * this.to;
-                    if (Math.abs(this.to - this.value) < 0.5) { this.value = this.to; e = true; }
-                } else { this.value = this.to; e = true; }
-                if (e) this.stop();
-                if (this.onUpdate) this.onUpdate(this.value, e);
-            }
-            stop() { this.isRunning = false; }
-            fromTo(t, i, opts) {
-                this.from = this.value = t; this.to = i; this.lerp = opts.lerp; this.duration = opts.duration;
-                this.easing = opts.easing; this.currentTime = 0; this.isRunning = true;
-                if (opts.onStart) opts.onStart();
-                this.onUpdate = opts.onUpdate;
-            }
-        };
-        var Dimensions = class {
-            constructor(t, i) {
-                this.wrapper = t; this.content = i;
-                this.resize();
-                window.addEventListener("resize", () => this.resize(), false);
-            }
-            width = 0; height = 0; scrollHeight = 0; scrollWidth = 0;
-            resize() {
-                this.width = window.innerWidth;
-                this.height = window.innerHeight;
-                this.scrollHeight = this.content.scrollHeight;
-                this.scrollWidth = this.content.scrollWidth;
-            }
-            get limit() { return { x: this.scrollWidth - this.width, y: Math.max(0, this.scrollHeight - this.height) }; }
-        };
-        var Emitter = class {
-            events = {};
-            emit(t, ...i) { (this.events[t] || []).forEach(fn => fn && fn(...i)); }
-            on(t, i) { (this.events[t] = this.events[t] || []).push(i); return () => this.off(t, i); }
-            off(t, i) { this.events[t] = (this.events[t] || []).filter(fn => fn !== i); }
-        };
-        var VirtualScroll = class {
-            constructor(el, opts = {}) {
-                this.element = el;
-                this.wheelMultiplier = opts.wheelMultiplier || 1;
-                this.emitter = new Emitter();
-                this.element.addEventListener("wheel", this.onWheel, { passive: false });
-            }
-            on(t, i) { return this.emitter.on(t, i); }
-            onWheel = (t) => {
-                var deltaY = t.deltaY;
-                if (t.deltaMode === 1) deltaY *= 16.666;
-                else if (t.deltaMode === 2) deltaY *= window.innerHeight;
-                deltaY *= this.wheelMultiplier;
-                this.emitter.emit("scroll", { deltaX: t.deltaX * this.wheelMultiplier, deltaY, event: t });
-            };
-        };
-        var LenisEngine = class {
-            _isScrolling = false; time = 0; targetScroll = 0; animatedScroll = 0;
-            animate = new Animate(); emitter = new Emitter();
-            constructor(opts = {}) {
-                this.wrapper = window;
-                this.content = document.documentElement;
-                this.lerp = opts.lerp || 0.085;
-                this.duration = opts.duration || 1.15;
-                this.easing = opts.easing || (t => Math.min(1, 1.001 - Math.pow(2, -10 * t)));
-                this.wheelMultiplier = opts.wheelMultiplier || 1.05;
-                this.dimensions = new Dimensions(this.wrapper, this.content);
-                this.targetScroll = this.animatedScroll = window.pageYOffset || document.documentElement.scrollTop;
-                this.virtualScroll = new VirtualScroll(window, { wheelMultiplier: this.wheelMultiplier });
-                this.virtualScroll.on("scroll", this.onVirtualScroll);
-                window.addEventListener("scroll", this.onNativeScroll, { passive: true });
-                this.raf = this.raf.bind(this);
-                requestAnimationFrame(this.raf);
-            }
-            get limit() { return this.dimensions.limit.y; }
-            onNativeScroll = () => {
-                if (!this._isScrolling) {
-                    this.animatedScroll = this.targetScroll = window.pageYOffset || document.documentElement.scrollTop;
-                }
-            };
-            onVirtualScroll = ({ deltaY, event }) => {
-                if (event.ctrlKey) return;
-                var target = event.target;
-                while (target && target !== document.body && target !== document.documentElement) {
-                    if (target.hasAttribute && target.hasAttribute("data-lenis-prevent")) {
-                        if (target.scrollHeight > target.clientHeight) return;
-                    }
-                    if (target.classList && (
-                        target.classList.contains("audit-modal-overlay") ||
-                        target.classList.contains("chatbot-window") ||
-                        target.classList.contains("chat-messages") ||
-                        target.classList.contains("scope-checklist") ||
-                        target.classList.contains("dropdown-menu")
-                    )) {
-                        if (target.scrollHeight > target.clientHeight) return;
-                    }
-                    target = target.parentElement;
-                }
-                event.preventDefault();
-                this.scrollTo(this.targetScroll + deltaY);
-            };
-            scrollTo(target, opts = {}) {
-                if (typeof target === "string") {
-                    var el = document.querySelector(target);
-                    if (el) {
-                        var offset = opts.offset || -75;
-                        target = el.getBoundingClientRect().top + window.pageYOffset + offset;
-                    }
-                }
-                if (typeof target === "number") {
-                    target = Math.max(0, Math.min(target, this.limit));
-                    this.targetScroll = target;
-                    this._isScrolling = true;
-                    this.animate.fromTo(this.animatedScroll, target, {
-                        duration: opts.duration || this.duration,
-                        easing: opts.easing || this.easing,
-                        lerp: opts.lerp || this.lerp,
-                        onUpdate: (val, isDone) => {
-                            this.animatedScroll = val;
-                            window.scrollTo(0, Math.round(val));
-                            if (isDone) this._isScrolling = false;
-                        }
-                    });
-                }
-            }
-            raf(time) {
-                var delta = time - (this.time || time);
-                this.time = time;
-                this.animate.advance(0.001 * delta);
-                requestAnimationFrame(this.raf);
-            }
-        };
-
-        window.lenis = new LenisEngine({
-            lerp: 0.085,
-            duration: 1.15,
-            wheelMultiplier: 1.05
-        });
-
-        document.documentElement.classList.add("lenis", "lenis-smooth");
-
-        document.addEventListener("click", function (e) {
-            var anchor = e.target.closest('a[href^="#"]');
-            if (!anchor) return;
-            var href = anchor.getAttribute("href");
-            if (href === "#" || href === "#!") return;
-            if (document.querySelector(href)) {
-                e.preventDefault();
-                window.lenis.scrollTo(href, { offset: -75 });
-            }
-        });
-    })();
+    /* ---------- Native Butter-Smooth Anchor Link Scroll ---------- */
+    document.addEventListener('click', function (e) {
+        var anchor = e.target.closest('a[href^="#"]');
+        if (!anchor) return;
+        var href = anchor.getAttribute('href');
+        if (href === '#' || href === '#!') return;
+        var targetEl = document.querySelector(href);
+        if (targetEl) {
+            e.preventDefault();
+            var targetPos = targetEl.getBoundingClientRect().top + window.pageYOffset - 75;
+            window.scrollTo({ top: targetPos, behavior: 'smooth' });
+        }
+    });
 
     /* ---------- 1. Auto-tag elements for scroll reveal ---------- */
     var revealSelectors = [
@@ -463,11 +311,11 @@
     if (pricingToggle && starterEl && scaleEl) {
         pricingToggle.addEventListener("change", function () {
             if (this.checked) {
-                starterEl.innerHTML = "?20,000<span> /month (billed annually)</span>";
-                scaleEl.innerHTML = "?48,000<span> /month (billed annually)</span>";
+                starterEl.innerHTML = "₹20,000<span> /month (billed annually)</span>";
+                scaleEl.innerHTML = "₹48,000<span> /month (billed annually)</span>";
             } else {
-                starterEl.innerHTML = "?25,000<span> /month</span>";
-                scaleEl.innerHTML = "?60,000<span> /month</span>";
+                starterEl.innerHTML = "₹25,000<span> /month</span>";
+                scaleEl.innerHTML = "₹60,000<span> /month</span>";
             }
         });
     }
@@ -672,7 +520,7 @@
         // Single master scale: Target Traffic scales proportionally (10:1 ratio)
         var traffic = Math.round(budget / 10);
 
-        if (budgetValEl) budgetValEl.textContent = "?" + budget.toLocaleString("en-IN") + " /mo";
+        if (budgetValEl) budgetValEl.textContent = "₹" + budget.toLocaleString("en-IN") + " /mo";
         if (trafficValEl) trafficValEl.textContent = traffic.toLocaleString("en-IN") + " visitors/mo";
 
         // 1. Estimated Qualified Leads (Target Conversion Rate ~3.8% + Ad Lead Scaling)
