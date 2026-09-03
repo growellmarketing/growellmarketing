@@ -117,117 +117,492 @@
             <p>Measurable growth and real ROI &mdash; a look at how we've helped brands turn strategy into revenue.</p>
         </section>
 
-        <!-- Clean Minimalist Case Studies Section with Scroll Animations -->
-        <section class="portfolio-case-section">
-            <div class="container">
-                <div class="filter-btn-group" data-reveal>
+        <!-- Interactive Moving Portfolio Stream Gallery (Left to Right) -->
+        <section class="portfolio-stream-section">
+            <div class="portfolio-stream-controls" data-reveal>
+                <div class="filter-btn-group">
                     <button class="filter-btn active" data-filter="all"><i class="fa-solid fa-layer-group"></i> All Work</button>
-                    <button class="filter-btn" data-filter="seo">SEO</button>
-                    <button class="filter-btn" data-filter="social">Social Media</button>
-                    <button class="filter-btn" data-filter="paid-ads">Paid Ads</button>
-                    <button class="filter-btn" data-filter="web-design">Web Design</button>
-                    <button class="filter-btn" data-filter="branding">Branding</button>
+                    <button class="filter-btn" data-filter="branding"><i class="fa-solid fa-gem"></i> Branding &amp; Identity</button>
+                    <button class="filter-btn" data-filter="packaging"><i class="fa-solid fa-box-open"></i> Packaging Design</button>
+                    <button class="filter-btn" data-filter="events"><i class="fa-solid fa-ticket"></i> Concerts &amp; Events</button>
+                    <button class="filter-btn" data-filter="social"><i class="fa-solid fa-hashtag"></i> Social Media</button>
                 </div>
 
-                <div class="case-study-grid-clean">
-                    <!-- Card 1: SEO -->
-                    <div class="clean-case-card portfolio-card-item" data-category="seo" data-reveal data-reveal-delay="1">
-                        <div class="clean-case-img-wrap">
-                            <div class="clean-case-img" style="background-image: url('/assets/SEO.webp');"></div>
-                        </div>
-                        <div class="clean-case-body">
-                            <div class="clean-case-meta">
-                                <span class="case-category">Search Engine Optimization</span>
+                <div style="display: flex; align-items: center; gap: 12px; flex-wrap: wrap;">
+                    <span class="stream-hint"><i class="fa-solid fa-hand-pointer"></i> Hover card to pause &amp; zoom &bull; Click for full-screen</span>
+                    <button id="streamToggleBtn" class="stream-control-btn" type="button"><i class="fa-solid fa-pause"></i> Pause Motion</button>
+                </div>
+            </div>
+
+            <div class="portfolio-stream-wrapper" id="portfolioStreamWrapper">
+                <!-- Stream Row 1 (Left to Right) -->
+                <div class="portfolio-stream-row">
+                    <div class="portfolio-stream-track">
+                        <!-- Card 1 -->
+                        <div class="portfolio-stream-card" data-category="branding" data-preview-img="portfolio-images/branding/the-grip-war-championship.webp" data-caption="The Grip War &mdash; National Arm Wrestling Championship Arena Branding (Mittal Mall, Ajmer)" style="--tilt: -2deg;">
+                            <div class="stream-card-inner">
+                                <div class="stream-card-img" style="background-image: url('portfolio-images/branding/the-grip-war-championship.webp');"></div>
+                                <div class="stream-card-glass">
+                                    <span class="stream-card-cat">Brand Identity &amp; System</span>
+                                    <h4 class="stream-card-title">The Grip War Championship</h4>
+                                    <div class="stream-card-action">
+                                        <span><i class="fa-solid fa-expand"></i> Click for Full Size</span>
+                                    </div>
+                                </div>
                             </div>
-                            <h3>Skincare D2C Brand Organic Traffic Scale</h3>
-                            <p class="case-desc">Technical schema audit, keyword cluster overhaul, and DA authority backlinks ranking 45+ target keywords on Page #1.</p>
-                            <div class="clean-case-footer">
-                                <a href="#" data-scope-target="seo" class="case-link">View Deliverables <i class="fa-solid fa-arrow-right"></i></a>
+                        </div>
+
+                        <!-- Card 2 -->
+                        <div class="portfolio-stream-card" data-category="events paid-ads" data-preview-img="https://pub-05361e02d27b45b8bce2b31f52aeed01.r2.dev/portfolio-images/A4/Ammy_Virk_KV5n.jpg.webp" data-caption="Ammy Virk Live Tour &mdash; Bay Area Oakland Arena Concert Key Visual (Ticketmaster)" style="--tilt: 2.2deg;">
+                            <div class="stream-card-inner">
+                                <div class="stream-card-img" style="background-image: url('https://pub-05361e02d27b45b8bce2b31f52aeed01.r2.dev/portfolio-images/A4/Ammy_Virk_KV5n.jpg.webp');"></div>
+                               
+                                <div class="stream-card-glass">
+                                    <span class="stream-card-cat">Concert Tour Key Visual</span>
+                                    <h4 class="stream-card-title">Ammy Virk Live USA Tour</h4>
+                                    <div class="stream-card-action">
+                                        <span><i class="fa-solid fa-expand"></i> Click for Full Size</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Card 3 -->
+                        <div class="portfolio-stream-card" data-category="packaging branding" data-preview-img="portfolio-images/packaging/7c-hazelnut-paste-packaging.webp" data-caption="7C Baking Solutions &mdash; Gourmet Hazelnut Paste Luxury Packaging Design" style="--tilt: -1.8deg;">
+                            <div class="stream-card-inner">
+                                <div class="stream-card-img" style="background-image: url('portfolio-images/packaging/7c-hazelnut-paste-packaging.webp');"></div>
+                                
+                                <div class="stream-card-glass">
+                                    <span class="stream-card-cat">Packaging &amp; 3D Mockup</span>
+                                    <h4 class="stream-card-title">Gourmet Hazelnut Paste Tub</h4>
+                                    <div class="stream-card-action">
+                                        <span><i class="fa-solid fa-expand"></i> Click for Full Size</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Card 4 -->
+                        <div class="portfolio-stream-card" data-category="branding" data-preview-img="portfolio-images/branding/fatal-academy-mma-branding.webp" data-caption="Fatal Combat Academy MMA &mdash; Complete Athletic Brand Identity & Gym Signage" style="--tilt: 1.8deg;">
+                            <div class="stream-card-inner">
+                                <div class="stream-card-img" style="background-image: url('portfolio-images/branding/fatal-academy-mma-branding.webp');"></div>
+                                
+                                <div class="stream-card-glass">
+                                    <span class="stream-card-cat">Combat Sports Brand System</span>
+                                    <h4 class="stream-card-title">Fatal Academy MMA Standees</h4>
+                                    <div class="stream-card-action">
+                                        <span><i class="fa-solid fa-expand"></i> Click for Full Size</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Card 5 -->
+                        <div class="portfolio-stream-card" data-category="events paid-ads" data-preview-img="portfolio-images/events/sunil-grover-live-tour.webp" data-caption="Sunil Grover Live &mdash; Australia Tour Arena Posters (Sydney, Brisbane, Melbourne)" style="--tilt: -2.4deg;">
+                            <div class="stream-card-inner">
+                                <div class="stream-card-img" style="background-image: url('portfolio-images/events/sunil-grover-live-tour.webp');"></div>
+                                
+                                <div class="stream-card-glass">
+                                    <span class="stream-card-cat">Live Tour Entertainment</span>
+                                    <h4 class="stream-card-title">Sunil Grover Live Australia</h4>
+                                    <div class="stream-card-action">
+                                        <span><i class="fa-solid fa-expand"></i> Click for Full Size</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Card 6 -->
+                        <div class="portfolio-stream-card" data-category="social" data-preview-img="portfolio-images/social/republic-day-real-estate-campaign.webp" data-caption="Real Estate Alliance &mdash; Republic Day Patriotic Campaign (JM Build, Jangid, Daksh, Jay)" style="--tilt: 1.5deg;">
+                            <div class="stream-card-inner">
+                                <div class="stream-card-img" style="background-image: url('portfolio-images/social/republic-day-real-estate-campaign.webp');"></div>
+                                
+                                <div class="stream-card-glass">
+                                    <span class="stream-card-cat">Festive Topical Campaign</span>
+                                    <h4 class="stream-card-title">Republic Day Patriotic Campaign</h4>
+                                    <div class="stream-card-action">
+                                        <span><i class="fa-solid fa-expand"></i> Click for Full Size</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Card 7 -->
+                        <div class="portfolio-stream-card" data-category="branding" data-preview-img="portfolio-images/branding/liberal-arts-coaching-billboard.webp" data-caption="Liberal Arts Academy &mdash; 6x4 ft Prime City Billboard Hoarding" style="--tilt: -2deg;">
+                            <div class="stream-card-inner">
+                                <div class="stream-card-img" style="background-image: url('portfolio-images/branding/liberal-arts-coaching-billboard.webp');"></div>
+                                
+                                <div class="stream-card-glass">
+                                    <span class="stream-card-cat">Outdoor OOH &amp; Academic</span>
+                                    <h4 class="stream-card-title">Liberal Arts 6x4 Billboard</h4>
+                                    <div class="stream-card-action">
+                                        <span><i class="fa-solid fa-expand"></i> Click for Full Size</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Card 8 -->
+                        <div class="portfolio-stream-card" data-category="events paid-ads" data-preview-img="portfolio-images/events/rishab-sharma-sitar-concert.webp" data-caption="Rishab Rikhiram Sharma &mdash; Sitar for Mental Health (Esplanade Concert Hall, Singapore)" style="--tilt: 2.4deg;">
+                            <div class="stream-card-inner">
+                                <div class="stream-card-img" style="background-image: url('portfolio-images/events/rishab-sharma-sitar-concert.webp');"></div>
+                                
+                                <div class="stream-card-glass">
+                                    <span class="stream-card-cat">International Concert KV</span>
+                                    <h4 class="stream-card-title">Rishab Sharma Sitar Concert</h4>
+                                    <div class="stream-card-action">
+                                        <span><i class="fa-solid fa-expand"></i> Click for Full Size</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Duplicate Set for Seamless Infinite Loop (Cards 1 to 8) -->
+                        <div class="portfolio-stream-card" data-category="branding" data-preview-img="portfolio-images/branding/the-grip-war-championship.webp" data-caption="The Grip War &mdash; National Arm Wrestling Championship Arena Branding (Mittal Mall, Ajmer)" style="--tilt: -2deg;">
+                            <div class="stream-card-inner">
+                                <div class="stream-card-img" style="background-image: url('portfolio-images/branding/the-grip-war-championship.webp');"></div>
+                                
+                                <div class="stream-card-glass">
+                                    <span class="stream-card-cat">Brand Identity &amp; System</span>
+                                    <h4 class="stream-card-title">The Grip War Championship</h4>
+                                    <div class="stream-card-action">
+                                        <span><i class="fa-solid fa-expand"></i> Click for Full Size</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="portfolio-stream-card" data-category="events paid-ads" data-preview-img="portfolio-images/events/ammy-virk-live-tour.webp" data-caption="Ammy Virk Live Tour &mdash; Bay Area Oakland Arena Concert Key Visual (Ticketmaster)" style="--tilt: 2.2deg;">
+                            <div class="stream-card-inner">
+                                <div class="stream-card-img" style="background-image: url('portfolio-images/events/ammy-virk-live-tour.webp');"></div>
+                                
+                                <div class="stream-card-glass">
+                                    <span class="stream-card-cat">Concert Tour Key Visual</span>
+                                    <h4 class="stream-card-title">Ammy Virk Live USA Tour</h4>
+                                    <div class="stream-card-action">
+                                        <span><i class="fa-solid fa-expand"></i> Click for Full Size</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="portfolio-stream-card" data-category="packaging branding" data-preview-img="portfolio-images/packaging/7c-hazelnut-paste-packaging.webp" data-caption="7C Baking Solutions &mdash; Gourmet Hazelnut Paste Luxury Packaging Design" style="--tilt: -1.8deg;">
+                            <div class="stream-card-inner">
+                                <div class="stream-card-img" style="background-image: url('portfolio-images/packaging/7c-hazelnut-paste-packaging.webp');"></div>
+                                
+                                <div class="stream-card-glass">
+                                    <span class="stream-card-cat">Packaging &amp; 3D Mockup</span>
+                                    <h4 class="stream-card-title">Gourmet Hazelnut Paste Tub</h4>
+                                    <div class="stream-card-action">
+                                        <span><i class="fa-solid fa-expand"></i> Click for Full Size</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="portfolio-stream-card" data-category="branding" data-preview-img="portfolio-images/branding/fatal-academy-mma-branding.webp" data-caption="Fatal Combat Academy MMA &mdash; Complete Athletic Brand Identity & Gym Signage" style="--tilt: 1.8deg;">
+                            <div class="stream-card-inner">
+                                <div class="stream-card-img" style="background-image: url('portfolio-images/branding/fatal-academy-mma-branding.webp');"></div>
+                               
+                                <div class="stream-card-glass">
+                                    <span class="stream-card-cat">Combat Sports Brand System</span>
+                                    <h4 class="stream-card-title">Fatal Academy MMA Standees</h4>
+                                    <div class="stream-card-action">
+                                        <span><i class="fa-solid fa-expand"></i> Click for Full Size</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="portfolio-stream-card" data-category="events paid-ads" data-preview-img="portfolio-images/events/sunil-grover-live-tour.webp" data-caption="Sunil Grover Live &mdash; Australia Tour Arena Posters (Sydney, Brisbane, Melbourne)" style="--tilt: -2.4deg;">
+                            <div class="stream-card-inner">
+                                <div class="stream-card-img" style="background-image: url('portfolio-images/events/sunil-grover-live-tour.webp');"></div>
+                                
+                                <div class="stream-card-glass">
+                                    <span class="stream-card-cat">Live Tour Entertainment</span>
+                                    <h4 class="stream-card-title">Sunil Grover Live Australia</h4>
+                                    <div class="stream-card-action">
+                                        <span><i class="fa-solid fa-expand"></i> Click for Full Size</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="portfolio-stream-card" data-category="social" data-preview-img="portfolio-images/social/republic-day-real-estate-campaign.webp" data-caption="Real Estate Alliance &mdash; Republic Day Patriotic Campaign (JM Build, Jangid, Daksh, Jay)" style="--tilt: 1.5deg;">
+                            <div class="stream-card-inner">
+                                <div class="stream-card-img" style="background-image: url('portfolio-images/social/republic-day-real-estate-campaign.webp');"></div>
+                                
+                                <div class="stream-card-glass">
+                                    <span class="stream-card-cat">Festive Topical Campaign</span>
+                                    <h4 class="stream-card-title">Republic Day Patriotic Campaign</h4>
+                                    <div class="stream-card-action">
+                                        <span><i class="fa-solid fa-expand"></i> Click for Full Size</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="portfolio-stream-card" data-category="branding" data-preview-img="portfolio-images/branding/liberal-arts-coaching-billboard.webp" data-caption="Liberal Arts Academy &mdash; 6x4 ft Prime City Billboard Hoarding" style="--tilt: -2deg;">
+                            <div class="stream-card-inner">
+                                <div class="stream-card-img" style="background-image: url('portfolio-images/branding/liberal-arts-coaching-billboard.webp');"></div>
+                                <div class="stream-card-glass">
+                                    <span class="stream-card-cat">Outdoor OOH &amp; Academic</span>
+                                    <h4 class="stream-card-title">Liberal Arts 6x4 Billboard</h4>
+                                    <div class="stream-card-action">
+                                        <span><i class="fa-solid fa-expand"></i> Click for Full Size</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="portfolio-stream-card" data-category="events paid-ads" data-preview-img="portfolio-images/events/rishab-sharma-sitar-concert.webp" data-caption="Rishab Rikhiram Sharma &mdash; Sitar for Mental Health (Esplanade Concert Hall, Singapore)" style="--tilt: 2.4deg;">
+                            <div class="stream-card-inner">
+                                <div class="stream-card-img" style="background-image: url('portfolio-images/events/rishab-sharma-sitar-concert.webp');"></div>
+                                
+                                <div class="stream-card-glass">
+                                    <span class="stream-card-cat">International Concert KV</span>
+                                    <h4 class="stream-card-title">Rishab Sharma Sitar Concert</h4>
+                                    <div class="stream-card-action">
+                                        <span><i class="fa-solid fa-expand"></i> Click for Full Size</span>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
+                </div>
 
-                    <!-- Card 2: Paid Ads -->
-                    <div class="clean-case-card portfolio-card-item" data-category="paid-ads" data-reveal data-reveal-delay="2">
-                        <div class="clean-case-img-wrap">
-                            <div class="clean-case-img" style="background-image: url('/assets/paid-advertising.webp');"></div>
-                        </div>
-                        <div class="clean-case-body">
-                            <div class="clean-case-meta">
-                                <span class="case-category">Google & Meta Ads</span>
+                <!-- Stream Row 2 (Left to Right - Faster Parallax) -->
+                <div class="portfolio-stream-row row-fast">
+                    <div class="portfolio-stream-track">
+                        <!-- Card 9 -->
+                        <div class="portfolio-stream-card" data-category="packaging branding" data-preview-img="portfolio-images/packaging/7c-maida-flour-packaging.webp" data-caption="7C Baking Solutions &mdash; All-Purpose Maida Flour 1Kg Consumer Pouch Packaging Design" style="--tilt: 2deg;">
+                            <div class="stream-card-inner">
+                                <div class="stream-card-img" style="background-image: url('portfolio-images/packaging/7c-maida-flour-packaging.webp');"></div>
+                                
+                                <div class="stream-card-glass">
+                                    <span class="stream-card-cat">FMCG Agro Packaging</span>
+                                    <h4 class="stream-card-title">7C Maida Flour Pouch Design</h4>
+                                    <div class="stream-card-action">
+                                        <span><i class="fa-solid fa-expand"></i> Click for Full Size</span>
+                                    </div>
+                                </div>
                             </div>
-                            <h3>Home D &mdash; cor Brand Acquisition & Revenue Scale</h3>
-                            <p class="case-desc">Restructured Meta CAPI funnels, high-converting video UGC testing, and custom lookalikes scaling monthly profitable revenue.</p>
-                            <div class="clean-case-footer">
-                                <a href="#" data-scope-target="paid-ads" class="case-link">View Deliverables <i class="fa-solid fa-arrow-right"></i></a>
-                            </div>
                         </div>
-                    </div>
 
-                    <!-- Card 3: Social Media -->
-                    <div class="clean-case-card portfolio-card-item" data-category="social" data-reveal data-reveal-delay="3">
-                        <div class="clean-case-img-wrap">
-                            <div class="clean-case-img" style="background-image: url('/assets/social-media-marketing.webp');"></div>
-                        </div>
-                        <div class="clean-case-body">
-                            <div class="clean-case-meta">
-                                <span class="case-category">Social Media Strategy</span>
+                        <!-- Card 10 -->
+                        <div class="portfolio-stream-card" data-category="events social" data-preview-img="portfolio-images/events/sagar-wali-qawwali-concert.webp" data-caption="Sagar Wali Qawwali Live &mdash; Royal Palace Key Visual & Ticketing Teaser (Suntec, Singapore)" style="--tilt: -1.8deg;">
+                            <div class="stream-card-inner">
+                                <div class="stream-card-img" style="background-image: url('portfolio-images/events/sagar-wali-qawwali-concert.webp');"></div>
+                                
+                                <div class="stream-card-glass">
+                                    <span class="stream-card-cat">Live Concert Teaser</span>
+                                    <h4 class="stream-card-title">Sagar Wali Qawwali Live</h4>
+                                    <div class="stream-card-action">
+                                        <span><i class="fa-solid fa-expand"></i> Click for Full Size</span>
+                                    </div>
+                                </div>
                             </div>
-                            <h3>Fitness Studio Viral Community Growth</h3>
-                            <p class="case-desc">High-energy viral Reels production, strategic local creator collaborations, and automated lead capture DM sequences.</p>
-                            <div class="clean-case-footer">
-                                <a href="#" data-scope-target="social" class="case-link">View Deliverables <i class="fa-solid fa-arrow-right"></i></a>
-                            </div>
                         </div>
-                    </div>
 
-                    <!-- Card 4: Web Design -->
-                    <div class="clean-case-card portfolio-card-item" data-category="web-design" data-reveal data-reveal-delay="4">
-                        <div class="clean-case-img-wrap">
-                            <div class="clean-case-img" style="background-image: url('/assets/why-choose-section-home.webp');"></div>
-                        </div>
-                        <div class="clean-case-body">
-                            <div class="clean-case-meta">
-                                <span class="case-category">Web UI/UX Design</span>
+                        <!-- Card 11 -->
+                        <div class="portfolio-stream-card" data-category="social" data-preview-img="portfolio-images/social/mothers-day-real-estate-campaign.webp" data-caption="Real Estate Alliance &mdash; 'Home is Where Mom is' Mother's Day Emotional Campaign" style="--tilt: 1.8deg;">
+                            <div class="stream-card-inner">
+                                <div class="stream-card-img" style="background-image: url('portfolio-images/social/mothers-day-real-estate-campaign.webp');"></div>
+                                
+                                <div class="stream-card-glass">
+                                    <span class="stream-card-cat">Emotional Storytelling</span>
+                                    <h4 class="stream-card-title">"Home is Where Mom is"</h4>
+                                    <div class="stream-card-action">
+                                        <span><i class="fa-solid fa-expand"></i> Click for Full Size</span>
+                                    </div>
+                                </div>
                             </div>
-                            <h3>Healthcare & Clinic High-Converting Website</h3>
-                            <p class="case-desc">Sub-second loading mobile-first architecture, frictionless patient appointment booking funnels, and modern responsive UI.</p>
-                            <div class="clean-case-footer">
-                                <a href="#" data-scope-target="web-design" class="case-link">View Deliverables <i class="fa-solid fa-arrow-right"></i></a>
-                            </div>
                         </div>
-                    </div>
 
-                    <!-- Card 5: Email Retention -->
-                    <div class="clean-case-card portfolio-card-item" data-category="paid-ads" data-reveal data-reveal-delay="5">
-                        <div class="clean-case-img-wrap">
-                            <div class="clean-case-img" style="background-image: url('/assets/content-writing.webp');"></div>
-                        </div>
-                        <div class="clean-case-body">
-                            <div class="clean-case-meta">
-                                <span class="case-category">Email Marketing & Automation</span>
+                        <!-- Card 12 -->
+                        <div class="portfolio-stream-card" data-category="social" data-preview-img="portfolio-images/social/myo-nutrition-christmas-campaign.webp" data-caption="MYO Nutrition &mdash; Festive Wellness Christmas Social Media Campaign" style="--tilt: -2deg;">
+                            <div class="stream-card-inner">
+                                <div class="stream-card-img" style="background-image: url('portfolio-images/social/myo-nutrition-christmas-campaign.webp');"></div>
+                                
+                                <div class="stream-card-glass">
+                                    <span class="stream-card-cat">Health &amp; Wellness Social</span>
+                                    <h4 class="stream-card-title">MYO Nutrition Christmas Tree</h4>
+                                    <div class="stream-card-action">
+                                        <span><i class="fa-solid fa-expand"></i> Click for Full Size</span>
+                                    </div>
+                                </div>
                             </div>
-                            <h3>D2C Apparel Brand Retention & Flow Architecture</h3>
-                            <p class="case-desc">Automated multi-tier abandoned cart recovery flows, VIP customer win-back campaigns, and high-open rate newsletters.</p>
-                            <div class="clean-case-footer">
-                                <a href="#" data-scope-target="email" class="case-link">View Deliverables <i class="fa-solid fa-arrow-right"></i></a>
-                            </div>
                         </div>
-                    </div>
 
-                    <!-- Card 6: Branding -->
-                    <div class="clean-case-card portfolio-card-item" data-category="branding" data-reveal data-reveal-delay="6">
-                        <div class="clean-case-img-wrap">
-                            <div class="clean-case-img" style="background-image: url('/assets/brand-identi.webp');"></div>
-                        </div>
-                        <div class="clean-case-body">
-                            <div class="clean-case-meta">
-                                <span class="case-category">Brand Identity & System</span>
+                        <!-- Card 13 -->
+                        <div class="portfolio-stream-card" data-category="social" data-preview-img="portfolio-images/social/myo-nutrition-new-year-campaign.webp" data-caption="MYO Nutrition &mdash; 'Healthy New Year' Fitness Resolution Brand Campaign" style="--tilt: 2.4deg;">
+                            <div class="stream-card-inner">
+                                <div class="stream-card-img" style="background-image: url('portfolio-images/social/myo-nutrition-new-year-campaign.webp');"></div>
+                                
+                                <div class="stream-card-glass">
+                                    <span class="stream-card-cat">New Year Brand Campaign</span>
+                                    <h4 class="stream-card-title">"Healthy New Year" Campaign</h4>
+                                    <div class="stream-card-action">
+                                        <span><i class="fa-solid fa-expand"></i> Click for Full Size</span>
+                                    </div>
+                                </div>
                             </div>
-                            <h3>Artisan Caf &mdash; Franchise Complete Visual Refresh</h3>
-                            <p class="case-desc">Modern identity system, luxury typography guidelines, custom sustainable packaging, and consistent social brand design.</p>
-                            <div class="clean-case-footer">
-                                <a href="#" data-scope-target="branding" class="case-link">View Deliverables <i class="fa-solid fa-arrow-right"></i></a>
+                        </div>
+
+                        <!-- Card 14 -->
+                        <div class="portfolio-stream-card" data-category="branding events" data-preview-img="portfolio-images/branding/the-grip-war-poster-2.webp" data-caption="The Grip War &mdash; Official Fighter Matchup & Tournament Announcement Posters" style="--tilt: -1.6deg;">
+                            <div class="stream-card-inner">
+                                <div class="stream-card-img" style="background-image: url('portfolio-images/branding/the-grip-war-poster-2.webp');"></div>
+                                
+                                <div class="stream-card-glass">
+                                    <span class="stream-card-cat">Combat Sports Marketing</span>
+                                    <h4 class="stream-card-title">The Grip War Matchup Posters</h4>
+                                    <div class="stream-card-action">
+                                        <span><i class="fa-solid fa-expand"></i> Click for Full Size</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Card 15 -->
+                        <div class="portfolio-stream-card" data-category="branding" data-preview-img="portfolio-images/branding/fatal-academy-merchandise.webp" data-caption="Fatal Academy &mdash; Fighter Apparel, Uniforms & Merchandise Line" style="--tilt: 1.9deg;">
+                            <div class="stream-card-inner">
+                                <div class="stream-card-img" style="background-image: url('portfolio-images/branding/fatal-academy-merchandise.webp');"></div>
+                                
+                                <div class="stream-card-glass">
+                                    <span class="stream-card-cat">Apparel &amp; Merchandise</span>
+                                    <h4 class="stream-card-title">Fatal Academy Fighter Apparel</h4>
+                                    <div class="stream-card-action">
+                                        <span><i class="fa-solid fa-expand"></i> Click for Full Size</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Card 16 -->
+                        <div class="portfolio-stream-card" data-category="branding" data-preview-img="portfolio-images/branding/liberal-arts-entrance-branding.webp" data-caption="Liberal Arts Coaching &mdash; Campus Entrance Signage & Branding" style="--tilt: -2.2deg;">
+                            <div class="stream-card-inner">
+                                <div class="stream-card-img" style="background-image: url('portfolio-images/branding/liberal-arts-entrance-branding.webp');"></div>
+                                
+                                <div class="stream-card-glass">
+                                    <span class="stream-card-cat">Institutional Branding</span>
+                                    <h4 class="stream-card-title">Liberal Arts Campus Signage</h4>
+                                    <div class="stream-card-action">
+                                        <span><i class="fa-solid fa-expand"></i> Click for Full Size</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Duplicate Set for Seamless Infinite Loop (Cards 9 to 16) -->
+                        <div class="portfolio-stream-card" data-category="packaging branding" data-preview-img="portfolio-images/packaging/7c-maida-flour-packaging.webp" data-caption="7C Baking Solutions &mdash; All-Purpose Maida Flour 1Kg Consumer Pouch Packaging Design" style="--tilt: 2deg;">
+                            <div class="stream-card-inner">
+                                <div class="stream-card-img" style="background-image: url('portfolio-images/packaging/7c-maida-flour-packaging.webp');"></div>
+                                
+                                <div class="stream-card-glass">
+                                    <span class="stream-card-cat">FMCG Agro Packaging</span>
+                                    <h4 class="stream-card-title">7C Maida Flour Pouch Design</h4>
+                                    <div class="stream-card-action">
+                                        <span><i class="fa-solid fa-expand"></i> Click for Full Size</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="portfolio-stream-card" data-category="events social" data-preview-img="portfolio-images/events/sagar-wali-qawwali-concert.webp" data-caption="Sagar Wali Qawwali Live &mdash; Royal Palace Key Visual & Ticketing Teaser (Suntec, Singapore)" style="--tilt: -1.8deg;">
+                            <div class="stream-card-inner">
+                                <div class="stream-card-img" style="background-image: url('portfolio-images/events/sagar-wali-qawwali-concert.webp');"></div>
+                                
+                                <div class="stream-card-glass">
+                                    <span class="stream-card-cat">Live Concert Teaser</span>
+                                    <h4 class="stream-card-title">Sagar Wali Qawwali Live</h4>
+                                    <div class="stream-card-action">
+                                        <span><i class="fa-solid fa-expand"></i> Click for Full Size</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="portfolio-stream-card" data-category="social" data-preview-img="portfolio-images/social/mothers-day-real-estate-campaign.webp" data-caption="Real Estate Alliance &mdash; 'Home is Where Mom is' Mother's Day Emotional Campaign" style="--tilt: 1.8deg;">
+                            <div class="stream-card-inner">
+                                <div class="stream-card-img" style="background-image: url('portfolio-images/social/mothers-day-real-estate-campaign.webp');"></div>
+                                
+                                <div class="stream-card-glass">
+                                    <span class="stream-card-cat">Emotional Storytelling</span>
+                                    <h4 class="stream-card-title">"Home is Where Mom is"</h4>
+                                    <div class="stream-card-action">
+                                        <span><i class="fa-solid fa-expand"></i> Click for Full Size</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="portfolio-stream-card" data-category="social" data-preview-img="portfolio-images/social/myo-nutrition-christmas-campaign.webp" data-caption="MYO Nutrition &mdash; Festive Wellness Christmas Social Media Campaign" style="--tilt: -2deg;">
+                            <div class="stream-card-inner">
+                                <div class="stream-card-img" style="background-image: url('portfolio-images/social/myo-nutrition-christmas-campaign.webp');"></div>
+                                <div class="stream-card-glass">
+                                    <span class="stream-card-cat">Health &amp; Wellness Social</span>
+                                    <h4 class="stream-card-title">MYO Nutrition Christmas Tree</h4>
+                                    <div class="stream-card-action">
+                                        <span><i class="fa-solid fa-expand"></i> Click for Full Size</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="portfolio-stream-card" data-category="social" data-preview-img="portfolio-images/social/myo-nutrition-new-year-campaign.webp" data-caption="MYO Nutrition &mdash; 'Healthy New Year' Fitness Resolution Brand Campaign" style="--tilt: 2.4deg;">
+                            <div class="stream-card-inner">
+                                <div class="stream-card-img" style="background-image: url('portfolio-images/social/myo-nutrition-new-year-campaign.webp');"></div>
+                                
+                                <div class="stream-card-glass">
+                                    <span class="stream-card-cat">New Year Brand Campaign</span>
+                                    <h4 class="stream-card-title">"Healthy New Year" Campaign</h4>
+                                    <div class="stream-card-action">
+                                        <span><i class="fa-solid fa-expand"></i> Click for Full Size</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="portfolio-stream-card" data-category="branding events" data-preview-img="portfolio-images/branding/the-grip-war-poster-2.webp" data-caption="The Grip War &mdash; Official Fighter Matchup & Tournament Announcement Posters" style="--tilt: -1.6deg;">
+                            <div class="stream-card-inner">
+                                <div class="stream-card-img" style="background-image: url('portfolio-images/branding/the-grip-war-poster-2.webp');"></div>
+                                
+                                <div class="stream-card-glass">
+                                    <span class="stream-card-cat">Combat Sports Marketing</span>
+                                    <h4 class="stream-card-title">The Grip War Matchup Posters</h4>
+                                    <div class="stream-card-action">
+                                        <span><i class="fa-solid fa-expand"></i> Click for Full Size</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="portfolio-stream-card" data-category="branding" data-preview-img="portfolio-images/branding/fatal-academy-merchandise.webp" data-caption="Fatal Academy &mdash; Fighter Apparel, Uniforms & Merchandise Line" style="--tilt: 1.9deg;">
+                            <div class="stream-card-inner">
+                                <div class="stream-card-img" style="background-image: url('portfolio-images/branding/fatal-academy-merchandise.webp');"></div>
+                                
+                                <div class="stream-card-glass">
+                                    <span class="stream-card-cat">Apparel &amp; Merchandise</span>
+                                    <h4 class="stream-card-title">Fatal Academy Fighter Apparel</h4>
+                                    <div class="stream-card-action">
+                                        <span><i class="fa-solid fa-expand"></i> Click for Full Size</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="portfolio-stream-card" data-category="branding" data-preview-img="portfolio-images/branding/liberal-arts-entrance-branding.webp" data-caption="Liberal Arts Coaching &mdash; Campus Entrance Signage & Branding" style="--tilt: -2.2deg;">
+                            <div class="stream-card-inner">
+                                <div class="stream-card-img" style="background-image: url('portfolio-images/branding/liberal-arts-entrance-branding.webp');"></div>
+                                
+                                <div class="stream-card-glass">
+                                    <span class="stream-card-cat">Institutional Branding</span>
+                                    <h4 class="stream-card-title">Liberal Arts Campus Signage</h4>
+                                    <div class="stream-card-action">
+                                        <span><i class="fa-solid fa-expand"></i> Click for Full Size</span>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -470,6 +845,15 @@
         </div>
     </footer>
 
+    <!-- Portfolio Image Lightbox Modal -->
+    <div class="portfolio-lightbox-overlay" id="portfolioLightboxModal">
+        <div class="portfolio-lightbox-container">
+            <button class="portfolio-lightbox-close" id="closeLightboxBtn" aria-label="Close Preview">&times;</button>
+            <img id="portfolioLightboxImg" class="portfolio-lightbox-img" src="" alt="Portfolio Artwork Full Size">
+            <div id="portfolioLightboxCaption" class="portfolio-lightbox-caption"></div>
+        </div>
+    </div>
+
     <!-- Free Instant Audit Modal -->
     <div class="audit-modal-overlay" id="auditModal">
         <div class="audit-modal-content">
@@ -559,7 +943,7 @@
     </div>
 
 
-    <script src="js/script.min.js" defer></script>
+    <script src="js/script.min.js?v=2.2" defer></script>
     </body>
 
 </html>

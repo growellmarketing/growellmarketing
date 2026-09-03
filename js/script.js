@@ -483,24 +483,73 @@
     /* ---------- 10. Filterable Portfolio Category Grid ---------- */
     var filterBtns = document.querySelectorAll(".filter-btn");
     var portfolioItems = document.querySelectorAll(".portfolio-card-item");
+    var streamCards = document.querySelectorAll(".portfolio-stream-card");
 
-    if (filterBtns.length && portfolioItems.length) {
+    if (filterBtns.length) {
         filterBtns.forEach(function (btn) {
             btn.addEventListener("click", function () {
                 filterBtns.forEach(function (b) { b.classList.remove("active"); });
                 this.classList.add("active");
 
                 var filter = this.getAttribute("data-filter");
-                portfolioItems.forEach(function (item) {
-                    var cat = item.getAttribute("data-category");
-                    if (filter === "all" || cat === filter) {
-                        item.classList.remove("hide");
-                        item.style.opacity = "1";
-                        item.style.transform = "scale(1)";
-                    } else {
-                        item.classList.add("hide");
-                    }
-                });
+
+                // Filter grid cards if present
+                if (portfolioItems.length) {
+                    portfolioItems.forEach(function (item) {
+                        var cat = item.getAttribute("data-category");
+                        var match = (filter === "all") || (cat && cat.split(/\s+/).indexOf(filter) !== -1);
+                        if (match) {
+                            item.classList.remove("hide");
+                            item.style.opacity = "1";
+                            item.style.transform = "scale(1)";
+                        } else {
+                            item.classList.add("hide");
+                        }
+                    });
+                }
+
+                // Filter moving stream cards (spotlight / dim)
+                if (streamCards.length) {
+                    streamCards.forEach(function (card) {
+                        var cat = card.getAttribute("data-category") || "";
+                        var match = (filter === "all") || (cat.split(/\s+/).indexOf(filter) !== -1);
+                        if (match) {
+                            card.classList.remove("dimmed");
+                        } else {
+                            card.classList.add("dimmed");
+                        }
+                    });
+                }
+            });
+        });
+    }
+
+    // Stream Play / Pause Control
+    var streamToggleBtn = document.getElementById("streamToggleBtn");
+    var streamWrapper = document.getElementById("portfolioStreamWrapper");
+    if (streamToggleBtn && streamWrapper) {
+        streamToggleBtn.addEventListener("click", function () {
+            var isPaused = streamWrapper.classList.toggle("paused");
+            if (isPaused) {
+                streamToggleBtn.innerHTML = '<i class="fa-solid fa-play"></i> Resume Motion';
+            } else {
+                streamToggleBtn.innerHTML = '<i class="fa-solid fa-pause"></i> Pause Motion';
+            }
+        });
+    }
+
+    // Stream Cards Backdrop Blur & Focus on Hover
+    if (streamWrapper && streamCards.length) {
+        streamCards.forEach(function (card) {
+            card.addEventListener("mouseenter", function () {
+                streamWrapper.classList.add("has-hovered-card");
+                var row = card.closest(".portfolio-stream-row");
+                if (row) row.classList.add("row-is-hovered");
+            });
+            card.addEventListener("mouseleave", function () {
+                streamWrapper.classList.remove("has-hovered-card");
+                var row = card.closest(".portfolio-stream-row");
+                if (row) row.classList.remove("row-is-hovered");
             });
         });
     }
@@ -625,6 +674,32 @@
                 "Vector Source Files (AI, SVG, PNG, PDF)"
             ]
         },
+        "packaging": {
+            title: "Packaging Design & FMCG Branding",
+            badge: "Shelf-Ready Consumer Impact",
+            timeline: "Est. Turnaround: 7 to 10 Business Days",
+            deliverables: [
+                "Custom 3D Product & Jar/Pouch Mockups",
+                "Die-Cut Label & Print-Ready Artwork",
+                "Regulatory & Nutritional Hierarchy Layout",
+                "Material & Finish Recommendations (Foil, Matte)",
+                "Retail Shelf Impact & Visual Contrast Testing",
+                "Vector & High-Res Print Files (AI, PDF, EPS)"
+            ]
+        },
+        "events": {
+            title: "Concert, Tour & Event Key Visuals",
+            badge: "Stadium Scale Creative Direction",
+            timeline: "Est. Turnaround: 3 to 5 Days Fast-Track",
+            deliverables: [
+                "Master Concert Key Visual (KV) Creation",
+                "Outdoor City Billboard & Hoarding Adaptations",
+                "Ticketing Platform Banners (BookMyShow, Ticketmaster)",
+                "Social Media Launch Teasers & Countdown Assets",
+                "Stage LED Backdrop & Arena Branding Graphics",
+                "High-Resolution Print-Ready Artwork"
+            ]
+        },
         "email": {
             title: "Email Marketing & Automation Flows",
             badge: "Customer Retention & Revenue Automation",
@@ -735,6 +810,46 @@
             e.preventDefault();
             var targetKey = trigger.getAttribute("data-scope-target");
             openServiceScope(targetKey);
+            return;
+        }
+
+        // Portfolio Image Lightbox handler
+        var imgTrigger = e.target.closest("[data-preview-img]");
+        if (imgTrigger) {
+            e.preventDefault();
+            var src = imgTrigger.getAttribute("data-preview-img");
+            var caption = imgTrigger.getAttribute("data-caption") || "";
+            var modal = document.getElementById("portfolioLightboxModal");
+            var imgEl = document.getElementById("portfolioLightboxImg");
+            var capEl = document.getElementById("portfolioLightboxCaption");
+            if (modal && imgEl) {
+                imgEl.src = src;
+                if (capEl) capEl.innerHTML = caption;
+                modal.classList.add("active");
+                document.body.style.overflow = "hidden";
+            }
+            return;
+        }
+
+        // Close lightbox on click outside or close button
+        var lbClose = e.target.closest("#closeLightboxBtn");
+        var lbOverlay = e.target.closest("#portfolioLightboxModal");
+        if (lbClose || (e.target && e.target.id === "portfolioLightboxModal")) {
+            var modalToClose = document.getElementById("portfolioLightboxModal");
+            if (modalToClose) {
+                modalToClose.classList.remove("active");
+                document.body.style.overflow = "";
+            }
+        }
+    });
+
+    document.addEventListener("keydown", function (e) {
+        if (e.key === "Escape") {
+            var lbModal = document.getElementById("portfolioLightboxModal");
+            if (lbModal && lbModal.classList.contains("active")) {
+                lbModal.classList.remove("active");
+                document.body.style.overflow = "";
+            }
         }
     });
 
@@ -1324,214 +1439,6 @@
                     }
                 }
             });
-        }
-    })();
-
-    /* ==========================================================================
-       Interactive 3D Mouse Cursor & Comet Tail Engine
-       ========================================================================== */
-    (function init3DCursor() {
-        // Guard: Run strictly on desktop screens with fine pointer (no touch screens, no mobile)
-        if (window.innerWidth < 992) return;
-        if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-
-        // Create Root Container
-        var root = document.createElement('div');
-        root.id = 'cursor-3d-root';
-        root.className = 'cursor-hidden';
-        root.setAttribute('aria-hidden', 'true');
-
-        // Magnetic Aura Ring
-        var ring = document.createElement('div');
-        ring.className = 'cursor-3d-ring';
-        root.appendChild(ring);
-
-        // 3D Comet Tail Nodes
-        var tailWrap = document.createElement('div');
-        tailWrap.className = 'cursor-3d-tail';
-        var tailCount = 14;
-        var tailDots = [];
-        var tailPositions = [];
-
-        for (var i = 0; i < tailCount; i++) {
-            var dot = document.createElement('div');
-            dot.className = 'cursor-tail-dot dot-' + i;
-            tailWrap.appendChild(dot);
-            tailDots.push(dot);
-            tailPositions.push({ x: -100, y: -100 });
-        }
-        root.appendChild(tailWrap);
-
-        // 3D Lead Orb
-        var orb = document.createElement('div');
-        orb.className = 'cursor-3d-orb';
-        var glint = document.createElement('div');
-        glint.className = 'cursor-orb-specular';
-        orb.appendChild(glint);
-        root.appendChild(orb);
-
-        document.body.appendChild(root);
-
-        // State Variables
-        var mouseX = -100, mouseY = -100;
-        var orbX = -100, orbY = -100;
-        var ringX = -100, ringY = -100;
-        var ringScale = 1;
-        var targetRingScale = 1;
-        var orbScale = 1;
-        var targetOrbScale = 1;
-
-        var prevMouseX = -100, prevMouseY = -100;
-        var velocityX = 0, velocityY = 0;
-        var speed = 0;
-        var angle = 0;
-        var isHovering = false;
-        var isClicking = false;
-        var isVisible = false;
-        var animId = null;
-
-        // Tail physics lag factors — higher = snappier (from closest to farthest)
-        var tailLagFactors = [0.55, 0.50, 0.44, 0.38, 0.33, 0.28, 0.24, 0.20, 0.17, 0.14, 0.11, 0.09, 0.07, 0.05];
-
-        // Mouse Movement Listener
-        window.addEventListener('mousemove', function(e) {
-            if (!isVisible) {
-                isVisible = true;
-                root.classList.remove('cursor-hidden');
-                document.body.classList.add('has-custom-cursor');
-                orbX = mouseX = e.clientX;
-                orbY = mouseY = e.clientY;
-                ringX = e.clientX;
-                ringY = e.clientY;
-                for (var j = 0; j < tailCount; j++) {
-                    tailPositions[j].x = e.clientX;
-                    tailPositions[j].y = e.clientY;
-                }
-            }
-
-            mouseX = e.clientX;
-            mouseY = e.clientY;
-
-            if (!animId) {
-                animId = requestAnimationFrame(render);
-            }
-        }, { passive: true });
-
-        // Window boundary handling
-        document.addEventListener('mouseleave', function() {
-            isVisible = false;
-            root.classList.add('cursor-hidden');
-            document.body.classList.remove('has-custom-cursor');
-        });
-
-        document.addEventListener('mouseenter', function() {
-            isVisible = true;
-            root.classList.remove('cursor-hidden');
-            document.body.classList.add('has-custom-cursor');
-        });
-
-        // Hover Detection on Interactive Elements
-        var hoverSelector = 'a, button, [role="button"], input, textarea, select, .service-main-card, .btn-primary, .btn-secondary, .btn-details, .btn-scope, .blog-card, .faq-question, .pricing-card, .explore-card';
-
-        document.addEventListener('mouseover', function(e) {
-            var hovered = e.target && e.target.closest && e.target.closest(hoverSelector);
-            if (hovered) {
-                // Only trigger if we weren't already inside this same element
-                var from = e.relatedTarget;
-                if (!from || !hovered.contains(from)) {
-                    isHovering = true;
-                    root.classList.add('cursor-hover');
-                    targetRingScale = 1.45;
-                    targetOrbScale = 1.25;
-                    if (!animId) animId = requestAnimationFrame(render);
-                }
-            }
-        }, { passive: true });
-
-        document.addEventListener('mouseout', function(e) {
-            var hovered = e.target && e.target.closest && e.target.closest(hoverSelector);
-            if (hovered) {
-                // Only trigger if we're actually leaving this element (not just moving to a child)
-                var to = e.relatedTarget;
-                if (!to || !hovered.contains(to)) {
-                    isHovering = false;
-                    root.classList.remove('cursor-hover');
-                    targetRingScale = 1;
-                    targetOrbScale = 1;
-                    if (!animId) animId = requestAnimationFrame(render);
-                }
-            }
-        }, { passive: true });
-
-        // Mousedown & Mouseup Elastic Click State
-        document.addEventListener('mousedown', function() {
-            isClicking = true;
-            root.classList.add('cursor-click');
-            targetRingScale = 0.85;
-            targetOrbScale = 0.75;
-        }, { passive: true });
-
-        document.addEventListener('mouseup', function() {
-            isClicking = false;
-            root.classList.remove('cursor-click');
-            targetRingScale = isHovering ? 1.45 : 1;
-            targetOrbScale = isHovering ? 1.25 : 1;
-        }, { passive: true });
-
-        // High-Performance RAF Render Loop
-        function render() {
-            // Calculate velocity & 3D tilt
-            velocityX = mouseX - prevMouseX;
-            velocityY = mouseY - prevMouseY;
-            prevMouseX = mouseX;
-            prevMouseY = mouseY;
-
-            speed = Math.hypot(velocityX, velocityY);
-            if (speed > 1) {
-                angle = Math.atan2(velocityY, velocityX);
-            }
-
-            // Dynamic squash & stretch
-            var stretch = 1 + Math.min(speed * 0.002, 0.35);
-            var squeeze = 1 / stretch;
-
-            // Snappy Lead Orb — higher lerp = faster
-            orbX += (mouseX - orbX) * 0.72;
-            orbY += (mouseY - orbY) * 0.72;
-            orbScale += (targetOrbScale - orbScale) * 0.25;
-
-            orb.style.transform = 'translate3d(' + orbX + 'px, ' + orbY + 'px, 0) rotate(' + angle + 'rad) scale(' + (stretch * orbScale) + ', ' + (squeeze * orbScale) + ')';
-
-            // Snappy Aura Ring — higher lerp = faster
-            ringX += (mouseX - ringX) * 0.30;
-            ringY += (mouseY - ringY) * 0.30;
-            ringScale += (targetRingScale - ringScale) * 0.25;
-
-            ring.style.transform = 'translate3d(' + ringX + 'px, ' + ringY + 'px, 0) scale(' + ringScale + ')';
-
-            // Smooth 3D Comet Tail
-            var prevNodeX = orbX;
-            var prevNodeY = orbY;
-
-            for (var k = 0; k < tailCount; k++) {
-                var lag = tailLagFactors[k];
-                tailPositions[k].x += (prevNodeX - tailPositions[k].x) * lag;
-                tailPositions[k].y += (prevNodeY - tailPositions[k].y) * lag;
-
-                tailDots[k].style.transform = 'translate3d(' + tailPositions[k].x + 'px, ' + tailPositions[k].y + 'px, 0)';
-
-                prevNodeX = tailPositions[k].x;
-                prevNodeY = tailPositions[k].y;
-            }
-
-            // Energy-efficient loop termination when stationary
-            var totalMovement = Math.abs(mouseX - orbX) + Math.abs(mouseY - orbY) + Math.abs(mouseX - ringX) + Math.abs(mouseY - ringY) + speed;
-
-            if (totalMovement > 0.1 || isHovering || isClicking) {
-                animId = requestAnimationFrame(render);
-            } else {
-                animId = null;
-            }
         }
     })();
 })();
