@@ -6368,14 +6368,22 @@ input:checked+.slider:before {
     z-index: 2;
 }
 
+/* Row 1: Left to Right */
+.portfolio-stream-row.row-ltr .portfolio-stream-track,
+.portfolio-stream-row:first-child .portfolio-stream-track {
+    animation: streamLTR 50s linear infinite;
+}
+
+/* Row 2: Right to Left */
+.portfolio-stream-row.row-rtl .portfolio-stream-track,
+.portfolio-stream-row:last-child .portfolio-stream-track {
+    animation: streamRTL 50s linear infinite;
+}
+
 .portfolio-stream-row:hover .portfolio-stream-track,
 .portfolio-stream-row:has(.portfolio-stream-card:hover) .portfolio-stream-track,
 .portfolio-stream-row.row-is-hovered .portfolio-stream-track {
     z-index: 200 !important;
-}
-
-.portfolio-stream-row.row-fast .portfolio-stream-track {
-    animation-duration: 40s;
 }
 
 /* Pause on hover or manual pause toggle */
@@ -6386,12 +6394,23 @@ input:checked+.slider:before {
     animation-play-state: paused !important;
 }
 
+/* Row 1 Animation: Left to Right */
 @keyframes streamLTR {
     0% {
         transform: translateX(-50%);
     }
     100% {
         transform: translateX(0);
+    }
+}
+
+/* Row 2 Animation: Right to Left */
+@keyframes streamRTL {
+    0% {
+        transform: translateX(0);
+    }
+    100% {
+        transform: translateX(-50%);
     }
 }
 
