@@ -11,7 +11,7 @@
 const fs = require('fs');
 const path = require('path');
 
-const CDN_BASE = 'https://pub-13bf98d4935c47aaa575bd59013f4a38.r2.dev';
+const CDN_BASE = 'https://cdn.growellmarketing.com';
 
 // Targeted media folders
 const MEDIA_FOLDERS = [

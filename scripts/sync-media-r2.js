@@ -16,7 +16,7 @@ const CONFIG = {
   accessKeyId: 'a0b3d41a6d7bcc10ef8f1a45ae08d8e7',
   secretAccessKey: 'b90b4a7123e26c91817d0ad30b4133a8d8d6296bf6fcf878f85168c1bd35cb2f',
   bucket: 'growell-marketing-media',
-  publicDomain: 'https://pub-13bf98d4935c47aaa575bd59013f4a38.r2.dev',
+  publicDomain: 'https://cdn.growellmarketing.com',
   region: 'auto',
   service: 's3',
   concurrency: 6

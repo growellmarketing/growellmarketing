@@ -43,7 +43,7 @@
     };
 
     /* ---------- CLOUDFLARE R2 MEDIA CDN & OFFLINE FALLBACK ---------- */
-    window.GROWELL_MEDIA_CDN = "https://pub-13bf98d4935c47aaa575bd59013f4a38.r2.dev";
+    window.GROWELL_MEDIA_CDN = "https://cdn.growellmarketing.com";
     window.addEventListener('error', function (e) {
         if (e.target && e.target.tagName === 'IMG' && e.target.src && e.target.src.indexOf('r2.dev') !== -1) {
             var cdnUrl = e.target.src;
@@ -595,6 +595,26 @@
         });
     }
 
+    // Portfolio Card Shimmer Skeleton Preloader
+    if (streamCards && streamCards.length) {
+        streamCards.forEach(function (card) {
+            var inner = card.querySelector(".stream-card-inner");
+            var previewSrc = card.getAttribute("data-preview-img");
+            if (previewSrc && inner) {
+                var preloadImg = new Image();
+                preloadImg.onload = function () {
+                    inner.classList.add("is-loaded");
+                };
+                preloadImg.src = previewSrc;
+                if (preloadImg.complete) {
+                    inner.classList.add("is-loaded");
+                }
+            } else if (inner) {
+                inner.classList.add("is-loaded");
+            }
+        });
+    }
+
     /* ---------- 11. Interactive Single Master Growth / ROI Calculator ---------- */
     var budgetSlider = document.getElementById("calcBudget");
     var budgetValEl = document.getElementById("calcBudgetValue");
@@ -854,18 +874,35 @@
             return;
         }
 
-        // Portfolio Image Lightbox handler
+        // Portfolio Image Lightbox handler (Split Layout: Artwork Left, Description Right)
         var imgTrigger = e.target.closest("[data-preview-img]");
         if (imgTrigger) {
             e.preventDefault();
             var src = imgTrigger.getAttribute("data-preview-img");
             var caption = imgTrigger.getAttribute("data-caption") || "";
+            var titleElFound = imgTrigger.querySelector(".stream-card-title");
+            var catElFound = imgTrigger.querySelector(".stream-card-cat");
+            var title = titleElFound ? titleElFound.textContent.trim() : "Growell Creative Showcase";
+            var cat = catElFound ? catElFound.textContent.trim() : "Brand System & Design";
+
             var modal = document.getElementById("portfolioLightboxModal");
             var imgEl = document.getElementById("portfolioLightboxImg");
             var capEl = document.getElementById("portfolioLightboxCaption");
+            var titleEl = document.getElementById("portfolioLightboxTitle");
+            var catBadgeEl = document.getElementById("portfolioLightboxCat");
+            var serviceEl = document.getElementById("portfolioLightboxService");
+            var waBtn = document.getElementById("portfolioLightboxWhatsappBtn");
+
             if (modal && imgEl) {
                 imgEl.src = src;
                 if (capEl) capEl.innerHTML = caption;
+                if (titleEl) titleEl.textContent = title;
+                if (catBadgeEl) catBadgeEl.textContent = cat;
+                if (serviceEl) serviceEl.textContent = cat;
+                if (waBtn) {
+                    var waMsg = "Hi Growell Marketing, I saw your design for '" + title + "' on your website and would like to inquire about similar creative services for my business.";
+                    waBtn.href = "https://wa.me/918114456687?text=" + encodeURIComponent(waMsg);
+                }
                 modal.classList.add("active");
                 document.body.style.overflow = "hidden";
             }
@@ -1104,7 +1141,7 @@
         var chatToggleBtn = document.getElementById("chatToggleBtn");
         var chatWindow = document.getElementById("chatWindow");
         var chatCloseBtn = document.getElementById("chatCloseBtn");
-        var chatTeaser = document.getElementById("chatTeaser");
+        var chatPoster= document.getElementById("chatTeaser");
         var chatMessages = document.getElementById("chatMessages");
 
         if (!chatToggleBtn || !chatWindow) return;
@@ -1127,7 +1164,7 @@
         if (chatCloseBtn) chatCloseBtn.addEventListener("click", toggleChat);
 
         setTimeout(function () {
-            if (chatTeaser && !chatWindow.classList.contains("active")) {
+            if (chatPoster&& !chatWindow.classList.contains("active")) {
                 chatTeaser.style.opacity = "0";
                 chatTeaser.style.transition = "opacity 0.5s ease";
                 setTimeout(function () { chatTeaser.style.display = "none"; }, 500);
@@ -1290,7 +1327,7 @@
             },
             {
                 keywords: ["team", "founder", "owner", "harsh", "aniket", "pintu", "simran", "who is", "people"],
-                reply: "<i class=\"fa-solid fa-users\"></i> <b>Growell Leadership Team</b>:<br>&bull; <b>Harsh Panwar</b> &mdash; Founder & Marketing Head (8+ Yrs Exp)<br>&bull; <b>Aniket Singh Sisodia</b> &mdash; Managing Partner & Creative Head (8+ Yrs Exp)<br>&bull; <b>Pintu Nath</b> &mdash; Marketing Manager & Tech Lead (4+ Yrs Exp)<br><br><a href='/about-us' style='color:#654E9F;font-weight:700;'>Read Leadership Bios &rarr;</a>"
+                reply: "<i class=\"fa-solid fa-users\"></i> <b>Growell Leadership Team</b>:<br>&bull; <b>Harsh Panwar</b> - Founder & Marketing Head (8+ Yrs Exp)<br>&bull; <b>Aniket Singh Sisodia</b> - Managing Partner & Creative Head (8+ Yrs Exp)<br>&bull; <b>Pintu Nath</b> - Marketing Manager & Tech Lead (4+ Yrs Exp)<br><br><a href='/about-us' style='color:#654E9F;font-weight:700;'>Read Leadership Bios &rarr;</a>"
             },
             {
                 keywords: ["price", "pricing", "cost", "charge", "budget", "fees", "retainer"],
@@ -1355,7 +1392,7 @@
                     </div>
                     <div class="audit-modal-header" style="text-align: center; margin-bottom: 16px;">
                         <h2 style="font-size: 22px; margin-bottom: 6px;">Wait! Before You Leave...</h2>
-                        <p style="font-size: 14px; color: #555;">Get Our Free <b>7-Point Digital Audit & Growth Strategy Report</b> (&#8377;15,000 Value &mdash; 100% Free)</p>
+                        <p style="font-size: 14px; color: #555;">Get Our Free <b>7-Point Digital Audit & Growth Strategy Report</b> (&#8377;15,000 Value - 100% Free)</p>
                     </div>
                     <form id="exitIntentForm" style="display: flex; flex-direction: column; gap: 12px;">
                         <input type="text" id="exitName" placeholder="Your Full Name *" required style="padding: 12px 14px; border: 1px solid #ddd; border-radius: 8px; font-size: 14px;">
