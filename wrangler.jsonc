@@ -1,4 +1,4 @@
-{
+﻿{
   "$schema": "node_modules/wrangler/config-schema.json",
   "name": "growellmarketing",
   "compatibility_date": "2026-08-25",
@@ -7,7 +7,6 @@
   },
   "assets": {
     "directory": ".",
-    "html_handling": "drop-trailing-slash",
     "exclude": [
       ".git/**",
       ".github/**",
