@@ -6215,14 +6215,15 @@ input:checked+.slider:before {
 
 .portfolio-stream-wrapper.is-grid-view .portfolio-stream-row {
     margin-bottom: 0;
+    padding: 0 !important;
     overflow: visible;
     width: 100%;
 }
 
 .portfolio-stream-wrapper.is-grid-view .portfolio-stream-track {
     display: grid !important;
-    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)) !important;
-    gap: 24px !important;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)) !important;
+    gap: 28px !important;
     animation: none !important;
     transform: none !important;
     width: 100% !important;
@@ -6230,16 +6231,43 @@ input:checked+.slider:before {
 
 .portfolio-stream-wrapper.is-grid-view .portfolio-stream-card {
     width: 100% !important;
-    height: 380px !important;
+    max-width: 100% !important;
+    height: auto !important;
+    aspect-ratio: 210 / 297 !important; /* Authentic A4 Portrait Aspect Ratio */
     flex: none !important;
     transform: none !important;
+    filter: none !important;
     opacity: 1 !important;
+    position: relative;
+    z-index: 1;
+}
+
+.portfolio-stream-wrapper.is-grid-view .portfolio-stream-card .stream-card-inner {
+    width: 100% !important;
+    height: 100% !important;
+    transform: none !important; /* Straight A4 alignment in grid */
+    border-radius: 12px;
+    box-shadow: 0 10px 25px rgba(15, 12, 40, 0.12);
+    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s ease;
+}
+
+.portfolio-stream-wrapper.is-grid-view .portfolio-stream-card .stream-card-img {
+    width: 100% !important;
+    height: 100% !important;
+    background-size: cover !important;
+    background-position: center top !important;
 }
 
 .portfolio-stream-wrapper.is-grid-view .portfolio-stream-card:hover {
-    transform: translateY(-8px) scale(1.02) !important;
-    box-shadow: 0 20px 40px rgba(15, 12, 40, 0.2) !important;
-    z-index: 50 !important;
+    z-index: 20 !important;
+    filter: none !important;
+    opacity: 1 !important;
+}
+
+.portfolio-stream-wrapper.is-grid-view .portfolio-stream-card:hover .stream-card-inner {
+    transform: translateY(-8px) scale(1.03) !important;
+    box-shadow: 0 22px 45px rgba(15, 12, 40, 0.25) !important;
+    border: 2px solid #654E9F;
 }
 
 .portfolio-stream-wrapper.is-grid-view .is-clone-card {
@@ -6248,6 +6276,31 @@ input:checked+.slider:before {
 
 .portfolio-stream-wrapper.is-grid-view .portfolio-stream-card.dimmed {
     display: none !important;
+}
+
+/* In grid mode, do not blur sibling cards on hover */
+.portfolio-stream-wrapper.is-grid-view:has(.portfolio-stream-card:hover) .portfolio-stream-card:not(:hover),
+.portfolio-stream-wrapper.is-grid-view.has-hovered-card .portfolio-stream-card:not(:hover):not(.is-hovered) {
+    filter: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+}
+
+@media (max-width: 768px) {
+    .portfolio-stream-wrapper.is-grid-view .portfolio-stream-track {
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 16px !important;
+    }
+}
+
+@media (max-width: 480px) {
+    .portfolio-stream-wrapper.is-grid-view {
+        padding: 15px 12px 40px 12px;
+    }
+    .portfolio-stream-wrapper.is-grid-view .portfolio-stream-track {
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 12px !important;
+    }
 }
 
 .portfolio-stream-wrapper {
