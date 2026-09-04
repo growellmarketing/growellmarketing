@@ -11,9 +11,12 @@
     <link
         href="https://fonts.googleapis.com/css2?family=Lato:wght@300..700&family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap"
         rel="stylesheet">
-    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/style.min.css">
     <link rel="icon" href="/assets/Growell_logo_circle.webp" type="image/png" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <!-- CDN Preconnect & DNS-Prefetch for instant asset delivery -->
+    <link rel="preconnect" href="https://cdn.growellmarketing.com" crossorigin>
+    <link rel="dns-prefetch" href="https://cdn.growellmarketing.com">
 </head>
 
 <body>
@@ -35,7 +38,7 @@
 
         <nav class="navbaar">
             <div class="nav-right">
-                <a href="/"><img src="/assets/Growell_Logo_Final.webp" width="150px" alt="Growell Marketing Agency Logo"></a>
+                <a href="/"><img src="/assets/Growell_Logo_Final.webp" width="150px" alt="Growell Marketing Agency Logo" decoding="async"></a>
             </div>
             <div class="nav-left">
                 <ul>
@@ -194,7 +197,7 @@
     <footer class="site-footer">
         <div class="footer-grid">
             <div class="footer-brand">
-                <a href="/"><img src="/assets/Growell_Logo_Final.webp" alt="Growell Marketing Agency Logo"></a>
+                <a href="/"><img src="/assets/Growell_Logo_Final.webp" alt="Growell Marketing Agency Logo" decoding="async"></a>
                 <p>Full-service digital marketing agency helping small and growing businesses turn visitors into customers through SEO, social, content, and paid ads.</p>
                             <div class="footer-social-wrapper">
                     <span class="footer-social-heading">Connect With Us</span>
@@ -283,7 +286,7 @@
                 <div class="chat-header-user">
                     <div class="chat-avatar">
                         <img src="/assets/Growell_logo_circle.webp" alt="Growell AI Assistant"
-                            onerror="this.style.display='none'">
+                            onerror="this.style.display='none'" decoding="async">
                         <span class="avatar-initials">G</span>
                     </div>
                     <div class="chat-status-info">

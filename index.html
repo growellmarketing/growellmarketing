@@ -79,17 +79,20 @@
     </script>
 
     <!-- Resource Hints - Preconnect to external domains -->
+        <!-- CDN Preconnect & DNS-Prefetch for instant asset delivery -->
+    <link rel="preconnect" href="https://cdn.growellmarketing.com" crossorigin>
+    <link rel="dns-prefetch" href="https://cdn.growellmarketing.com">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="preconnect" href="https://cdnjs.cloudflare.com">
 
     <!-- Preload LCP hero background image -->
-    <link rel="preload" as="image" href="/assets/hero-bacground.webp" type="image/webp">
+    <link rel="preload" as="image" href="/assets/hero-bacground.webp" type="image/webp" fetchpriority="high" fetchpriority="high">
 
     <link
         href="https://fonts.googleapis.com/css2?family=Lato:wght@300..700&family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap"
         rel="stylesheet">
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/style.min.css">
     <link rel="icon" href="/assets/Growell_logo_circle.webp" type="image/webp" />
 
     <!-- Font Awesome - Non-render-blocking async load -->
@@ -130,7 +133,7 @@
 
         <nav class="navbaar">
             <div class="nav-right">
-                <a href="/" aria-label="Growell Marketing Homepage"><img src="/assets/Growell_Logo_Final.webp" width="140" alt="Growell Marketing Agency Logo"></a>
+                <a href="/" aria-label="Growell Marketing Homepage"><img src="/assets/Growell_Logo_Final.webp" width="140" alt="Growell Marketing Agency Logo" decoding="async"></a>
             </div>
             <div class="nav-left">
                 <ul>
@@ -228,7 +231,7 @@
                     <!-- 2. Social Media Marketing -->
                     <div class="service-main-card">
                         <div class="service-card-img"
-                            style="background-image: url(https://cdn.growellmarketing.com/services-assets/Social\ Media\ Marketing.webp);">
+                            style="background-image: url('https://cdn.growellmarketing.com/services-assets/Social%20Media%20Marketing.webp');">
                             <span class="service-card-badge">Engagement</span>
                         </div>
                         <div class="service-card-body">
@@ -318,7 +321,7 @@
 
                     <!-- 6. Branding & Identity -->
                     <div class="service-main-card">
-                        <div class="service-card-img" style="background-image: url(https://cdn.growellmarketing.com/services-assets/Branding\ &\ Visual\ Identity\ Design.webp);">
+                        <div class="service-card-img" style="background-image: url('https://cdn.growellmarketing.com/services-assets/Branding%20%26%20Visual%20Identity%20Design.webp');">
                             <span class="service-card-badge">Visual Identity</span>
                         </div>
                         <div class="service-card-body">
@@ -341,7 +344,7 @@
 
                     <!-- 7. Email Marketing -->
                     <div class="service-main-card">
-                        <div class="service-card-img" style="background-image: url(https://cdn.growellmarketing.com/services-assets/Email\ Marketing.webp);">
+                        <div class="service-card-img" style="background-image: url('https://cdn.growellmarketing.com/services-assets/Email%20Marketing.webp');">
                             <span class="service-card-badge">Automation</span>
                         </div>
                         <div class="service-card-body">
@@ -363,7 +366,7 @@
 
                     <!-- 8. Online Reputation Management -->
                     <div class="service-main-card">
-                        <div class="service-card-img" style="background-image: url(https://cdn.growellmarketing.com/services-assets/online\ reputation\ management.webp);">
+                        <div class="service-card-img" style="background-image: url('https://cdn.growellmarketing.com/services-assets/online%20reputation%20management.webp');">
                             <span class="service-card-badge">Brand Protection</span>
                         </div>
                         <div class="service-card-body">
@@ -408,22 +411,22 @@
                             <div class="multi-marquee-row row-ltr">
                                 <div class="multi-marquee-track">
                                     <div class="client-logo-card"><img src="https://cdn.growellmarketing.com/clients/the-berman.svg" alt="The Berman"
-                                            loading="lazy"></div>
+                                            loading="lazy" decoding="async"></div>
                                     <div class="client-logo-card"><img src="https://cdn.growellmarketing.com/clients/Daksh Construction.webp"
-                                            alt="Daksh Construction" loading="lazy"></div>
+                                            alt="Daksh Construction" loading="lazy" decoding="async"></div>
                                     <div class="client-logo-card"><img src="https://cdn.growellmarketing.com/clients/JM Build Group.webp"
-                                            alt="JM Build Group" loading="lazy"></div>
+                                            alt="JM Build Group" loading="lazy" decoding="async"></div>
                                     <div class="client-logo-card"><img src="https://cdn.growellmarketing.com/clients/Jangid Interior.webp"
-                                            alt="Jangid Interior" loading="lazy"></div>
+                                            alt="Jangid Interior" loading="lazy" decoding="async"></div>
                                     <!-- Duplicate -->
                                     <div class="client-logo-card"><img src="https://cdn.growellmarketing.com/clients/the-berman.svg" alt="The Berman"
-                                            loading="lazy"></div>
+                                            loading="lazy" decoding="async"></div>
                                     <div class="client-logo-card"><img src="https://cdn.growellmarketing.com/clients/Daksh Construction.webp"
-                                            alt="Daksh Construction" loading="lazy"></div>
+                                            alt="Daksh Construction" loading="lazy" decoding="async"></div>
                                     <div class="client-logo-card"><img src="https://cdn.growellmarketing.com/clients/JM Build Group.webp"
-                                            alt="JM Build Group" loading="lazy"></div>
+                                            alt="JM Build Group" loading="lazy" decoding="async"></div>
                                     <div class="client-logo-card"><img src="https://cdn.growellmarketing.com/clients/Jangid Interior.webp"
-                                            alt="Jangid Interior" loading="lazy"></div>
+                                            alt="Jangid Interior" loading="lazy" decoding="async"></div>
                                 </div>
                             </div>
 
@@ -431,21 +434,21 @@
                             <div class="multi-marquee-row row-rtl">
                                 <div class="multi-marquee-track">
                                     <div class="client-logo-card"><img src="https://cdn.growellmarketing.com/clients/Jay Enterpises.webp"
-                                            alt="Jay Enterprises" loading="lazy"></div>
+                                            alt="Jay Enterprises" loading="lazy" decoding="async"></div>
                                     <div class="client-logo-card"><img src="https://cdn.growellmarketing.com/clients/Gaj Yoga.webp" alt="Gaj Yoga"
-                                            loading="lazy"></div>
+                                            loading="lazy" decoding="async"></div>
                                     <div class="client-logo-card"><img src="https://cdn.growellmarketing.com/clients/MMA Fata.webp" alt="MMA Fata"
-                                            loading="lazy"></div>
-                                    <div class="client-logo-card"><img src="https://cdn.growellmarketing.com/clients/Myo.webp" alt="Myo" loading="lazy">
+                                            loading="lazy" decoding="async"></div>
+                                    <div class="client-logo-card"><img src="https://cdn.growellmarketing.com/clients/Myo.webp" alt="Myo" loading="lazy" decoding="async">
                                     </div>
                                     <!-- Duplicate -->
                                     <div class="client-logo-card"><img src="https://cdn.growellmarketing.com/clients/Jay Enterpises.webp"
-                                            alt="Jay Enterprises" loading="lazy"></div>
+                                            alt="Jay Enterprises" loading="lazy" decoding="async"></div>
                                     <div class="client-logo-card"><img src="https://cdn.growellmarketing.com/clients/Gaj Yoga.webp" alt="Gaj Yoga"
-                                            loading="lazy"></div>
+                                            loading="lazy" decoding="async"></div>
                                     <div class="client-logo-card"><img src="https://cdn.growellmarketing.com/clients/MMA Fata.webp" alt="MMA Fata"
-                                            loading="lazy"></div>
-                                    <div class="client-logo-card"><img src="https://cdn.growellmarketing.com/clients/Myo.webp" alt="Myo" loading="lazy">
+                                            loading="lazy" decoding="async"></div>
+                                    <div class="client-logo-card"><img src="https://cdn.growellmarketing.com/clients/Myo.webp" alt="Myo" loading="lazy" decoding="async">
                                     </div>
                                 </div>
                             </div>
@@ -454,22 +457,22 @@
                             <div class="multi-marquee-row row-ltr">
                                 <div class="multi-marquee-track">
                                     <div class="client-logo-card"><img src="https://cdn.growellmarketing.com/clients/The Grip War.webp" alt="The Grip War"
-                                            loading="lazy"></div>
+                                            loading="lazy" decoding="async"></div>
                                     <div class="client-logo-card"><img src="https://cdn.growellmarketing.com/clients/certificado-logo-Spain.webp"
-                                            alt="Certificado Logo Spain" loading="lazy"></div>
+                                            alt="Certificado Logo Spain" loading="lazy" decoding="async"></div>
                                     <div class="client-logo-card"><img src="https://cdn.growellmarketing.com/clients/epc-logo.webp" alt="EPC Logo"
-                                            loading="lazy"></div>
+                                            loading="lazy" decoding="async"></div>
                                     <div class="client-logo-card"><img src="https://cdn.growellmarketing.com/clients/certificado-energia-portugal.webp"
-                                            alt="Certificado Energia Portugal" loading="lazy"></div>
+                                            alt="Certificado Energia Portugal" loading="lazy" decoding="async"></div>
                                     <!-- Duplicate -->
                                     <div class="client-logo-card"><img src="https://cdn.growellmarketing.com/clients/The Grip War.webp" alt="The Grip War"
-                                            loading="lazy"></div>
+                                            loading="lazy" decoding="async"></div>
                                     <div class="client-logo-card"><img src="https://cdn.growellmarketing.com/clients/certificado-logo-Spain.webp"
-                                            alt="Certificado Logo Spain" loading="lazy"></div>
+                                            alt="Certificado Logo Spain" loading="lazy" decoding="async"></div>
                                     <div class="client-logo-card"><img src="https://cdn.growellmarketing.com/clients/epc-logo.webp" alt="EPC Logo"
-                                            loading="lazy"></div>
+                                            loading="lazy" decoding="async"></div>
                                     <div class="client-logo-card"><img src="https://cdn.growellmarketing.com/clients/certificado-energia-portugal.webp"
-                                            alt="Certificado Energia Portugal" loading="lazy"></div>
+                                            alt="Certificado Energia Portugal" loading="lazy" decoding="async"></div>
                                 </div>
                             </div>
                         </div>
@@ -595,7 +598,7 @@
                         </div>
                         <p class="quote">"I was honestly frustrated with our low sales and wasn’t actively looking for an agency when Growell reached out to us. I wasn’t very convinced initially, but decided to give them a chance. Once they started working on our Meta Ads, the results changed dramatically. Our sales increased by more than 200% compared to the previous month. What I really liked was their understanding of our maternity wear audience and how they optimized the campaigns based on actual results. Very happy with the growth so far and would definitely recommend Growell for Meta Ads and e-commerce performance marketing."</p>
                         <div class="testimonial-person">
-                            <img class="testimonial-avatar" src="https://cdn.growellmarketing.com/reviews-images/garbhini.png" alt="garbhini Google Review" width="46" height="46" loading="lazy">
+                            <img class="testimonial-avatar" src="https://cdn.growellmarketing.com/reviews-images/garbhini.png" alt="garbhini Google Review" width="46" height="46" loading="lazy" decoding="async">
                             <div>
                                 <div class="name">garbhini <span class="verified-tick" title="Verified Google Review"><i class="fa-solid fa-circle-check"></i></span></div>
                                 <div class="role">Verified Google Review &bull; Meta Ads &amp; E-commerce</div>
@@ -616,7 +619,7 @@
                         </div>
                         <p class="quote">"We recently worked with Growell for performance marketing and the experience has been excellent. The results from our Meta Ads and Google Ads campaigns were genuinely impressive, especially in terms of lead quality and overall performance. What stood out was their understanding of the strategy behind the campaigns, not just running ads for the sake of it. They were responsive, transparent and constantly focused on improving the results. Really happy with the work and would definitely recommend Growell to anyone looking for a performance marketing agency."</p>
                         <div class="testimonial-person">
-                            <img class="testimonial-avatar" src="https://cdn.growellmarketing.com/reviews-images/black-hot-chilli-peppers.png" alt="Black Hot Chilli Peppers Google Review" width="46" height="46" loading="lazy">
+                            <img class="testimonial-avatar" src="https://cdn.growellmarketing.com/reviews-images/black-hot-chilli-peppers.png" alt="Black Hot Chilli Peppers Google Review" width="46" height="46" loading="lazy" decoding="async">
                             <div>
                                 <div class="name">Black Hot Chilli Peppers <span class="verified-tick" title="Verified Google Review"><i class="fa-solid fa-circle-check"></i></span></div>
                                 <div class="role">Verified Google Review &bull; Meta &amp; Google Ads</div>
@@ -637,7 +640,7 @@
                         </div>
                         <p class="quote">"Really happy with the work done by Growell Digital Marketing Services. The team is young, creative and very easy to work with. What I liked most is that they actually listen to what you want and then come up with practical ideas instead of just giving you a standard package. They’re responsive, helpful and genuinely involved in the work. Would definitely recommend them to anyone looking for a reliable digital marketing team in Ajmer."</p>
                         <div class="testimonial-person">
-                            <img class="testimonial-avatar" src="https://cdn.growellmarketing.com/reviews-images/ankur-sharma.png" alt="Ankur Sharma Google Review" width="46" height="46" loading="lazy">
+                            <img class="testimonial-avatar" src="https://cdn.growellmarketing.com/reviews-images/ankur-sharma.png" alt="Ankur Sharma Google Review" width="46" height="46" loading="lazy" decoding="async">
                             <div>
                                 <div class="name">Ankur Sharma <span class="verified-tick" title="Verified Google Review"><i class="fa-solid fa-circle-check"></i></span></div>
                                 <div class="role">Verified Google Review &bull; Ajmer, Rajasthan</div>
@@ -658,7 +661,7 @@
                         </div>
                         <p class="quote">"Had a really good experience with Growell Digital Marketing Services. The team is professional, responsive and genuinely takes the time to understand the business requirements before suggesting solutions. Their approach feels practical rather than just focused on selling services.<br><br>Really appreciate the effort and attention to detail. Wishing Growell Digital Marketing Services all the best for the journey ahead. Definitely recommend giving them a try if you’re looking for digital marketing or online business solutions in Ajmer."</p>
                         <div class="testimonial-person">
-                            <img class="testimonial-avatar" src="https://cdn.growellmarketing.com/reviews-images/vishal-pawar.png" alt="Vishal Pawar Google Review" width="46" height="46" loading="lazy">
+                            <img class="testimonial-avatar" src="https://cdn.growellmarketing.com/reviews-images/vishal-pawar.png" alt="Vishal Pawar Google Review" width="46" height="46" loading="lazy" decoding="async">
                             <div>
                                 <div class="name">Vishal Pawar <span class="verified-tick" title="Verified Google Review"><i class="fa-solid fa-circle-check"></i></span></div>
                                 <div class="role">Verified Google Review &bull; Digital Marketing Ajmer</div>
@@ -680,7 +683,7 @@
                     <div class="blog-card">
                         <!-- <div class="blog-img" style="background-image: url('https://cdn.growellmarketing.com/blog-assets/e-commerce-Marketing-Strategy-That-Actually-Drives-Sales.webp'); background-size: cover; background-position: center; height: 180px;"></div> -->
 
-                        <div><img src="https://cdn.growellmarketing.com/blog-assets/e-commerce-Marketing-Strategy-That-Actually-Drives-Sales.webp" alt=""></div>
+                        <div><img src="https://cdn.growellmarketing.com/blog-assets/e-commerce-Marketing-Strategy-That-Actually-Drives-Sales.webp" alt="" decoding="async"></div>
 
                         <div class="blog-card-body">
                             <span class="blog-tag" style="background: rgba(101, 78, 159, 0.12); color: #654E9F; padding: 4px 10px; border-radius: 20px; width: fit-content; font-size: 11.5px; font-weight: 700; text-transform: uppercase;">E-Commerce</span>
@@ -693,9 +696,9 @@
                         </div>
                     </div>
                     <div class="blog-card">
-                        <!-- <div class="blog-img" style="background-image: url('https://cdn.growellmarketing.com/blog-assets/7\ Technical\ SEO\ Fixes.webp'); background-size: cover; background-position: center; height: 180px;"></div> -->
+                        <!-- <div class="blog-img" style="background-image: url('https://cdn.growellmarketing.com/blog-assets/7%20Technical%20SEO%20Fixes.webp'); background-size: cover; background-position: center; height: 180px;"></div> -->
 
-                        <div><img src="https://cdn.growellmarketing.com/blog-assets/7 Technical SEO Fixes.webp" alt="7 Technical SEO Fixes That Move Rankings Fastest" loading="lazy"></div>
+                        <div><img src="https://cdn.growellmarketing.com/blog-assets/7 Technical SEO Fixes.webp" alt="7 Technical SEO Fixes That Move Rankings Fastest" loading="lazy" decoding="async"></div>
 
                         <div class="blog-card-body">
                             <span class="blog-tag" style="background: rgba(101, 78, 159, 0.12); color: #654E9F; padding: 4px 10px; border-radius: 20px; width: fit-content; font-size: 11.5px; font-weight: 700; text-transform: uppercase;">SEO</span>
@@ -708,7 +711,7 @@
                         </div>
                     </div>
                     <div class="blog-card">
-                        <div><img src="https://cdn.growellmarketing.com/blog-assets/High-Converting-Content-Strategy.webp" alt="How to Build a High-Converting Content Strategy That Drives Traffic and Sales" loading="lazy"></div>
+                        <div><img src="https://cdn.growellmarketing.com/blog-assets/High-Converting-Content-Strategy.webp" alt="How to Build a High-Converting Content Strategy That Drives Traffic and Sales" loading="lazy" decoding="async"></div>
 
                         <div class="blog-card-body">
                             <span class="blog-tag" style="background: rgba(101, 78, 159, 0.12); color: #654E9F; padding: 4px 10px; border-radius: 20px; width: fit-content; font-size: 11.5px; font-weight: 700; text-transform: uppercase;">Content Strategy</span>
@@ -833,7 +836,7 @@
         <div class="footer-grid">
             <div class="footer-brand">
                 <a href="/" aria-label="Growell Marketing Homepage"><img src="/assets/Growell_Logo_Final.webp" width="140" alt="Growell Marketing Agency Logo"
-                        loading="lazy"></a>
+                        loading="lazy" decoding="async"></a>
                 <p>Full-service digital marketing agency helping small and growing businesses turn visitors into
                     customers through SEO, social, content, and paid ads.</p>
                 <div class="footer-social-wrapper">
@@ -928,7 +931,7 @@
                 <div class="chat-header-user">
                     <div class="chat-avatar">
                         <img src="/assets/Growell_logo_circle.webp" width="40" height="40" alt="Growell AI Assistant"
-                            loading="lazy" onerror="this.style.display='none'">
+                            loading="lazy" onerror="this.style.display='none'" decoding="async">
                         <span class="avatar-initials">G</span>
                     </div>
                     <div class="chat-status-info">

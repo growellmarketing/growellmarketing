@@ -6717,47 +6717,34 @@ input:checked+.slider:before {
 }
 
 /* Skeleton Shimmer Sweep Effect */
-@keyframes cardShimmerSweep {
-    0% {
-        transform: translateX(-150%) skewX(-20deg);
-    }
-    100% {
-        transform: translateX(150%) skewX(-20deg);
-    }
-}
-
 .stream-card-inner::after {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: -50%;
-    width: 200%;
-    height: 100%;
-    background: linear-gradient(
-        90deg,
-        transparent 0%,
-        rgba(255, 255, 255, 0.14) 50%,
-        transparent 100%
-    );
-    animation: cardShimmerSweep 1.8s infinite ease-in-out;
-    pointer-events: none;
-    z-index: 2;
-    opacity: 1;
-    transition: opacity 0.4s ease;
-}
-
-.stream-card-inner.is-loaded::after {
-    opacity: 0;
-    animation: none;
+    display: none;
 }
 
 .stream-card-img {
     width: 100%;
     height: 100%;
+    position: relative;
+    overflow: hidden;
+    background: #181926;
     background-size: cover;
     background-position: center top;
     background-repeat: no-repeat;
     transition: transform 0.5s ease;
+}
+
+.stream-card-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center top;
+    display: block;
+    transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.portfolio-stream-card:hover .stream-card-img img,
+.portfolio-stream-card.is-hovered .stream-card-img img {
+    transform: scale(1.06);
 }
 
 .stream-card-badge-wrap {
