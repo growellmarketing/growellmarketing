@@ -20,7 +20,8 @@ const MEDIA_FOLDERS = [
   'services-assets',
   'clients',
   'hero assets',
-  'photos'
+  'photos',
+  'reviews-images'
 ];
 
 const mode = process.argv.includes('--local') ? 'local' : 'cdn';
@@ -30,7 +31,22 @@ console.log(`🔧 Updating Media URLs mode: [${mode.toUpperCase()}]`);
 console.log(`🌐 CDN Base: ${CDN_BASE}`);
 console.log(`======================================================\n`);
 
-const htmlFiles = fs.readdirSync('.').filter(f => f.endsWith('.html'));
+function findHtmlFiles(dir) {
+  let results = [];
+  const entries = fs.readdirSync(dir, { withFileTypes: true });
+  for (const entry of entries) {
+    if (['.git', 'node_modules', '.system_generated', 'scratch', '.portfolio-images-backup'].includes(entry.name)) continue;
+    const full = path.join(dir, entry.name);
+    if (entry.isDirectory()) {
+      results = results.concat(findHtmlFiles(full));
+    } else if (entry.isFile() && entry.name.endsWith('.html')) {
+      results.push(full);
+    }
+  }
+  return results;
+}
+
+const htmlFiles = findHtmlFiles('.');
 
 let totalReplacements = 0;
 

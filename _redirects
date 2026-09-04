@@ -1,0 +1,10 @@
+# Cloudflare Edge 301 Redirects (SEO URL Migration)
+/services/seo                                 /services/seo-services-ajmer                  301
+/services/web-design                          /services/web-design-company-ajmer            301
+/services/social-media-marketing-services     /services/social-media-marketing-ajmer        301
+/services/branding                            /services/branding-agency-ajmer               301
+/services/orm                                 /services/online-reputation-management        301
+/services/e-commerce                          /services/ecommerce-marketing-agency          301
+/services/ecommerce                           /services/ecommerce-marketing-agency          301
+/services/performance-marketing               /services/performance-marketing-agency        301
+/services/paid-advertising                    /services/performance-marketing-agency        301

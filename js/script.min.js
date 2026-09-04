@@ -1307,19 +1307,19 @@
             },
             {
                 keywords: ["seo", "rank", "google ranking", "search engine", "organic traffic", "keywords"],
-                reply: "<i class=\"fa-solid fa-chart-line\"></i> <b>Search Engine Optimization (SEO)</b>:<br>We rank your website #1 on Google. Inclusions:<br>&bull; Technical SEO & PageSpeed Optimization<br>&bull; On-Page & Keyword Strategy<br>&bull; High-Authority Backlink Building<br>&bull; Monthly Performance Reports<br><br><a href='/services/seo' style='color:#654E9F;font-weight:700;'>View SEO Services &rarr;</a>"
+                reply: "<i class=\"fa-solid fa-chart-line\"></i> <b>Search Engine Optimization (SEO)</b>:<br>We rank your website #1 on Google. Inclusions:<br>&bull; Technical SEO & PageSpeed Optimization<br>&bull; On-Page & Keyword Strategy<br>&bull; High-Authority Backlink Building<br>&bull; Monthly Performance Reports<br><br><a href='/services/seo-services-ajmer' style='color:#654E9F;font-weight:700;'>View SEO Services &rarr;</a>"
             },
             {
                 keywords: ["ads", "paid ads", "google ads", "meta ads", "facebook ads", "instagram ads", "ppc", "roas"],
-                reply: "<i class=\"fa-solid fa-bullhorn\"></i> <b>Paid Advertising (Google & Meta Ads)</b>:<br>We run high-converting ad campaigns with 3.5x - 4.5x average ROAS. Inclusions:<br>&bull; Meta (FB/IG) & Google Search/Shopping Ads<br>&bull; High-Converting Copy & Ad Creatives<br>&bull; Audience Targeting & Retargeting Funnels<br><br><a href='/services/paid-advertising' style='color:#654E9F;font-weight:700;'>Explore Paid Ads &rarr;</a>"
+                reply: "<i class=\"fa-solid fa-bullhorn\"></i> <b>Paid Advertising (Google & Meta Ads)</b>:<br>We run high-converting ad campaigns with 3.5x - 4.5x average ROAS. Inclusions:<br>&bull; Meta (FB/IG) & Google Search/Shopping Ads<br>&bull; High-Converting Copy & Ad Creatives<br>&bull; Audience Targeting & Retargeting Funnels<br><br><a href='/services/performance-marketing-agency' style='color:#654E9F;font-weight:700;'>Explore Paid Ads &rarr;</a>"
             },
             {
                 keywords: ["web", "website", "design", "development", "developer", "web design", "site"],
-                reply: "<i class=\"fa-solid fa-laptop-code\"></i> <b>Website Design & Full-Stack Development</b>:<br>Sub-second loading speed, mobile responsive, high-converting custom code websites:<br>&bull; Modern Responsive UI/UX<br>&bull; Lead Generation Funnels<br>&bull; SEO Ready Architecture & Security<br><br><a href='/services/web-design' style='color:#654E9F;font-weight:700;'>Explore Web Development &rarr;</a>"
+                reply: "<i class=\"fa-solid fa-laptop-code\"></i> <b>Website Design & Full-Stack Development</b>:<br>Sub-second loading speed, mobile responsive, high-converting custom code websites:<br>&bull; Modern Responsive UI/UX<br>&bull; Lead Generation Funnels<br>&bull; SEO Ready Architecture & Security<br><br><a href='/services/web-design-company-ajmer' style='color:#654E9F;font-weight:700;'>Explore Web Development &rarr;</a>"
             },
             {
                 keywords: ["social", "social media", "instagram", "facebook", "reels", "posts", "content strategy"],
-                reply: "<i class=\"fa-solid fa-hashtag\"></i> <b>Social Media Marketing</b>:<br>We build your brand visual identity and engage your target audience:<br>&bull; Custom Graphic & Video Creatives<br>&bull; Content Calendar & Copywriting<br>&bull; Organic Growth & Community Management<br><br><a href='/services/social-media-marketing-services' style='color:#654E9F;font-weight:700;'>Explore Social Media &rarr;</a>"
+                reply: "<i class=\"fa-solid fa-hashtag\"></i> <b>Social Media Marketing</b>:<br>We build your brand visual identity and engage your target audience:<br>&bull; Custom Graphic & Video Creatives<br>&bull; Content Calendar & Copywriting<br>&bull; Organic Growth & Community Management<br><br><a href='/services/social-media-marketing-ajmer' style='color:#654E9F;font-weight:700;'>Explore Social Media &rarr;</a>"
             },
             {
                 keywords: ["services", "service", "what do you do", "offer"],
