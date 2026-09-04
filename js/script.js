@@ -42,6 +42,17 @@
         });
     };
 
+    /* ---------- CLOUDFLARE R2 MEDIA CDN & OFFLINE FALLBACK ---------- */
+    window.GROWELL_MEDIA_CDN = "https://pub-13bf98d4935c47aaa575bd59013f4a38.r2.dev";
+    window.addEventListener('error', function (e) {
+        if (e.target && e.target.tagName === 'IMG' && e.target.src && e.target.src.indexOf('r2.dev') !== -1) {
+            var cdnUrl = e.target.src;
+            var localPath = '/' + decodeURIComponent(cdnUrl.replace(/^https:\/\/[^\/]+\//, ''));
+            console.warn('[Growell CDN Fallback] Falling back to local asset:', localPath);
+            e.target.src = localPath;
+        }
+    }, true);
+
     var reduceMotion = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
     /* ---------- Native Butter-Smooth Anchor Link Scroll ---------- */
@@ -524,9 +535,23 @@
         });
     }
 
-    // Stream Play / Pause Control
+    // Stream Play / Pause & Grid View Controls
     var streamToggleBtn = document.getElementById("streamToggleBtn");
+    var streamGridToggleBtn = document.getElementById("streamGridToggleBtn");
     var streamWrapper = document.getElementById("portfolioStreamWrapper");
+
+    // Automatically mark clone cards so grid view shows only unique cards
+    if (streamWrapper) {
+        var streamRows = streamWrapper.querySelectorAll(".portfolio-stream-row");
+        streamRows.forEach(function (row) {
+            var cards = row.querySelectorAll(".portfolio-stream-card");
+            var half = Math.floor(cards.length / 2);
+            for (var i = half; i < cards.length; i++) {
+                cards[i].classList.add("is-clone-card");
+            }
+        });
+    }
+
     if (streamToggleBtn && streamWrapper) {
         streamToggleBtn.addEventListener("click", function () {
             var isPaused = streamWrapper.classList.toggle("paused");
@@ -534,6 +559,22 @@
                 streamToggleBtn.innerHTML = '<i class="fa-solid fa-play"></i> Resume Motion';
             } else {
                 streamToggleBtn.innerHTML = '<i class="fa-solid fa-pause"></i> Pause Motion';
+            }
+        });
+    }
+
+    // Grid View Toggle Control
+    if (streamGridToggleBtn && streamWrapper) {
+        streamGridToggleBtn.addEventListener("click", function () {
+            var isGrid = streamWrapper.classList.toggle("is-grid-view");
+            if (isGrid) {
+                streamGridToggleBtn.classList.add("active");
+                streamGridToggleBtn.innerHTML = '<i class="fa-solid fa-film"></i> Stream View';
+                if (streamToggleBtn) streamToggleBtn.style.display = "none";
+            } else {
+                streamGridToggleBtn.classList.remove("active");
+                streamGridToggleBtn.innerHTML = '<i class="fa-solid fa-table-cells"></i> Grid View';
+                if (streamToggleBtn) streamToggleBtn.style.display = "";
             }
         });
     }

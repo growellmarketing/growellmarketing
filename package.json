@@ -1,0 +1,17 @@
+{
+  "name": "growellmarketing",
+  "version": "1.0.0",
+  "description": "Growell Marketing website static assets and media sync",
+  "scripts": {
+    "sync:media": "node scripts/sync-media-r2.js",
+    "media:cdn": "node scripts/update-media-urls.js --cdn",
+    "media:local": "node scripts/update-media-urls.js --local"
+  },
+  "keywords": [
+    "digital-marketing",
+    "growell",
+    "r2-cdn"
+  ],
+  "author": "Growell Marketing",
+  "license": "ISC"
+}

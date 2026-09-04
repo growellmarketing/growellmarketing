@@ -50,7 +50,7 @@ header {
     align-items: center;
     justify-content: center;
     position: relative;
-    z-index: 900;
+    z-index: 99999 !important;
 }
 
 /* ---------- Top Information Bar (Non-Sticky, Scrolls Away Naturally) ---------- */
@@ -6130,6 +6130,7 @@ input:checked+.slider:before {
     padding: 30px 0 70px 0;
     overflow: hidden;
     position: relative;
+    z-index: 10;
     background: linear-gradient(180deg, #fbfbfe 0%, #f4f3fb 50%, #ffffff 100%);
 }
 
@@ -6182,6 +6183,71 @@ input:checked+.slider:before {
     border-color: #654E9F;
     transform: translateY(-1px);
     box-shadow: 0 4px 12px rgba(101, 78, 159, 0.2);
+}
+
+.stream-control-btn.grid-view-btn {
+    border-color: rgba(101, 78, 159, 0.4);
+    background: #f8f6fd;
+}
+
+.stream-control-btn.grid-view-btn.active {
+    background: #654E9F;
+    color: #fff;
+    border-color: #654E9F;
+    box-shadow: 0 4px 14px rgba(101, 78, 159, 0.3);
+}
+
+/* ---------- Grid View Mode Layout ---------- */
+.portfolio-stream-wrapper.is-grid-view {
+    max-width: 1320px;
+    margin: 0 auto;
+    padding: 20px 20px 60px 20px;
+    overflow: visible;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.portfolio-stream-wrapper.is-grid-view::before,
+.portfolio-stream-wrapper.is-grid-view::after {
+    display: none !important;
+}
+
+.portfolio-stream-wrapper.is-grid-view .portfolio-stream-row {
+    margin-bottom: 0;
+    overflow: visible;
+    width: 100%;
+}
+
+.portfolio-stream-wrapper.is-grid-view .portfolio-stream-track {
+    display: grid !important;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)) !important;
+    gap: 24px !important;
+    animation: none !important;
+    transform: none !important;
+    width: 100% !important;
+}
+
+.portfolio-stream-wrapper.is-grid-view .portfolio-stream-card {
+    width: 100% !important;
+    height: 380px !important;
+    flex: none !important;
+    transform: none !important;
+    opacity: 1 !important;
+}
+
+.portfolio-stream-wrapper.is-grid-view .portfolio-stream-card:hover {
+    transform: translateY(-8px) scale(1.02) !important;
+    box-shadow: 0 20px 40px rgba(15, 12, 40, 0.2) !important;
+    z-index: 50 !important;
+}
+
+.portfolio-stream-wrapper.is-grid-view .is-clone-card {
+    display: none !important;
+}
+
+.portfolio-stream-wrapper.is-grid-view .portfolio-stream-card.dimmed {
+    display: none !important;
 }
 
 .portfolio-stream-wrapper {
