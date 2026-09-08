@@ -8,7 +8,7 @@
     "use strict";
 
     /* ---------- META PARAMETER BUILDER & CONVERSIONS API (CAPI) ---------- */
-    var META_PIXEL_ID = "1930075340930872";
+    var META_PIXEL_ID = "1735589957666296";
     var APPENDIX = "GMW01000";
 
     function getMetaCookie(name) {
