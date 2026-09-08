@@ -7,11 +7,213 @@
 (function () {
     "use strict";
 
+    /* ---------- META PARAMETER BUILDER & CONVERSIONS API (CAPI) ---------- */
+    var META_PIXEL_ID = "1930075340930872";
+    var APPENDIX = "GMW01000";
+
+    function getMetaCookie(name) {
+        var match = document.cookie.match(new RegExp('(^|;\\s*)' + name + '=([^;]*)'));
+        return match ? decodeURIComponent(match[2]) : "";
+    }
+
+    function setMetaCookie(name, value, days) {
+        var expires = "";
+        if (days) {
+            var d = new Date();
+            d.setTime(d.getTime() + (days * 24 * 60 * 60 * 1000));
+            expires = "; expires=" + d.toUTCString();
+        }
+        var domain = window.location.hostname;
+        var domainParts = domain.split('.');
+        var cookieDomain = "";
+        if (domainParts.length >= 2 && !domain.match(/^\d+\.\d+\.\d+\.\d+$/)) {
+            cookieDomain = "; domain=." + domainParts.slice(-2).join('.');
+        }
+        document.cookie = name + "=" + encodeURIComponent(value) + expires + "; path=/" + cookieDomain + "; SameSite=Lax";
+    }
+
+    function initMetaCookies() {
+        var now = Date.now();
+        if (!getMetaCookie("_fbp")) {
+            var randomNum = Math.floor(1000000000 + Math.random() * 9000000000);
+            setMetaCookie("_fbp", "fb.1." + now + "." + randomNum + "." + APPENDIX, 90);
+        }
+        var urlParams = new URLSearchParams(window.location.search);
+        var fbclid = urlParams.get("fbclid");
+        if (fbclid) {
+            setMetaCookie("_fbc", "fb.1." + now + "." + fbclid + "." + APPENDIX, 90);
+        }
+    }
+    initMetaCookies();
+
+    async function metaSha256(str) {
+        if (!str || typeof str !== "string") return "";
+        try {
+            var encoder = new TextEncoder();
+            var data = encoder.encode(str);
+            var hashBuffer = await crypto.subtle.digest("SHA-256", data);
+            var hashArray = Array.from(new Uint8Array(hashBuffer));
+            return hashArray.map(function (b) { return b.toString(16).padStart(2, "0"); }).join("");
+        } catch (e) {
+            return "";
+        }
+    }
+
+    function metaNormEmail(email) {
+        if (!email) return "";
+        return email.trim().toLowerCase().replace(/^mailto:/, "");
+    }
+
+    function metaNormPhone(phone) {
+        if (!phone) return "";
+        var clean = phone.replace(/\D/g, "");
+        if (clean.length === 10) clean = "91" + clean;
+        else if (clean.length === 11 && clean.startsWith("0")) clean = "91" + clean.substring(1);
+        return clean;
+    }
+
+    function metaNormName(name) {
+        if (!name) return "";
+        return name.trim().toLowerCase().replace(/[^\w\s]/gi, "");
+    }
+
+    window.GrowellTracker = {
+        generateEventId: function (prefix) {
+            return (prefix || "ev") + "_" + Date.now() + "_" + Math.random().toString(36).substring(2, 9);
+        },
+        trackLead: async function (leadData, customData) {
+            leadData = leadData || {};
+            customData = customData || {};
+
+            var eventId = this.generateEventId("lead");
+            var emailNorm = metaNormEmail(leadData.email);
+            var phoneNorm = metaNormPhone(leadData.phone);
+            var nameParts = (leadData.name || "").trim().split(/\s+/);
+            var firstName = nameParts[0] || "";
+            var lastName = nameParts.slice(1).join(" ") || "";
+
+            var hashedEmail = emailNorm ? await metaSha256(emailNorm) : "";
+            var hashedPhone = phoneNorm ? await metaSha256(phoneNorm) : "";
+            var hashedFn = firstName ? await metaSha256(metaNormName(firstName)) : "";
+            var hashedLn = lastName ? await metaSha256(metaNormName(lastName)) : "";
+
+            var contentName = leadData.goal || leadData.service || leadData.source || "Website Lead Form";
+
+            // 1. Browser Meta Pixel
+            if (typeof window.fbq === "function") {
+                try {
+                    window.fbq("trackSingle", META_PIXEL_ID, "Lead", {
+                        content_name: contentName,
+                        content_category: leadData.budget || "Marketing Inquiry",
+                        currency: "INR",
+                        value: 0
+                    }, { eventID: eventId });
+                } catch (e) {}
+            }
+
+            // 2. Google Tag Manager dataLayer
+            window.dataLayer = window.dataLayer || [];
+            window.dataLayer.push({
+                event: "generate_lead",
+                event_id: eventId,
+                lead_source: leadData.source || window.location.pathname,
+                lead_goal: contentName
+            });
+
+            // 3. Server-Side CAPI
+            var serverPayload = {
+                event_name: "Lead",
+                event_id: eventId,
+                event_time: Math.floor(Date.now() / 1000),
+                event_source_url: window.location.href,
+                fbp: getMetaCookie("_fbp"),
+                fbc: getMetaCookie("_fbc"),
+                em: hashedEmail ? [hashedEmail] : [],
+                ph: hashedPhone ? [hashedPhone] : [],
+                fn: hashedFn ? [hashedFn] : [],
+                ln: hashedLn ? [hashedLn] : [],
+                country: [await metaSha256("in")],
+                custom_data: Object.assign({
+                    content_name: contentName,
+                    currency: "INR",
+                    value: 0
+                }, customData)
+            };
+
+            try {
+                fetch("/api/capi-lead", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(serverPayload),
+                    keepalive: true
+                });
+            } catch (err) {}
+
+            return eventId;
+        },
+        trackContact: function (type, detail) {
+            var eventId = this.generateEventId("contact");
+            var contentName = (type || "Contact") + (detail ? ": " + detail : "");
+
+            if (typeof window.fbq === "function") {
+                try {
+                    window.fbq("trackSingle", META_PIXEL_ID, "Contact", {
+                        content_name: contentName
+                    }, { eventID: eventId });
+                } catch (e) {}
+            }
+
+            window.dataLayer = window.dataLayer || [];
+            window.dataLayer.push({
+                event: "contact_click",
+                event_id: eventId,
+                contact_type: type
+            });
+
+            try {
+                fetch("/api/capi-lead", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({
+                        event_name: "Contact",
+                        event_id: eventId,
+                        event_time: Math.floor(Date.now() / 1000),
+                        event_source_url: window.location.href,
+                        fbp: getMetaCookie("_fbp"),
+                        fbc: getMetaCookie("_fbc"),
+                        custom_data: { content_name: contentName }
+                    }),
+                    keepalive: true
+                });
+            } catch (err) {}
+
+            return eventId;
+        }
+    };
+
+    // Auto-bind click handlers for WhatsApp and Phone Call buttons
+    document.addEventListener("click", function (e) {
+        var waLink = e.target.closest('a[href*="wa.me"], a[href*="whatsapp.com"]');
+        if (waLink) {
+            window.GrowellTracker.trackContact("WhatsApp", waLink.href);
+            return;
+        }
+        var telLink = e.target.closest('a[href^="tel:"]');
+        if (telLink) {
+            window.GrowellTracker.trackContact("Phone Call", telLink.href);
+        }
+    });
+
     /* ---------- GROWELL GOOGLE SHEETS LIVE DATABASE INTEGRATION ---------- */
     window.GOOGLE_SHEETS_WEBHOOK_URL = "https://script.google.com/macros/s/AKfycbx6a-lBNVhIYLDnF2MSh33b5V82pvbmSdQdxHUPWmoPEa9Hk0hzQfcnF8S8I55NUbzMgA/exec";
 
     window.sendLeadToGoogleSheets = function (leadData) {
         if (!leadData) return;
+
+        // Trigger Meta Conversions API & Pixel
+        if (window.GrowellTracker && typeof window.GrowellTracker.trackLead === "function") {
+            window.GrowellTracker.trackLead(leadData);
+        }
         var webhookUrl = window.GOOGLE_SHEETS_WEBHOOK_URL;
         if (!webhookUrl || webhookUrl.indexOf("http") !== 0) {
             console.log("[Growell DB] Lead captured locally:", leadData);
@@ -322,11 +524,11 @@
     if (pricingToggle && starterEl && scaleEl) {
         pricingToggle.addEventListener("change", function () {
             if (this.checked) {
-                starterEl.innerHTML = "?20,000<span> /month (billed annually)</span>";
-                scaleEl.innerHTML = "?48,000<span> /month (billed annually)</span>";
+                starterEl.innerHTML = "\u20B920,000<span> /month (billed annually)</span>";
+                scaleEl.innerHTML = "\u20B948,000<span> /month (billed annually)</span>";
             } else {
-                starterEl.innerHTML = "?25,000<span> /month</span>";
-                scaleEl.innerHTML = "?60,000<span> /month</span>";
+                starterEl.innerHTML = "\u20B925,000<span> /month</span>";
+                scaleEl.innerHTML = "\u20B960,000<span> /month</span>";
             }
         });
     }
@@ -405,7 +607,7 @@
             auditForm.reset();
             setTimeout(function () {
                 window.location.href = "/thank-you.html";
-            }, 300);
+            }, 500);
         });
     }
 
@@ -440,7 +642,7 @@
                 cForm.reset();
                 setTimeout(function () {
                     window.location.href = "/thank-you.html";
-                }, 300);
+                }, 500);
             });
         });
     }
@@ -630,7 +832,7 @@
         // Single master scale: Target Traffic scales proportionally (10:1 ratio)
         var traffic = Math.round(budget / 10);
 
-        if (budgetValEl) budgetValEl.textContent = "?" + budget.toLocaleString("en-IN") + " /mo";
+        if (budgetValEl) budgetValEl.textContent = "\u20B9" + budget.toLocaleString("en-IN") + " /mo";
         if (trafficValEl) trafficValEl.textContent = traffic.toLocaleString("en-IN") + " visitors/mo";
 
         // 1. Estimated Qualified Leads (Target Conversion Rate ~3.8% + Ad Lead Scaling)
@@ -1077,12 +1279,18 @@
         if (step === 3) quizProgressFill.style.width = "100%";
     }
 
-    document.getElementById("quizNext1").addEventListener("click", function () { setQuizStep(2); });
-    document.getElementById("quizBack2").addEventListener("click", function () { setQuizStep(1); });
-    document.getElementById("quizNext2").addEventListener("click", function () { setQuizStep(3); });
-    document.getElementById("quizBack3").addEventListener("click", function () { setQuizStep(2); });
+    var qn1 = document.getElementById("quizNext1");
+    if (qn1) qn1.addEventListener("click", function () { setQuizStep(2); });
+    var qb2 = document.getElementById("quizBack2");
+    if (qb2) qb2.addEventListener("click", function () { setQuizStep(1); });
+    var qn2 = document.getElementById("quizNext2");
+    if (qn2) qn2.addEventListener("click", function () { setQuizStep(3); });
+    var qb3 = document.getElementById("quizBack3");
+    if (qb3) qb3.addEventListener("click", function () { setQuizStep(2); });
 
-    document.getElementById("quizForm").addEventListener("submit", function (e) {
+    var qForm = document.getElementById("quizForm");
+    if (qForm) {
+        qForm.addEventListener("submit", function (e) {
         e.preventDefault();
         var qName = document.getElementById("quizName");
         var qPhone = document.getElementById("quizPhone");
@@ -1103,7 +1311,8 @@
             setQuizStep(1);
             window.location.href = "/thank-you.html";
         }, 1200);
-    });
+        });
+    }
 
     if (scopeClaimProposalBtn) {
         scopeClaimProposalBtn.addEventListener("click", function () {
@@ -1141,10 +1350,10 @@
         var chatToggleBtn = document.getElementById("chatToggleBtn");
         var chatWindow = document.getElementById("chatWindow");
         var chatCloseBtn = document.getElementById("chatCloseBtn");
-        var chatPoster= document.getElementById("chatTeaser");
+        var chatTeaser = document.getElementById("chatTeaser");
         var chatMessages = document.getElementById("chatMessages");
 
-        if (!chatToggleBtn || !chatWindow) return;
+        if (!chatToggleBtn || !chatWindow || !chatMessages) return;
 
         var leadData = {
             goal: "",
@@ -1164,7 +1373,7 @@
         if (chatCloseBtn) chatCloseBtn.addEventListener("click", toggleChat);
 
         setTimeout(function () {
-            if (chatPoster&& !chatWindow.classList.contains("active")) {
+            if (chatTeaser && !chatWindow.classList.contains("active")) {
                 chatTeaser.style.opacity = "0";
                 chatTeaser.style.transition = "opacity 0.5s ease";
                 setTimeout(function () { chatTeaser.style.display = "none"; }, 500);

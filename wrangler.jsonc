@@ -1,7 +1,8 @@
-﻿{
+{
   "$schema": "node_modules/wrangler/config-schema.json",
   "name": "growellmarketing",
   "compatibility_date": "2026-08-25",
+  "main": "worker.js",
   "observability": {
     "enabled": true
   },
