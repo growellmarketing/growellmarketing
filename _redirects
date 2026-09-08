@@ -8,3 +8,6 @@
 /services/ecommerce                           /services/ecommerce-marketing-agency          301
 /services/performance-marketing               /services/performance-marketing-agency        301
 /services/paid-advertising                    /services/performance-marketing-agency        301
+/contact                                     /contact-us                                   301
+/contact.html                                /contact-us                                   301
+

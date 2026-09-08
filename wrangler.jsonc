@@ -16,7 +16,11 @@
       "*.zip",
       "node_modules/**",
       ".system_generated/**",
-      "scratch/**"
+      "scratch/**",
+      "functions/**",
+      "worker.js",
+      "wrangler.jsonc",
+      "package*.json"
     ]
   }
 }

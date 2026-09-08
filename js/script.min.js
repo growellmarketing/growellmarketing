@@ -41,7 +41,10 @@
         var urlParams = new URLSearchParams(window.location.search);
         var fbclid = urlParams.get("fbclid");
         if (fbclid) {
-            setMetaCookie("_fbc", "fb.1." + now + "." + fbclid + "." + APPENDIX, 90);
+            var cleanFbclid = fbclid.replace(/[^a-zA-Z0-9_\-.~]/g, "");
+            if (cleanFbclid) {
+                setMetaCookie("_fbc", "fb.1." + now + "." + cleanFbclid + "." + APPENDIX, 90);
+            }
         }
     }
     initMetaCookies();
@@ -204,16 +207,80 @@
         }
     });
 
-    /* ---------- GROWELL GOOGLE SHEETS LIVE DATABASE INTEGRATION ---------- */
+    /* ---------- GROWELL GOOGLE SHEETS LIVE DATABASE INTEGRATION & SPAM DEFENSE ---------- */
     window.GOOGLE_SHEETS_WEBHOOK_URL = "https://script.google.com/macros/s/AKfycbx6a-lBNVhIYLDnF2MSh33b5V82pvbmSdQdxHUPWmoPEa9Hk0hzQfcnF8S8I55NUbzMgA/exec";
 
-    window.sendLeadToGoogleSheets = function (leadData) {
-        if (!leadData) return;
+    var lastLeadSubmissionTime = 0;
+    var lastLeadSignature = "";
 
-        // Trigger Meta Conversions API & Pixel
-        if (window.GrowellTracker && typeof window.GrowellTracker.trackLead === "function") {
-            window.GrowellTracker.trackLead(leadData);
+    function sanitizeInput(val, maxLen) {
+        if (!val || typeof val !== "string") return "";
+        var clean = val.replace(/<[^>]*>?/gm, "").replace(/[\r\n\t]+/g, " ").trim();
+        if (maxLen && clean.length > maxLen) {
+            clean = clean.substring(0, maxLen).trim();
         }
+        return clean;
+    }
+
+    function sanitizePhone(val) {
+        if (!val || typeof val !== "string") return "";
+        var clean = val.replace(/[^0-9+\s\-]/g, "").trim();
+        if (clean.length > 25) clean = clean.substring(0, 25);
+        return clean;
+    }
+
+    window.sendLeadToGoogleSheets = function (leadData) {
+        if (!leadData || typeof leadData !== "object") return;
+
+        // 1. Honeypot check: Ignore automated bot entries
+        if (leadData._hp || leadData._hp_website) {
+            console.warn("[Growell DB] Bot submission silently ignored by security honeypot.");
+            return;
+        }
+
+        // 2. Input sanitization
+        var cleanName = sanitizeInput(leadData.name, 100);
+        var cleanPhone = sanitizePhone(leadData.phone);
+        var cleanEmail = sanitizeInput(leadData.email, 100).toLowerCase();
+        var cleanGoal = sanitizeInput(leadData.goal || leadData.service, 150);
+        var cleanBudget = sanitizeInput(leadData.budget, 100);
+        var cleanCompany = sanitizeInput(leadData.company, 100);
+        var cleanMessage = sanitizeInput(leadData.message, 1000);
+        var cleanSource = sanitizeInput(leadData.source || window.location.pathname, 150);
+
+        // 3. Minimum validation: At least phone (min 7 digits) or valid email required
+        var digits = cleanPhone.replace(/\D/g, "");
+        if (!cleanEmail && digits.length < 7) {
+            console.warn("[Growell DB] Lead dropped: insufficient contact details.");
+            return;
+        }
+
+        // 4. Client-side debounce / rate limiting: Prevent spam loops
+        var now = Date.now();
+        var signature = cleanName + "|" + cleanPhone + "|" + cleanEmail;
+        if (signature === lastLeadSignature && (now - lastLeadSubmissionTime) < 10000) {
+            console.warn("[Growell DB] Duplicate submission throttled.");
+            return;
+        }
+        if ((now - lastLeadSubmissionTime) < 1500) {
+            console.warn("[Growell DB] Rapid repeated submission throttled.");
+            return;
+        }
+        lastLeadSubmissionTime = now;
+        lastLeadSignature = signature;
+
+        // 5. Trigger Meta Conversions API & Pixel
+        if (window.GrowellTracker && typeof window.GrowellTracker.trackLead === "function") {
+            window.GrowellTracker.trackLead({
+                name: cleanName,
+                phone: cleanPhone,
+                email: cleanEmail,
+                goal: cleanGoal,
+                budget: cleanBudget,
+                source: cleanSource
+            });
+        }
+
         var webhookUrl = window.GOOGLE_SHEETS_WEBHOOK_URL;
         if (!webhookUrl || webhookUrl.indexOf("http") !== 0) {
             console.log("[Growell DB] Lead captured locally:", leadData);
@@ -222,14 +289,14 @@
 
         var payload = {
             date: new Date().toLocaleString("en-IN", { timeZone: "Asia/Kolkata" }),
-            name: leadData.name || "N/A",
-            phone: leadData.phone || "N/A",
-            email: leadData.email || "N/A",
-            goal: leadData.goal || leadData.service || "N/A",
-            budget: leadData.budget || "N/A",
-            company: leadData.company || "N/A",
-            message: leadData.message || "N/A",
-            source: leadData.source || window.location.pathname
+            name: cleanName || "N/A",
+            phone: cleanPhone || "N/A",
+            email: cleanEmail || "N/A",
+            goal: cleanGoal || "N/A",
+            budget: cleanBudget || "N/A",
+            company: cleanCompany || "N/A",
+            message: cleanMessage || "N/A",
+            source: cleanSource
         };
 
         fetch(webhookUrl, {
@@ -1097,7 +1164,7 @@
 
             if (modal && imgEl) {
                 imgEl.src = src;
-                if (capEl) capEl.innerHTML = caption;
+                if (capEl) capEl.textContent = caption;
                 if (titleEl) titleEl.textContent = title;
                 if (catBadgeEl) catBadgeEl.textContent = cat;
                 if (serviceEl) serviceEl.textContent = cat;
@@ -1380,10 +1447,29 @@
             }
         }, 6000);
 
-        function appendMsg(text, sender) {
+        function escapeChatHtml(str) {
+            if (!str) return "";
+            return String(str)
+                .replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;")
+                .replace(/"/g, "&quot;")
+                .replace(/'/g, "&#039;");
+        }
+
+        function appendMsg(text, sender, isTrustedHtml) {
             var msgDiv = document.createElement("div");
             msgDiv.className = "chat-msg " + sender;
-            msgDiv.innerHTML = '<div class="msg-bubble">' + text + '</div>';
+            var bubble = document.createElement("div");
+            bubble.className = "msg-bubble";
+
+            if (sender === "user" && !isTrustedHtml) {
+                bubble.textContent = text;
+            } else {
+                bubble.innerHTML = text;
+            }
+
+            msgDiv.appendChild(bubble);
             chatMessages.appendChild(msgDiv);
             chatMessages.scrollTop = chatMessages.scrollHeight;
         }
@@ -1443,8 +1529,8 @@
                         var formDiv = document.createElement("div");
                         formDiv.className = "chat-lead-form";
                         formDiv.id = "chatLeadFormWrap";
-                        formDiv.innerHTML = '<input type="text" id="chatName" placeholder="Your Full Name *" required>' +
-                            '<input type="tel" id="chatPhone" placeholder="WhatsApp / Phone Number *" required>' +
+                        formDiv.innerHTML = '<input type="text" id="chatName" placeholder="Your Full Name *" maxlength="100" required>' +
+                            '<input type="tel" id="chatPhone" placeholder="WhatsApp / Phone Number *" maxlength="25" required>' +
                             '<button class="chat-submit-btn" id="chatFormSubmit">Get Free Audit Plan &rarr;</button>';
                         chatMessages.appendChild(formDiv);
                         chatMessages.scrollTop = chatMessages.scrollHeight;
@@ -1489,11 +1575,11 @@
                 var formWrap = document.getElementById("chatLeadFormWrap");
                 if (formWrap) formWrap.remove();
 
-                appendMsg("<b>Name:</b> " + leadData.name + "<br><b>Phone:</b> " + leadData.phone, "user");
+                appendMsg("<b>Name:</b> " + escapeChatHtml(leadData.name) + "<br><b>Phone:</b> " + escapeChatHtml(leadData.phone), "user", true);
 
                 showTyping(function () {
-                    var successText = "Superb, " + leadData.name + "! Your request has been registered.<br><br>Our Growth Team will contact you within 15 minutes!";
-                    appendMsg(successText, "bot");
+                    var successText = "Superb, " + escapeChatHtml(leadData.name) + "! Your request has been registered.<br><br>Our Growth Team will contact you within 15 minutes!";
+                    appendMsg(successText, "bot", true);
 
                     showTyping(function () {
                         var waMsg = encodeURIComponent("Hi Growell Marketing! My name is " + leadData.name + ". I want to scale my business (" + leadData.goal + ") with a budget of " + leadData.budget + ". Please send me my growth audit!");
@@ -1552,6 +1638,7 @@
             var searchInput = document.getElementById("chatSearchInput");
             if (!searchInput || !searchInput.value.trim()) return;
             var q = searchInput.value.trim();
+            if (q.length > 250) q = q.substring(0, 250);
             searchInput.value = "";
             appendMsg(q, "user");
 
@@ -1728,4 +1815,39 @@
             });
         }
     })();
+
+    /* ---------- FORM HARDENING: HONEYPOT & LENGTH RESTRICTIONS ---------- */
+    function hardenAllForms() {
+        document.querySelectorAll("form").forEach(function (form) {
+            if (!form.querySelector('input[name="_hp_website"]')) {
+                var hp = document.createElement("input");
+                hp.type = "text";
+                hp.name = "_hp_website";
+                hp.tabIndex = -1;
+                hp.setAttribute("autocomplete", "off");
+                hp.setAttribute("aria-hidden", "true");
+                hp.style.cssText = "position:absolute!important;opacity:0!important;left:-9999px!important;width:1px!important;height:1px!important;pointer-events:none!important;z-index:-1!important;";
+                form.appendChild(hp);
+            }
+        });
+        document.querySelectorAll('input[type="tel"]').forEach(function (el) {
+            if (!el.getAttribute("maxlength")) el.setAttribute("maxlength", "25");
+        });
+        document.querySelectorAll('input[type="text"]').forEach(function (el) {
+            if (!el.getAttribute("maxlength")) el.setAttribute("maxlength", "100");
+        });
+        document.querySelectorAll('input[type="email"]').forEach(function (el) {
+            if (!el.getAttribute("maxlength")) el.setAttribute("maxlength", "100");
+        });
+        document.querySelectorAll('textarea').forEach(function (el) {
+            if (!el.getAttribute("maxlength")) el.setAttribute("maxlength", "1000");
+        });
+    }
+
+    if (document.readyState === "loading") {
+        document.addEventListener("DOMContentLoaded", hardenAllForms);
+    } else {
+        hardenAllForms();
+    }
+
 })();
