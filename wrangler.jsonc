@@ -20,7 +20,13 @@
       "functions/**",
       "worker.js",
       "wrangler.jsonc",
-      "package*.json"
+      "package*.json",
+      "BRANDING PORTFOLIO/**",
+      "New folder/**",
+      "triyal/**",
+      ".portfolio-images-backup/**",
+      "js/animations.js",
+      "js/meta-tracker.js"
     ]
   }
 }

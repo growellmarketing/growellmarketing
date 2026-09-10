@@ -1,17 +1,37 @@
 /**
  * Cloudflare Pages Function / Worker API for Meta Conversions API (CAPI)
- * Pixel ID: 1735589957666296
- * Handles /api/capi-lead
+ * Handles /api/capi-lead with secure origin restrictions and env secrets
  */
 
 const META_PIXEL_ID = "1735589957666296";
-const META_ACCESS_TOKEN = "EAAWtpErNdrcBSbyykVXXKscs4mZAbZAT1r59cTMqeRUrYJ3gJI7BqBCRz3OawNwxX1ZCb79epRYYk9C3sKkMTedFbZC9ZCPMMYmPWejmY7TBbcW3HThcNXtPB69eDnz23UpZC30yBK7mgZA4naZA9i2EdVTcMNZAUB4ApCaHnHqA0TPT47jSmkpyv5x8F0yr6MstAywZDZD";
-const META_GRAPH_URL = `https://graph.facebook.com/v21.0/${META_PIXEL_ID}/events`;
+// Fallback token kept only if env.META_CAPI_ACCESS_TOKEN is not configured
+const DEFAULT_META_ACCESS_TOKEN = "EAAWtpErNdrcBSbyykVXXKscs4mZAbZAT1r59cTMqeRUrYJ3gJI7BqBCRz3OawNwxX1ZCb79epRYYk9C3sKkMTedFbZC9ZCPMMYmPWejmY7TBbcW3HThcNXtPB69eDnz23UpZC30yBK7mgZA4naZA9i2EdVTcMNZAUB4ApCaHnHqA0TPT47jSmkpyv5x8F0yr6MstAywZDZD";
+
+const ALLOWED_ORIGINS = [
+    "https://www.growellmarketing.com",
+    "https://growellmarketing.com"
+];
+
+function getCorsHeaders(request) {
+    const origin = request ? request.headers.get("Origin") : null;
+    const isAllowed = origin && (ALLOWED_ORIGINS.includes(origin) || origin.endsWith(".growellmarketing.com") || origin.includes("localhost") || origin.includes("127.0.0.1"));
+    const allowOrigin = isAllowed ? origin : "https://www.growellmarketing.com";
+
+    return {
+        "Access-Control-Allow-Origin": allowOrigin,
+        "Access-Control-Allow-Methods": "POST, OPTIONS",
+        "Access-Control-Allow-Headers": "Content-Type",
+        "Access-Control-Max-Age": "86400",
+        "Vary": "Origin"
+    };
+}
 
 export async function onRequestPost(context) {
+    const { request, env } = context || {};
+    const corsHeaders = getCorsHeaders(request);
+
     try {
-        const { request, env } = context;
-        const accessToken = (env && env.META_CAPI_ACCESS_TOKEN) || META_ACCESS_TOKEN;
+        const accessToken = (env && env.META_CAPI_ACCESS_TOKEN) || DEFAULT_META_ACCESS_TOKEN;
         const pixelId = (env && env.META_PIXEL_ID) || META_PIXEL_ID;
         const targetUrl = `https://graph.facebook.com/v21.0/${pixelId}/events?access_token=${accessToken}`;
 
@@ -29,7 +49,7 @@ export async function onRequestPost(context) {
         const eventTime = reqBody.event_time || Math.floor(Date.now() / 1000);
         const eventId = reqBody.event_id || `lead_${Date.now()}_${Math.random().toString(36).substring(2, 8)}`;
         const eventName = reqBody.event_name || "Lead";
-        const eventSourceUrl = reqBody.event_source_url || request.headers.get("referer") || "https://growellmarketing.com/";
+        const eventSourceUrl = reqBody.event_source_url || request.headers.get("referer") || "https://www.growellmarketing.com/";
 
         const userData = {
             client_ip_address: clientIp,
@@ -81,8 +101,7 @@ export async function onRequestPost(context) {
             status: fbResponse.status,
             headers: {
                 "Content-Type": "application/json",
-                "Access-Control-Allow-Origin": "*",
-                "Access-Control-Allow-Methods": "POST, OPTIONS"
+                ...corsHeaders
             }
         });
     } catch (err) {
@@ -93,20 +112,16 @@ export async function onRequestPost(context) {
             status: 500,
             headers: {
                 "Content-Type": "application/json",
-                "Access-Control-Allow-Origin": "*"
+                ...corsHeaders
             }
         });
     }
 }
 
-export async function onRequestOptions() {
+export async function onRequestOptions(context) {
+    const { request } = context || {};
     return new Response(null, {
         status: 204,
-        headers: {
-            "Access-Control-Allow-Origin": "*",
-            "Access-Control-Allow-Methods": "POST, OPTIONS",
-            "Access-Control-Allow-Headers": "Content-Type",
-            "Access-Control-Max-Age": "86400"
-        }
+        headers: getCorsHeaders(request)
     });
 }

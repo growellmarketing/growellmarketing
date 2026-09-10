@@ -808,7 +808,7 @@
 
                     showTyping(function () {
                         var waMsg = encodeURIComponent("Hi Growell Marketing! My name is " + leadData.name + ". I want to scale my business (" + leadData.goal + ") with a budget of " + leadData.budget + ". Please send me my growth audit!");
-                        var waUrl = "https://wa.me/918114456687?text=" + waMsg;
+                        var waUrl = "https://wa.me/917850932754?text=" + waMsg;
 
                         var waDiv = document.createElement("div");
                         waDiv.innerHTML = '<a href="' + waUrl + '" target="_blank" class="chat-whatsapp-action"><i class="fa-brands fa-whatsapp"></i> Chat Live on WhatsApp Now</a>';
@@ -855,7 +855,7 @@
             },
             {
                 keywords: ["contact", "phone", "mobile", "whatsapp", "call", "email", "number", "reach"],
-                reply: "📞 <b>Contact Growell Marketing</b>:<br>• <b>Phone / WhatsApp</b>: +91 8114456687<br>• <b>Email</b>: hello@growellmarketing.com<br>• <b>Office</b>: Ajmer, Rajasthan, ajmer<br><br>👉 <a href='https://wa.me/918114456687' target='_blank' style='color:#25D366;font-weight:700;'>Start Live Chat on WhatsApp 💬</a>"
+                reply: "📞 <b>Contact Growell Marketing</b>:<br>• <b>Phone / WhatsApp</b>: +91 7850932754<br>• <b>Email</b>: hello@growellmarketing.com<br>• <b>Office</b>: Ajmer, Rajasthan, ajmer<br><br>👉 <a href='https://wa.me/917850932754' target='_blank' style='color:#25D366;font-weight:700;'>Start Live Chat on WhatsApp 💬</a>"
             }
         ];
 
@@ -880,7 +880,7 @@
                     if (answer) break;
                 }
                 if (!answer) {
-                    answer = "💡 Growell Marketing is a 360° Performance Marketing Agency. We scale businesses through Paid Ads, SEO, Web Development, and Brand Strategy.<br><br>Contact our team directly: 📞 <b>+91 8114456687</b> or <a href='https://wa.me/918114456687' target='_blank' style='color:#25D366;font-weight:700;'>Chat on WhatsApp 💬</a>";
+                    answer = "💡 Growell Marketing is a 360° Performance Marketing Agency. We scale businesses through Paid Ads, SEO, Web Development, and Brand Strategy.<br><br>Contact our team directly: 📞 <b>+91 7850932754</b> or <a href='https://wa.me/917850932754' target='_blank' style='color:#25D366;font-weight:700;'>Chat on WhatsApp 💬</a>";
                 }
                 appendMsg(answer, "bot");
             });

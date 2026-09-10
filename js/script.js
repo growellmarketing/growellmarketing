@@ -314,7 +314,7 @@
     /* ---------- CLOUDFLARE R2 MEDIA CDN & OFFLINE FALLBACK ---------- */
     window.GROWELL_MEDIA_CDN = "https://cdn.growellmarketing.com";
     window.addEventListener('error', function (e) {
-        if (e.target && e.target.tagName === 'IMG' && e.target.src && e.target.src.indexOf('r2.dev') !== -1) {
+        if (e.target && e.target.tagName === 'IMG' && e.target.src && (e.target.src.indexOf('cdn.growellmarketing.com') !== -1 || e.target.src.indexOf('r2.dev') !== -1)) {
             var cdnUrl = e.target.src;
             var localPath = '/' + decodeURIComponent(cdnUrl.replace(/^https:\/\/[^\/]+\//, ''));
             console.warn('[Growell CDN Fallback] Falling back to local asset:', localPath);
@@ -1170,7 +1170,7 @@
                 if (serviceEl) serviceEl.textContent = cat;
                 if (waBtn) {
                     var waMsg = "Hi Growell Marketing, I saw your design for '" + title + "' on your website and would like to inquire about similar creative services for my business.";
-                    waBtn.href = "https://wa.me/918114456687?text=" + encodeURIComponent(waMsg);
+                    waBtn.href = "https://wa.me/917850932754?text=" + encodeURIComponent(waMsg);
                 }
                 modal.classList.add("active");
                 document.body.style.overflow = "hidden";
@@ -1583,7 +1583,7 @@
 
                     showTyping(function () {
                         var waMsg = encodeURIComponent("Hi Growell Marketing! My name is " + leadData.name + ". I want to scale my business (" + leadData.goal + ") with a budget of " + leadData.budget + ". Please send me my growth audit!");
-                        var waUrl = "https://wa.me/918114456687?text=" + waMsg;
+                        var waUrl = "https://wa.me/917850932754?text=" + waMsg;
 
                         var waDiv = document.createElement("div");
                         waDiv.innerHTML = '<a href="' + waUrl + '" target="_blank" class="chat-whatsapp-action"><i class="fa-brands fa-whatsapp"></i> Chat Live on WhatsApp Now</a>';
@@ -1630,7 +1630,7 @@
             },
             {
                 keywords: ["contact", "phone", "mobile", "whatsapp", "call", "email", "number", "reach"],
-                reply: "<i class=\"fa-solid fa-headset\"></i> <b>Contact Growell Marketing</b>:<br>&bull; <b>Phone / WhatsApp</b>: +91 8114456687<br>&bull; <b>Email</b>: info@growellmarketing.com<br>&bull; <b>Office</b>: Ajmer, Rajasthan, ajmer<br><br><a href='https://wa.me/918114456687' target='_blank' style='color:#25D366;font-weight:700;'>Start Live Chat on WhatsApp &rarr;</a>"
+                reply: "<i class=\"fa-solid fa-headset\"></i> <b>Contact Growell Marketing</b>:<br>&bull; <b>Phone / WhatsApp</b>: +91 7850932754<br>&bull; <b>Email</b>: info@growellmarketing.com<br>&bull; <b>Office</b>: Ajmer, Rajasthan, ajmer<br><br><a href='https://wa.me/917850932754' target='_blank' style='color:#25D366;font-weight:700;'>Start Live Chat on WhatsApp &rarr;</a>"
             }
         ];
 
@@ -1656,7 +1656,7 @@
                     if (answer) break;
                 }
                 if (!answer) {
-                    answer = "Growell Marketing is a 360&deg; Performance Marketing Agency. We scale businesses through Paid Ads, SEO, Web Development, and Brand Strategy.<br><br>Contact our team directly: <b>+91 8114456687</b> or <a href='https://wa.me/918114456687' target='_blank' style='color:#25D366;font-weight:700;'>Chat on WhatsApp &rarr;</a>";
+                    answer = "Growell Marketing is a 360&deg; Performance Marketing Agency. We scale businesses through Paid Ads, SEO, Web Development, and Brand Strategy.<br><br>Contact our team directly: <b>+91 7850932754</b> or <a href='https://wa.me/917850932754' target='_blank' style='color:#25D366;font-weight:700;'>Chat on WhatsApp &rarr;</a>";
                 }
                 appendMsg(answer, "bot");
             });
@@ -1751,10 +1751,10 @@
     (function () {
         var mobileBarHtml = `
             <div class="mobile-sticky-lead-bar">
-                <a href="tel:+918114456687" class="sticky-btn call-btn">
+                <a href="tel:+917850932754" class="sticky-btn call-btn">
                     <i class="fa-solid fa-phone"></i> <span>Call Us</span>
                 </a>
-                <a href="https://wa.me/918114456687?text=Hi%20Growell%20Marketing!%20I%20want%20to%20know%20more%20about%20your%20services." target="_blank" class="sticky-btn wa-btn">
+                <a href="https://wa.me/917850932754?text=Hi%20Growell%20Marketing!%20I%20want%20to%20know%20more%20about%20your%20services." target="_blank" class="sticky-btn wa-btn">
                     <i class="fa-brands fa-whatsapp"></i> <span>WhatsApp</span>
                 </a>
                 <button class="sticky-btn audit-btn" data-modal-trigger="true">

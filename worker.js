@@ -6,7 +6,7 @@ export default {
         
         if (url.pathname === "/api/capi-lead") {
             if (request.method === "OPTIONS") {
-                return onRequestOptions();
+                return onRequestOptions({ request, env, ctx });
             }
             if (request.method === "POST") {
                 return onRequestPost({ request, env, ctx });
