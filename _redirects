@@ -23,3 +23,10 @@
 /about.html                                  /about-us                                     301
 /contact                                     /contact-us                                   301
 /contact.html                                /contact-us                                   301
+
+# Ad Campaign Short URLs
+/scale                                       /growth                                       301
+/free-audit                                  /growth                                       301
+/get-growth-audit                            /growth                                       301
+
+/terms-and-conditions                        /terms-conditions                             301

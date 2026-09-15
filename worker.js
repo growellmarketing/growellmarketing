@@ -1,4 +1,5 @@
-import { onRequestPost, onRequestOptions } from "./functions/api/capi-lead.js";
+import { onRequestPost as postCapi, onRequestOptions } from "./functions/api/capi-lead.js";
+import { onRequestPost as postLead } from "./functions/api/lead.js";
 
 export default {
     async fetch(request, env, ctx) {
@@ -9,8 +10,13 @@ export default {
                 return onRequestOptions({ request, env, ctx });
             }
             if (request.method === "POST") {
-                return onRequestPost({ request, env, ctx });
+                return postCapi({ request, env, ctx });
             }
+            return new Response("Method Not Allowed", { status: 405 });
+        }
+
+        if (url.pathname === "/api/lead") {
+            if (request.method === "POST") return postLead({ request, env, ctx });
             return new Response("Method Not Allowed", { status: 405 });
         }
 

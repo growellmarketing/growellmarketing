@@ -7,6 +7,61 @@
 (function () {
     "use strict";
 
+    /* ---------- CONSENT-GATED ANALYTICS ---------- */
+    var CONSENT_KEY = "growell_marketing_consent";
+    var analyticsLoaded = false;
+
+    function getConsent() {
+        try { return localStorage.getItem(CONSENT_KEY); } catch (e) { return null; }
+    }
+
+    function loadExternalScript(src, id) {
+        if (id && document.getElementById(id)) return;
+        var script = document.createElement("script");
+        if (id) script.id = id;
+        script.async = true;
+        script.src = src;
+        document.head.appendChild(script);
+    }
+
+    function loadMarketingAnalytics() {
+        if (analyticsLoaded || getConsent() !== "granted") return;
+        analyticsLoaded = true;
+        initMetaCookies();
+        window.dataLayer = window.dataLayer || [];
+        window.gtag = window.gtag || function () { window.dataLayer.push(arguments); };
+        window.gtag("js", new Date());
+        window.gtag("config", "G-T3B4YZ7BB8");
+        loadExternalScript("https://www.googletagmanager.com/gtm.js?id=GTM-T4MXGZPP", "growell-gtm");
+        loadExternalScript("https://www.googletagmanager.com/gtag/js?id=G-T3B4YZ7BB8", "growell-gtag");
+    }
+
+    function showConsentBanner() {
+        if (getConsent() || document.getElementById("growellConsentBanner")) return;
+        var banner = document.createElement("aside");
+        banner.id = "growellConsentBanner";
+        banner.className = "consent-banner";
+        banner.setAttribute("role", "dialog");
+        banner.setAttribute("aria-label", "Cookie preferences");
+        banner.innerHTML = '<p>We use optional analytics and advertising cookies to measure marketing performance. <a href="/privacy-policy">Privacy Policy</a></p><div class="consent-actions"><button type="button" class="consent-reject">Reject optional cookies</button><button type="button" class="consent-accept">Accept analytics cookies</button></div>';
+        document.body.appendChild(banner);
+        banner.querySelector(".consent-reject").addEventListener("click", function () {
+            try { localStorage.setItem(CONSENT_KEY, "denied"); } catch (e) {}
+            banner.remove();
+        });
+        banner.querySelector(".consent-accept").addEventListener("click", function () {
+            try { localStorage.setItem(CONSENT_KEY, "granted"); } catch (e) {}
+            banner.remove();
+            loadMarketingAnalytics();
+        });
+    }
+
+    window.GrowellConsent = { hasMarketingConsent: function () { return getConsent() === "granted"; } };
+    document.addEventListener("DOMContentLoaded", function () {
+        if (getConsent() === "granted") loadMarketingAnalytics();
+        else showConsentBanner();
+    });
+
     /* ---------- META PARAMETER BUILDER & CONVERSIONS API (CAPI) ---------- */
     var META_PIXEL_ID = "1735589957666296";
     var APPENDIX = "GMW01000";
@@ -47,7 +102,6 @@
             }
         }
     }
-    initMetaCookies();
 
     async function metaSha256(str) {
         if (!str || typeof str !== "string") return "";
@@ -85,6 +139,7 @@
             return (prefix || "ev") + "_" + Date.now() + "_" + Math.random().toString(36).substring(2, 9);
         },
         trackLead: async function (leadData, customData) {
+            if (!window.GrowellConsent.hasMarketingConsent()) return null;
             leadData = leadData || {};
             customData = customData || {};
 
@@ -155,6 +210,7 @@
             return eventId;
         },
         trackContact: function (type, detail) {
+            if (!window.GrowellConsent.hasMarketingConsent()) return null;
             var eventId = this.generateEventId("contact");
             var contentName = (type || "Contact") + (detail ? ": " + detail : "");
 
@@ -208,8 +264,6 @@
     });
 
     /* ---------- GROWELL GOOGLE SHEETS LIVE DATABASE INTEGRATION & SPAM DEFENSE ---------- */
-    window.GOOGLE_SHEETS_WEBHOOK_URL = "https://script.google.com/macros/s/AKfycbx6a-lBNVhIYLDnF2MSh33b5V82pvbmSdQdxHUPWmoPEa9Hk0hzQfcnF8S8I55NUbzMgA/exec";
-
     var lastLeadSubmissionTime = 0;
     var lastLeadSignature = "";
 
@@ -281,14 +335,7 @@
             });
         }
 
-        var webhookUrl = window.GOOGLE_SHEETS_WEBHOOK_URL;
-        if (!webhookUrl || webhookUrl.indexOf("http") !== 0) {
-            console.log("[Growell DB] Lead captured locally:", leadData);
-            return;
-        }
-
         var payload = {
-            date: new Date().toLocaleString("en-IN", { timeZone: "Asia/Kolkata" }),
             name: cleanName || "N/A",
             phone: cleanPhone || "N/A",
             email: cleanEmail || "N/A",
@@ -299,16 +346,12 @@
             source: cleanSource
         };
 
-        fetch(webhookUrl, {
+        fetch("/api/lead", {
             method: "POST",
-            mode: "no-cors",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(payload)
-        }).then(function () {
-            console.log("[Growell DB] Lead successfully synced to Google Sheet!");
-        }).catch(function (err) {
-            console.log("[Growell DB] Sync notice:", err);
-        });
+            body: JSON.stringify(payload),
+            keepalive: true
+        }).catch(function () {});
     };
 
     /* ---------- CLOUDFLARE R2 MEDIA CDN & OFFLINE FALLBACK ---------- */
@@ -1763,6 +1806,16 @@
             </div>
         `;
         document.body.insertAdjacentHTML("beforeend", mobileBarHtml);
+        var mobileBar = document.querySelector(".mobile-sticky-lead-bar");
+        var hero = document.querySelector(".hero-section");
+        function updateMobileBarVisibility() {
+            if (!mobileBar || !hero) return;
+            var heroBottom = hero.getBoundingClientRect().bottom;
+            mobileBar.classList.toggle("is-hidden", window.innerWidth <= 768 && heroBottom > (window.innerHeight - 72));
+        }
+        updateMobileBarVisibility();
+        window.addEventListener("scroll", updateMobileBarVisibility, { passive: true });
+        window.addEventListener("resize", updateMobileBarVisibility);
     })();
 
 

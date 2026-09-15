@@ -1,127 +1,70 @@
-/**
- * Cloudflare Pages Function / Worker API for Meta Conversions API (CAPI)
- * Handles /api/capi-lead with secure origin restrictions and env secrets
- */
+/** Meta Conversions API relay. Secrets are supplied only by Worker bindings. */
+import { bodyIsTooLarge, corsHeaders, isAllowedEventSource, isAllowedWebsiteRequest, isRateLimited, jsonResponse } from "./request-security.js";
 
-const META_PIXEL_ID = "1735589957666296";
-// Fallback token kept only if env.META_CAPI_ACCESS_TOKEN is not configured
-const DEFAULT_META_ACCESS_TOKEN = "EAAWtpErNdrcBSbyykVXXKscs4mZAbZAT1r59cTMqeRUrYJ3gJI7BqBCRz3OawNwxX1ZCb79epRYYk9C3sKkMTedFbZC9ZCPMMYmPWejmY7TBbcW3HThcNXtPB69eDnz23UpZC30yBK7mgZA4naZA9i2EdVTcMNZAUB4ApCaHnHqA0TPT47jSmkpyv5x8F0yr6MstAywZDZD";
+const DEFAULT_PIXEL_ID = "1735589957666296";
+const ALLOWED_EVENTS = new Set(["Lead", "Contact"]);
+const HASH = /^[a-f0-9]{64}$/;
 
-const ALLOWED_ORIGINS = [
-    "https://www.growellmarketing.com",
-    "https://growellmarketing.com"
-];
-
-function getCorsHeaders(request) {
-    const origin = request ? request.headers.get("Origin") : null;
-    const isAllowed = origin && (ALLOWED_ORIGINS.includes(origin) || origin.endsWith(".growellmarketing.com") || origin.includes("localhost") || origin.includes("127.0.0.1"));
-    const allowOrigin = isAllowed ? origin : "https://www.growellmarketing.com";
-
-    return {
-        "Access-Control-Allow-Origin": allowOrigin,
-        "Access-Control-Allow-Methods": "POST, OPTIONS",
-        "Access-Control-Allow-Headers": "Content-Type",
-        "Access-Control-Max-Age": "86400",
-        "Vary": "Origin"
-    };
+function hashedValues(value) {
+    const values = Array.isArray(value) ? value : [];
+    return values.filter((entry) => typeof entry === "string" && HASH.test(entry)).slice(0, 2);
 }
 
-export async function onRequestPost(context) {
-    const { request, env } = context || {};
-    const corsHeaders = getCorsHeaders(request);
-
-    try {
-        const accessToken = (env && env.META_CAPI_ACCESS_TOKEN) || DEFAULT_META_ACCESS_TOKEN;
-        const pixelId = (env && env.META_PIXEL_ID) || META_PIXEL_ID;
-        const targetUrl = `https://graph.facebook.com/v21.0/${pixelId}/events?access_token=${accessToken}`;
-
-        const reqBody = await request.json();
-
-        // Extract client information from Cloudflare headers
-        const clientIp = request.headers.get("cf-connecting-ip") ||
-                         request.headers.get("x-real-ip") ||
-                         request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ||
-                         reqBody.client_ip || "";
-
-        const clientUserAgent = request.headers.get("user-agent") || reqBody.client_user_agent || "";
-
-        // Build Meta CAPI event payload
-        const eventTime = reqBody.event_time || Math.floor(Date.now() / 1000);
-        const eventId = reqBody.event_id || `lead_${Date.now()}_${Math.random().toString(36).substring(2, 8)}`;
-        const eventName = reqBody.event_name || "Lead";
-        const eventSourceUrl = reqBody.event_source_url || request.headers.get("referer") || "https://www.growellmarketing.com/";
-
-        const userData = {
-            client_ip_address: clientIp,
-            client_user_agent: clientUserAgent,
-            ...(reqBody.fbp ? { fbp: reqBody.fbp } : {}),
-            ...(reqBody.fbc ? { fbc: reqBody.fbc } : {})
-        };
-
-        // Add hashed user data if present
-        if (reqBody.em) userData.em = Array.isArray(reqBody.em) ? reqBody.em : [reqBody.em];
-        if (reqBody.ph) userData.ph = Array.isArray(reqBody.ph) ? reqBody.ph : [reqBody.ph];
-        if (reqBody.fn) userData.fn = Array.isArray(reqBody.fn) ? reqBody.fn : [reqBody.fn];
-        if (reqBody.ln) userData.ln = Array.isArray(reqBody.ln) ? reqBody.ln : [reqBody.ln];
-        if (reqBody.ct) userData.ct = Array.isArray(reqBody.ct) ? reqBody.ct : [reqBody.ct];
-        if (reqBody.zp) userData.zp = Array.isArray(reqBody.zp) ? reqBody.zp : [reqBody.zp];
-        if (reqBody.country) userData.country = Array.isArray(reqBody.country) ? reqBody.country : [reqBody.country];
-        if (reqBody.external_id) userData.external_id = Array.isArray(reqBody.external_id) ? reqBody.external_id : [reqBody.external_id];
-
-        const eventData = {
-            event_name: eventName,
-            event_time: eventTime,
-            event_id: eventId,
-            event_source_url: eventSourceUrl,
-            action_source: "website",
-            user_data: userData,
-            ...(reqBody.custom_data ? { custom_data: reqBody.custom_data } : {})
-        };
-
-        const metaPayload = {
-            data: [eventData],
-            ...(reqBody.test_event_code ? { test_event_code: reqBody.test_event_code } : {})
-        };
-
-        const fbResponse = await fetch(targetUrl, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify(metaPayload)
-        });
-
-        const fbResult = await fbResponse.json();
-
-        return new Response(JSON.stringify({
-            success: fbResponse.ok,
-            event_id: eventId,
-            meta_result: fbResult
-        }), {
-            status: fbResponse.status,
-            headers: {
-                "Content-Type": "application/json",
-                ...corsHeaders
-            }
-        });
-    } catch (err) {
-        return new Response(JSON.stringify({
-            success: false,
-            error: err.message
-        }), {
-            status: 500,
-            headers: {
-                "Content-Type": "application/json",
-                ...corsHeaders
-            }
-        });
+function cleanCustomData(value) {
+    if (!value || typeof value !== "object" || Array.isArray(value)) return undefined;
+    const cleaned = {};
+    for (const [key, entry] of Object.entries(value).slice(0, 12)) {
+        if (!/^[a-z_]{1,40}$/i.test(key)) continue;
+        if (typeof entry === "string") cleaned[key] = entry.slice(0, 200);
+        if (typeof entry === "number" && Number.isFinite(entry)) cleaned[key] = entry;
+        if (typeof entry === "boolean") cleaned[key] = entry;
     }
+    return Object.keys(cleaned).length ? cleaned : undefined;
 }
 
-export async function onRequestOptions(context) {
-    const { request } = context || {};
-    return new Response(null, {
-        status: 204,
-        headers: getCorsHeaders(request)
-    });
+export async function onRequestPost({ request, env }) {
+    if (!isAllowedWebsiteRequest(request)) return jsonResponse({ error: "Forbidden" }, 403, request);
+    if (bodyIsTooLarge(request) || isRateLimited(request, "capi")) return jsonResponse({ error: "Too many or oversized requests" }, 429, request);
+    if (!env?.META_CAPI_ACCESS_TOKEN) {
+        console.error("META_CAPI_ACCESS_TOKEN is not configured");
+        return jsonResponse({ error: "Tracking is unavailable" }, 503, request);
+    }
+    try {
+        const body = await request.json();
+        const eventName = ALLOWED_EVENTS.has(body.event_name) ? body.event_name : "Lead";
+        const eventTime = Number.isInteger(body.event_time) ? body.event_time : Math.floor(Date.now() / 1000);
+        const eventId = typeof body.event_id === "string" && /^[A-Za-z0-9_-]{1,100}$/.test(body.event_id) ? body.event_id : crypto.randomUUID();
+        const eventSourceUrl = isAllowedEventSource(body.event_source_url) ? body.event_source_url : "https://www.growellmarketing.com/";
+        const userData = {
+            client_ip_address: request.headers.get("cf-connecting-ip") || "",
+            client_user_agent: request.headers.get("user-agent") || ""
+        };
+        for (const key of ["em", "ph", "fn", "ln", "ct", "zp", "country", "external_id"]) {
+            const values = hashedValues(body[key]);
+            if (values.length) userData[key] = values;
+        }
+        for (const key of ["fbp", "fbc"]) {
+            if (typeof body[key] === "string" && body[key].length <= 200) userData[key] = body[key];
+        }
+        const event = {
+            event_name: eventName, event_time: eventTime, event_id: eventId,
+            event_source_url: eventSourceUrl, action_source: "website", user_data: userData
+        };
+        const customData = cleanCustomData(body.custom_data);
+        if (customData) event.custom_data = customData;
+        const pixelId = env.META_PIXEL_ID || DEFAULT_PIXEL_ID;
+        const response = await fetch(`https://graph.facebook.com/v21.0/${pixelId}/events?access_token=${env.META_CAPI_ACCESS_TOKEN}`, {
+            method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ data: [event] })
+        });
+        if (!response.ok) {
+            console.error("Meta CAPI request failed", response.status);
+            return jsonResponse({ error: "Tracking is unavailable" }, 502, request);
+        }
+        return jsonResponse({ success: true, event_id: eventId }, 202, request);
+    } catch { return jsonResponse({ error: "Invalid request" }, 400, request); }
+}
+
+export function onRequestOptions({ request }) {
+    if (!isAllowedWebsiteRequest(request)) return new Response(null, { status: 403 });
+    return new Response(null, { status: 204, headers: corsHeaders(request) });
 }
