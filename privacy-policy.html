@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -357,59 +357,9 @@
         </div>
     </footer>
 
-    
-                <div class="growell-chatbot-container" id="growellChatbot">
-        <button class="chatbot-toggle-btn" id="chatToggleBtn" aria-label="Open Chatbot Assistant">
-            <i class="fa-solid fa-comments icon-open"></i>
-            <span class="chat-badge">1</span>
-        </button>
-
-        <div class="chatbot-window" id="chatWindow">
-            <div class="chat-header">
-                <div class="chat-header-user">
-                    <div class="chat-avatar">
-                        <img src="/assets/Growell_logo_circle.webp" width="40" height="40" alt="Growell AI Assistant" loading="lazy"
-                            onerror="this.style.display='none'" decoding="async">
-                        <span class="avatar-initials">G</span>
-                    </div>
-                    <div class="chat-status-info">
-                        <h4>Growell AI Assistant</h4>
-                        <p><span class="online-dot"></span> 24/7 Customer Support Online</p>
-                    </div>
-                </div>
-                <button class="chat-close-btn" id="chatCloseBtn" aria-label="Close Chat">&times;</button>
-            </div>
-
-            <div class="chat-messages" id="chatMessages">
-                <div class="chat-msg bot">
-                    <div class="msg-bubble">
-                        Hello! Welcome to Growell Support. I am your 24/7 Customer Care Assistant.
-                    </div>
-                </div>
-                <div class="chat-msg bot">
-                    <div class="msg-bubble">
-                        How can we help you today? (Select an option below or <b>type any question</b>):
-                    </div>
-                </div>
-                <div class="chat-options-group" id="chatStep1Options">
-                    <button class="chat-opt-btn" data-goal="Talk to Support Representative"><i class="fa-solid fa-headset" style="margin-right: 6px;"></i> Connect with Support Representative</button>
-                    <button class="chat-opt-btn" data-goal="Agency Services & Pricing"><i class="fa-solid fa-tag" style="margin-right: 6px;"></i> Services &amp; Pricing Information</button>
-                    <button class="chat-opt-btn" data-goal="Request Immediate Callback"><i class="fa-solid fa-phone" style="margin-right: 6px;"></i> Request Immediate Callback</button>
-                    <button class="chat-opt-btn" data-goal="Office Address & Directions"><i class="fa-solid fa-location-dot" style="margin-right: 6px;"></i> Office Location &amp; Directions</button>
-                </div>
-            </div>
-
-            <div class="chat-input-bar">
-                <input type="text" id="chatSearchInput" placeholder="Ask anything: Services, Pricing, Address, Team..."
-                    autocomplete="off" aria-label="Ask Growell AI a question">
-                <button id="chatSearchSend" aria-label="Send Query"><i class="fa-solid fa-paper-plane"></i></button>
-            </div>
-
-            <div class="chat-footer">
-                <span>&bull; Growell Marketing AI Assistant</span>
-            </div>
-        </div>
-    </div>
+    <!-- Growell AI Chatbot Widget (Powered by n8n AI Agent - Light Premium Theme) -->
+    <link rel="stylesheet" href="css/growell-chatbot.css?v=3">
+    <script src="js/growell-chatbot.js?v=3" defer></script>
 
 
     <script src="js/script.js" defer></script>

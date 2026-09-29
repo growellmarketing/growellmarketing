@@ -15,10 +15,15 @@
   var STORAGE_KEY_DISMISSED = "gw_chatbot_auto_dismissed";
   var AUTO_OPEN_DELAY_MS = 5500; // 5.5 seconds
 
-  // Determine asset path relative to root
-  var isSubdir = window.location.pathname.indexOf('/blog/') !== -1 || window.location.pathname.indexOf('/services/') !== -1;
-  var assetPrefix = isSubdir ? "../" : "";
-  var LOGO_URL = assetPrefix + "assets/Growell_logo_circle.webp";
+  // Determine asset path relative to root (supports file:// and web server)
+  var isLocalFile = window.location.protocol === "file:";
+  var isSubdir = window.location.pathname.toLowerCase().indexOf('/blog/') !== -1 || 
+                 window.location.pathname.toLowerCase().indexOf('/services/') !== -1 ||
+                 window.location.pathname.toLowerCase().indexOf('\\blog\\') !== -1 ||
+                 window.location.pathname.toLowerCase().indexOf('\\services\\') !== -1;
+  var assetPrefix = isLocalFile ? (isSubdir ? "../" : "") : "/";
+  var LOGO_URL = isLocalFile ? (assetPrefix + "assets/Growell_logo_circle.webp") : "/assets/Growell_logo_circle.webp";
+  var CSS_URL = isLocalFile ? (assetPrefix + "css/growell-chatbot.css?v=3") : "/css/growell-chatbot.css?v=3";
 
   // Session ID Management
   function getSessionId() {
@@ -419,7 +424,7 @@
       var link = document.createElement("link");
       link.id = "gwChatbotStyles";
       link.rel = "stylesheet";
-      link.href = assetPrefix + "css/growell-chatbot.css?v=3";
+      link.href = CSS_URL;
       document.head.appendChild(link);
     }
   }
