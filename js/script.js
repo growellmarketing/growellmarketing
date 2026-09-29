@@ -1790,34 +1790,8 @@
         }
     })();
 
-    /* ---------- 11. MOBILE FLOATING STICKY LEAD BAR INJECTION ---------- */
-    (function () {
-        var mobileBarHtml = `
-            <div class="mobile-sticky-lead-bar">
-                <a href="tel:+917850932754" class="sticky-btn call-btn">
-                    <i class="fa-solid fa-phone"></i> <span>Call Us</span>
-                </a>
-                <a href="https://wa.me/917850932754?text=Hi%20Growell%20Marketing!%20I%20want%20to%20know%20more%20about%20your%20services." target="_blank" class="sticky-btn wa-btn">
-                    <i class="fa-brands fa-whatsapp"></i> <span>WhatsApp</span>
-                </a>
-                <button class="sticky-btn audit-btn" data-modal-trigger="true">
-                    <i class="fa-solid fa-rocket"></i> <span>Free Audit</span>
-                </button>
-            </div>
-        `;
-        document.body.insertAdjacentHTML("beforeend", mobileBarHtml);
-        var mobileBar = document.querySelector(".mobile-sticky-lead-bar");
-        var hero = document.querySelector(".hero-section");
-        function updateMobileBarVisibility() {
-            if (!mobileBar || !hero) return;
-            var heroBottom = hero.getBoundingClientRect().bottom;
-            mobileBar.classList.toggle("is-hidden", window.innerWidth <= 768 && heroBottom > (window.innerHeight - 72));
-        }
-        updateMobileBarVisibility();
-        window.addEventListener("scroll", updateMobileBarVisibility, { passive: true });
-        window.addEventListener("resize", updateMobileBarVisibility);
-    })();
-
+    /* ---------- 11. MOBILE FLOATING STICKY LEAD BAR (REMOVED) ---------- */
+    // Sticky bar removed as requested by user
 
     /* ---------- 12. LOCAL & LOCALHOST NAVIGATION RESOLVER ---------- */
     (function () {

@@ -2,6 +2,7 @@
  * ===================================================================
  * Growell Marketing - Premium AI Chatbot Widget (Light Theme)
  * Powered by n8n AI Agent Workflow (GPT-4o + Growell Knowledge Base)
+ * Features: Compact mobile mode, 5-6s auto-open, permanent cancel dismissal
  * ===================================================================
  */
 (function () {
@@ -11,6 +12,8 @@
   var WHATSAPP_NUMBER = "917850932754";
   var STORAGE_KEY_SESSION = "gw_chatbot_session_id";
   var STORAGE_KEY_HISTORY = "gw_chatbot_history";
+  var STORAGE_KEY_DISMISSED = "gw_chatbot_auto_dismissed";
+  var AUTO_OPEN_DELAY_MS = 5500; // 5.5 seconds
 
   // Determine asset path relative to root
   var isSubdir = window.location.pathname.indexOf('/blog/') !== -1 || window.location.pathname.indexOf('/services/') !== -1;
@@ -81,23 +84,30 @@
     return escaped;
   }
 
-  // Hide legacy static chatbot containers if present on the page
-  function hideLegacyChatbots() {
-    var oldIds = ["growellChatbot", "chatToggleBtn", "chatWindow"];
-    oldIds.forEach(function (id) {
-      var el = document.getElementById(id);
-      if (el && !el.id.startsWith("gw")) {
-        el.style.display = "none";
-      }
+  // Remove legacy static chatbot or mobile bottom action bars if present
+  function cleanupLegacyElements() {
+    var selectors = [
+      "#growellChatbot",
+      "#chatToggleBtn",
+      "#chatWindow",
+      ".mobile-sticky-lead-bar"
+    ];
+    selectors.forEach(function (sel) {
+      var els = document.querySelectorAll(sel);
+      els.forEach(function (el) {
+        if (!el.id.startsWith("gw")) {
+          el.remove();
+        }
+      });
     });
   }
 
   // Build UI
   function initChatbot() {
     if (document.getElementById("gwChatLauncher")) return;
-    hideLegacyChatbots();
+    cleanupLegacyElements();
 
-    // 1. Floating Teaser Tooltip
+    // 1. Floating Teaser Tooltip (Desktop only)
     var teaser = document.createElement("div");
     teaser.id = "gwChatTeaser";
     teaser.className = "gw-chat-teaser";
@@ -175,25 +185,60 @@
     var badge = document.getElementById("gwChatBadge");
     var teaserClose = document.getElementById("gwTeaserClose");
 
-    // Toggle window
-    function toggleChat() {
-      var isOpen = chatWindow.classList.toggle("open");
-      launcher.classList.toggle("active", isOpen);
-      if (teaser) teaser.style.display = "none";
+    // Track auto-open timer
+    var autoOpenTimer = null;
 
-      if (isOpen) {
-        if (badge) badge.style.display = "none";
+    function openChat(isUserAction) {
+      if (autoOpenTimer) {
+        clearTimeout(autoOpenTimer);
+        autoOpenTimer = null;
+      }
+      chatWindow.classList.add("open");
+      launcher.classList.add("active");
+      if (teaser) teaser.style.display = "none";
+      if (badge) badge.style.display = "none";
+
+      // Focus input on desktop only (avoid auto-popping keyboard on mobile phones)
+      if (isUserAction && window.innerWidth > 480) {
         setTimeout(function () {
           chatInput.focus();
         }, 150);
       }
     }
 
+    function closeChat(isUserAction) {
+      if (autoOpenTimer) {
+        clearTimeout(autoOpenTimer);
+        autoOpenTimer = null;
+      }
+      chatWindow.classList.remove("open");
+      launcher.classList.remove("active");
+
+      // When the customer cancels/closes the chat, remember permanently so it never auto-opens again
+      if (isUserAction) {
+        try {
+          localStorage.setItem(STORAGE_KEY_DISMISSED, "true");
+          sessionStorage.setItem(STORAGE_KEY_DISMISSED, "true");
+        } catch (e) {}
+      }
+    }
+
+    function toggleChat() {
+      if (chatWindow.classList.contains("open")) {
+        closeChat(true); // User closed/cancelled
+      } else {
+        openChat(true); // User opened
+      }
+    }
+
     launcher.addEventListener("click", toggleChat);
-    closeBtn.addEventListener("click", toggleChat);
+    closeBtn.addEventListener("click", function () {
+      closeChat(true); // User explicitly cancelled/closed
+    });
+
     teaser.addEventListener("click", function (e) {
       if (e.target.id === "gwTeaserClose") return;
-      toggleChat();
+      openChat(true);
     });
 
     if (teaserClose) {
@@ -203,7 +248,29 @@
       });
     }
 
-    // Auto-hide teaser after 10 seconds
+    // Auto-open chatbot after 5-6 seconds UNLESS previously dismissed by user
+    function scheduleAutoOpen() {
+      var isDismissed = false;
+      try {
+        isDismissed = (localStorage.getItem(STORAGE_KEY_DISMISSED) === "true") ||
+                      (sessionStorage.getItem(STORAGE_KEY_DISMISSED) === "true");
+      } catch (e) {}
+
+      if (isDismissed) {
+        // Customer has previously cancelled or closed the chat: NEVER auto-open again!
+        return;
+      }
+
+      autoOpenTimer = setTimeout(function () {
+        if (!chatWindow.classList.contains("open")) {
+          openChat(false); // Auto-open without forceful keyboard popup
+        }
+      }, AUTO_OPEN_DELAY_MS);
+    }
+
+    scheduleAutoOpen();
+
+    // Auto-hide teaser after 10 seconds if chat not open
     setTimeout(function () {
       if (teaser && !chatWindow.classList.contains("open")) {
         teaser.style.opacity = "0";
@@ -250,7 +317,7 @@
       }
     }
 
-    // Send to n8n
+    // Send message to n8n AI webhook
     function handleUserSend(text) {
       if (!text || !text.trim()) return;
       var cleanText = text.trim();
@@ -352,7 +419,7 @@
       var link = document.createElement("link");
       link.id = "gwChatbotStyles";
       link.rel = "stylesheet";
-      link.href = assetPrefix + "css/growell-chatbot.css";
+      link.href = assetPrefix + "css/growell-chatbot.css?v=3";
       document.head.appendChild(link);
     }
   }

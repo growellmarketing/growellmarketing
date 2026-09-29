@@ -5823,69 +5823,9 @@ input:checked+.slider:before {
 
 
 /* Mobile Floating Sticky Lead Bar */
+/* Mobile Floating Sticky Lead Bar (Disabled) */
 .mobile-sticky-lead-bar {
-    display: none;
-}
-
-@media (max-width: 768px) {
-    .mobile-sticky-lead-bar {
-        display: flex;
-        position: fixed;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        height: 60px;
-        background: #110B29;
-        box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.25);
-        z-index: 999999;
-        align-items: center;
-        justify-content: space-around;
-        padding: 6px 10px;
-        border-top: 1px solid rgba(255, 255, 255, 0.12);
-        transition: transform 180ms ease, opacity 180ms ease;
-    }
-
-    .mobile-sticky-lead-bar.is-hidden {
-        transform: translateY(110%);
-        opacity: 0;
-        pointer-events: none;
-    }
-
-    .sticky-btn {
-        flex: 1;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 6px;
-        height: 44px;
-        margin: 0 4px;
-        border-radius: 8px;
-        font-size: 13.5px;
-        font-weight: 700;
-        text-decoration: none;
-        color: #ffffff;
-        border: none;
-        cursor: pointer;
-    }
-
-    .sticky-btn.call-btn {
-        background: rgba(255, 255, 255, 0.12);
-        color: #ffffff;
-    }
-
-    .sticky-btn.wa-btn {
-        background: #25D366;
-        color: #ffffff;
-    }
-
-    .sticky-btn.audit-btn {
-        background: linear-gradient(135deg, #654E9F, #7B52AB);
-        color: #ffffff;
-    }
-
-    body {
-        padding-bottom: 60px !important;
-    }
+    display: none !important;
 }
 
 /* Privacy choices remain visible above the mobile lead bar. */
@@ -6861,7 +6801,7 @@ input:checked+.slider:before {
     transform: scale(0.96);
 }
 
-/* Hover: The card POPUP effect — significantly larger and crystal sharp */
+/* Hover: The card POPUP effect â€” significantly larger and crystal sharp */
 .portfolio-stream-card:hover,
 .portfolio-stream-card.is-hovered {
     z-index: 999999 !important;
