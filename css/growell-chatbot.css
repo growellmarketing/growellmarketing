@@ -506,14 +506,14 @@
 /* User Message Bubble (Vibrant Brand Gradient) */
 .gw-msg.user .gw-msg-bubble {
   background: var(--gw-chat-user-bubble);
-  color: #FFFFFF;
+  color: var(--gw-chat-bot-text);
   border-bottom-right-radius: 4px;
   box-shadow: 0 4px 14px rgba(101, 78, 159, 0.25);
   font-weight: 400;
 }
 
 .gw-msg.user .gw-msg-bubble strong {
-  color: #FFFFFF;
+  color: var(--gw-chat-bot-text);
   font-weight: 700;
 }
 
