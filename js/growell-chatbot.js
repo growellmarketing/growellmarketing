@@ -1,0 +1,369 @@
+/**
+ * ===================================================================
+ * Growell Marketing - Premium AI Chatbot Widget (Light Theme)
+ * Powered by n8n AI Agent Workflow (GPT-4o + Growell Knowledge Base)
+ * ===================================================================
+ */
+(function () {
+  "use strict";
+
+  var N8N_CHAT_ENDPOINT = "https://growellmarketing.app.n8n.cloud/webhook/10756f19-f3df-4f0d-af5c-7df121f0c489/chat";
+  var WHATSAPP_NUMBER = "917850932754";
+  var STORAGE_KEY_SESSION = "gw_chatbot_session_id";
+  var STORAGE_KEY_HISTORY = "gw_chatbot_history";
+
+  // Determine asset path relative to root
+  var isSubdir = window.location.pathname.indexOf('/blog/') !== -1 || window.location.pathname.indexOf('/services/') !== -1;
+  var assetPrefix = isSubdir ? "../" : "";
+  var LOGO_URL = assetPrefix + "assets/Growell_logo_circle.webp";
+
+  // Session ID Management
+  function getSessionId() {
+    var sid = localStorage.getItem(STORAGE_KEY_SESSION);
+    if (!sid) {
+      sid = "gw_visitor_" + Date.now() + "_" + Math.random().toString(36).substring(2, 9);
+      localStorage.setItem(STORAGE_KEY_SESSION, sid);
+    }
+    return sid;
+  }
+
+  function resetSession() {
+    localStorage.removeItem(STORAGE_KEY_SESSION);
+    localStorage.removeItem(STORAGE_KEY_HISTORY);
+    return getSessionId();
+  }
+
+  // Load / Save Chat History
+  function getChatHistory() {
+    try {
+      var h = localStorage.getItem(STORAGE_KEY_HISTORY);
+      return h ? JSON.parse(h) : [];
+    } catch (e) {
+      return [];
+    }
+  }
+
+  function saveChatMessage(sender, text) {
+    try {
+      var h = getChatHistory();
+      h.push({
+        sender: sender,
+        text: text,
+        time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+      });
+      if (h.length > 30) h.shift();
+      localStorage.setItem(STORAGE_KEY_HISTORY, JSON.stringify(h));
+    } catch (e) {}
+  }
+
+  // Markdown to Safe HTML formatter
+  function formatMarkdown(text) {
+    if (!text) return "";
+    var escaped = String(text)
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;");
+
+    // Bold **text** or *text*
+    escaped = escaped.replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>");
+    escaped = escaped.replace(/\*(.*?)\*/g, "<strong>$1</strong>");
+
+    // Clickable URLs
+    escaped = escaped.replace(/(https?:\/\/[^\s]+)/g, function (url) {
+      return '<a href="' + url + '" target="_blank" rel="noopener noreferrer">' + url + '</a>';
+    });
+
+    // Bullet points: lines starting with - or *
+    escaped = escaped.replace(/(?:^|\n)[-*]\s+(.+)/g, "<br>&bull; $1");
+
+    // Newlines
+    escaped = escaped.replace(/\n/g, "<br>");
+    return escaped;
+  }
+
+  // Hide legacy static chatbot containers if present on the page
+  function hideLegacyChatbots() {
+    var oldIds = ["growellChatbot", "chatToggleBtn", "chatWindow"];
+    oldIds.forEach(function (id) {
+      var el = document.getElementById(id);
+      if (el && !el.id.startsWith("gw")) {
+        el.style.display = "none";
+      }
+    });
+  }
+
+  // Build UI
+  function initChatbot() {
+    if (document.getElementById("gwChatLauncher")) return;
+    hideLegacyChatbots();
+
+    // 1. Floating Teaser Tooltip
+    var teaser = document.createElement("div");
+    teaser.id = "gwChatTeaser";
+    teaser.className = "gw-chat-teaser";
+    teaser.innerHTML =
+      '<div class="gw-teaser-text"><span class="wave">👋</span> Need help growing your business? Ask our AI!</div>' +
+      '<button type="button" class="gw-teaser-close" id="gwTeaserClose" aria-label="Dismiss teaser">&times;</button>';
+
+    // 2. Launcher Button
+    var launcher = document.createElement("div");
+    launcher.id = "gwChatLauncher";
+    launcher.className = "gw-chat-launcher";
+    launcher.setAttribute("role", "button");
+    launcher.setAttribute("aria-label", "Open Growell AI Chat");
+    launcher.innerHTML =
+      '<svg class="icon-chat" viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 14H6l-2 2V4h16v12z"/></svg>' +
+      '<svg class="icon-close" viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>' +
+      '<span class="gw-chat-badge" id="gwChatBadge">1</span>';
+
+    // 3. Chat Window
+    var chatWindow = document.createElement("div");
+    chatWindow.id = "gwChatWindow";
+    chatWindow.className = "gw-chat-window";
+    chatWindow.setAttribute("role", "dialog");
+    chatWindow.setAttribute("aria-label", "Growell Marketing AI Chatbot");
+
+    chatWindow.innerHTML =
+      '<div class="gw-chat-header">' +
+        '<div class="gw-chat-header-profile">' +
+          '<div class="gw-chat-avatar">' +
+            '<img src="' + LOGO_URL + '" alt="Growell" class="gw-avatar-img" onerror="this.style.display=\'none\'; this.nextElementSibling.style.display=\'inline\';">' +
+            '<span class="gw-avatar-fallback" style="display:none;">GM</span>' +
+            '<span class="gw-chat-online-dot"></span>' +
+          '</div>' +
+          '<div class="gw-chat-header-info">' +
+            '<h4>Growell AI Assistant</h4>' +
+            '<span class="gw-status-text">Online • Quick Reply</span>' +
+          '</div>' +
+        '</div>' +
+        '<div class="gw-chat-header-actions">' +
+          '<a href="https://wa.me/' + WHATSAPP_NUMBER + '?text=Hi%20Growell%20Team!%20I%20was%20chatting%20with%20your%20website%20AI%20and%20want%20to%20connect%20directly." target="_blank" rel="noopener noreferrer" class="gw-chat-wa-btn" title="Chat on WhatsApp">' +
+            '<svg viewBox="0 0 24 24"><path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.816 9.816 0 0012.04 2zm0 18.09c-1.48 0-2.93-.4-4.2-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.13 8.13 0 01-1.25-4.32c0-4.51 3.67-8.18 8.18-8.18 2.19 0 4.24.85 5.79 2.4 1.55 1.55 2.4 3.6 2.4 5.79 0 4.51-3.67 8.18-8.18 8.18zm4.49-6.13c-.25-.12-1.47-.72-1.7-.81-.23-.08-.39-.12-.56.12-.17.25-.64.81-.79.97-.14.17-.29.19-.54.06-.25-.12-1.05-.39-2-1.23-.74-.66-1.24-1.47-1.39-1.72-.14-.25-.02-.38.11-.5.11-.11.25-.29.37-.43.12-.14.17-.25.25-.41.08-.17.04-.31-.02-.43s-.56-1.34-.76-1.84c-.2-.48-.41-.42-.56-.43h-.48c-.17 0-.43.06-.66.31-.22.25-.86.84-.86 2.05s.88 2.38 1 2.55c.12.17 1.73 2.65 4.2 3.71.59.25 1.05.41 1.41.52.59.19 1.13.16 1.56.1.48-.07 1.47-.6 1.68-1.18.21-.58.21-1.07.14-1.18-.06-.11-.23-.17-.48-.29z"/></svg>' +
+            '<span>WhatsApp</span>' +
+          '</a>' +
+          '<button type="button" class="gw-chat-action-btn" id="gwChatRestartBtn" title="Restart Conversation" aria-label="Restart Conversation">' +
+            '<svg viewBox="0 0 24 24"><path d="M17.65 6.35C16.2 4.9 14.21 4 12 4c-4.42 0-7.99 3.58-7.99 8s3.57 8 7.99 8c3.73 0 6.84-2.55 7.73-6h-2.08c-.82 2.33-3.04 4-5.65 4-3.31 0-6-2.69-6-6s2.69-6 6-6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35z"/></svg>' +
+          '</button>' +
+          '<button type="button" class="gw-chat-action-btn" id="gwChatCloseBtn" title="Close Chat" aria-label="Close Chat">' +
+            '<svg viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>' +
+          '</button>' +
+        '</div>' +
+      '</div>' +
+      '<div class="gw-chat-messages" id="gwChatMessages">' +
+        '<div class="gw-chat-date-pill">⚡ Powered by Growell AI • 24/7 Online</div>' +
+      '</div>' +
+      '<div class="gw-chat-footer">' +
+        '<form class="gw-chat-form" id="gwChatForm">' +
+          '<input type="text" class="gw-chat-input" id="gwChatInput" placeholder="Ask about services, pricing, leads..." autocomplete="off">' +
+          '<button type="submit" class="gw-chat-send-btn" id="gwChatSendBtn" aria-label="Send message">' +
+            '<svg viewBox="0 0 24 24"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>' +
+          '</button>' +
+        '</form>' +
+        '<div class="gw-chat-powered"><span class="bolt">⚡</span> Growell Marketing AI Consultant</div>' +
+      '</div>';
+
+    document.body.appendChild(teaser);
+    document.body.appendChild(launcher);
+    document.body.appendChild(chatWindow);
+
+    var messagesContainer = document.getElementById("gwChatMessages");
+    var chatForm = document.getElementById("gwChatForm");
+    var chatInput = document.getElementById("gwChatInput");
+    var sendBtn = document.getElementById("gwChatSendBtn");
+    var closeBtn = document.getElementById("gwChatCloseBtn");
+    var restartBtn = document.getElementById("gwChatRestartBtn");
+    var badge = document.getElementById("gwChatBadge");
+    var teaserClose = document.getElementById("gwTeaserClose");
+
+    // Toggle window
+    function toggleChat() {
+      var isOpen = chatWindow.classList.toggle("open");
+      launcher.classList.toggle("active", isOpen);
+      if (teaser) teaser.style.display = "none";
+
+      if (isOpen) {
+        if (badge) badge.style.display = "none";
+        setTimeout(function () {
+          chatInput.focus();
+        }, 150);
+      }
+    }
+
+    launcher.addEventListener("click", toggleChat);
+    closeBtn.addEventListener("click", toggleChat);
+    teaser.addEventListener("click", function (e) {
+      if (e.target.id === "gwTeaserClose") return;
+      toggleChat();
+    });
+
+    if (teaserClose) {
+      teaserClose.addEventListener("click", function (e) {
+        e.stopPropagation();
+        teaser.style.display = "none";
+      });
+    }
+
+    // Auto-hide teaser after 10 seconds
+    setTimeout(function () {
+      if (teaser && !chatWindow.classList.contains("open")) {
+        teaser.style.opacity = "0";
+        setTimeout(function () { teaser.style.display = "none"; }, 400);
+      }
+    }, 10000);
+
+    // Append Message to UI
+    function appendMessage(sender, text, formattedHtml, time) {
+      var msgDiv = document.createElement("div");
+      msgDiv.className = "gw-msg " + sender;
+      var timeStr = time || new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+      var contentHtml = formattedHtml || formatMarkdown(text);
+
+      msgDiv.innerHTML =
+        '<div class="gw-msg-bubble">' + contentHtml + '</div>' +
+        '<span class="gw-msg-time">' + timeStr + '</span>';
+
+      messagesContainer.appendChild(msgDiv);
+      messagesContainer.scrollTop = messagesContainer.scrollHeight;
+    }
+
+    // Typing indicator
+    var typingDiv = null;
+    function showTyping() {
+      if (typingDiv) return;
+      typingDiv = document.createElement("div");
+      typingDiv.className = "gw-msg bot";
+      typingDiv.id = "gwTypingIndicator";
+      typingDiv.innerHTML =
+        '<div class="gw-typing-bubble">' +
+          '<div class="gw-typing-dot"></div>' +
+          '<div class="gw-typing-dot"></div>' +
+          '<div class="gw-typing-dot"></div>' +
+        '</div>';
+      messagesContainer.appendChild(typingDiv);
+      messagesContainer.scrollTop = messagesContainer.scrollHeight;
+    }
+
+    function hideTyping() {
+      if (typingDiv) {
+        typingDiv.remove();
+        typingDiv = null;
+      }
+    }
+
+    // Send to n8n
+    function handleUserSend(text) {
+      if (!text || !text.trim()) return;
+      var cleanText = text.trim();
+      appendMessage("user", cleanText);
+      saveChatMessage("user", cleanText);
+      chatInput.value = "";
+      sendBtn.disabled = true;
+      showTyping();
+
+      var sid = getSessionId();
+
+      fetch(N8N_CHAT_ENDPOINT, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          action: "sendMessage",
+          sessionId: sid,
+          chatInput: cleanText
+        })
+      })
+      .then(function (res) {
+        if (!res.ok) throw new Error("HTTP " + res.status);
+        return res.json();
+      })
+      .then(function (data) {
+        hideTyping();
+        sendBtn.disabled = false;
+        var reply = data.output || "Thank you! Our growth team will get back to you shortly.";
+        appendMessage("bot", reply);
+        saveChatMessage("bot", reply);
+      })
+      .catch(function (err) {
+        hideTyping();
+        sendBtn.disabled = false;
+        console.error("Growell Chatbot error:", err);
+        var fallbackMsg = "Thank you for reaching out! You can also connect directly with our team on WhatsApp for an immediate response: https://wa.me/" + WHATSAPP_NUMBER;
+        appendMessage("bot", fallbackMsg);
+        saveChatMessage("bot", fallbackMsg);
+      });
+    }
+
+    // Render Quick Action Chips
+    function appendWelcomeWithChips() {
+      var welcomeText = "Namaste! Welcome to <strong>Growell Marketing</strong> 👋<br><br>I'm your 24/7 AI Growth Consultant. How can we help scale your business today?";
+      var chipsHtml =
+        '<div class="gw-msg-bubble">' + welcomeText +
+          '<div class="gw-chat-chips">' +
+            '<button type="button" class="gw-chip-btn" data-query="Mujhe Meta & Google Ads se high-quality leads chahiye"><span class="gw-chip-icon">🚀</span><span>Scale With Meta &amp; Google Ads</span></button>' +
+            '<button type="button" class="gw-chip-btn" data-query="Mujhe ek High-Converting Website / Landing Page banwani hai"><span class="gw-chip-icon">💻</span><span>High-Converting Website</span></button>' +
+            '<button type="button" class="gw-chip-btn" data-query="Mujhe Local SEO & Google Top Rankings chahiye"><span class="gw-chip-icon">📈</span><span>SEO &amp; Top Google Rankings</span></button>' +
+            '<button type="button" class="gw-chip-btn" data-query="Mujhe Free Growth Audit claim karni hai"><span class="gw-chip-icon">🎁</span><span>Claim Free Growth Audit</span></button>' +
+          '</div>' +
+        '</div>' +
+        '<span class="gw-msg-time">' + new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) + '</span>';
+
+      var welcomeDiv = document.createElement("div");
+      welcomeDiv.className = "gw-msg bot";
+      welcomeDiv.innerHTML = chipsHtml;
+      messagesContainer.appendChild(welcomeDiv);
+
+      var chipButtons = welcomeDiv.querySelectorAll(".gw-chip-btn");
+      chipButtons.forEach(function (btn) {
+        btn.addEventListener("click", function () {
+          var query = this.getAttribute("data-query");
+          handleUserSend(query);
+        });
+      });
+    }
+
+    // Restart Conversation
+    restartBtn.addEventListener("click", function () {
+      if (confirm("Are you sure you want to restart this chat?")) {
+        resetSession();
+        messagesContainer.innerHTML = '<div class="gw-chat-date-pill">⚡ Powered by Growell AI • 24/7 Online</div>';
+        appendWelcomeWithChips();
+      }
+    });
+
+    // Load existing history or show welcome
+    var history = getChatHistory();
+    if (history.length > 0) {
+      history.forEach(function (m) {
+        appendMessage(m.sender, m.text, null, m.time);
+      });
+    } else {
+      appendWelcomeWithChips();
+    }
+
+    // Form submit
+    chatForm.addEventListener("submit", function (e) {
+      e.preventDefault();
+      handleUserSend(chatInput.value);
+    });
+  }
+
+  // Load stylesheet dynamically if not already linked
+  function ensureStyles() {
+    if (!document.getElementById("gwChatbotStyles")) {
+      var link = document.createElement("link");
+      link.id = "gwChatbotStyles";
+      link.rel = "stylesheet";
+      link.href = assetPrefix + "css/growell-chatbot.css";
+      document.head.appendChild(link);
+    }
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", function () {
+      ensureStyles();
+      initChatbot();
+    });
+  } else {
+    ensureStyles();
+    initChatbot();
+  }
+})();

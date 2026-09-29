@@ -5892,9 +5892,10 @@ input:checked+.slider:before {
 .consent-banner {
     position: fixed;
     z-index: 1000000;
-    right: 20px;
-    bottom: 20px;
-    max-width: 520px;
+    left: 24px;
+    right: auto;
+    bottom: 24px;
+    max-width: 480px;
     padding: 18px;
     border-radius: 12px;
     color: #fff;
