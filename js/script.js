@@ -1466,7 +1466,7 @@
         var prefix = isLocal ? (isSubdir ? '../' : '') : '/';
         var script = document.createElement('script');
         script.id = 'gwChatbotScript';
-        script.src = prefix + 'js/growell-chatbot.js?v=3';
+        script.src = prefix + 'js/growell-chatbot.js?v=4';
         script.defer = true;
         document.body.appendChild(script);
     })();

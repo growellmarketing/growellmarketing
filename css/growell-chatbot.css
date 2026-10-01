@@ -2,7 +2,7 @@
    GROWELL MARKETING - PREMIUM AI CHATBOT WIDGET (LIGHT THEME)
    Powered by n8n AI Agent Workflow
    Brand Palette: Royal Purple (#654E9F, #7C3AED), White (#FFFFFF),
-   Slate (#F8FAFC, #1E293B), WhatsApp (#25D366)
+   Slate (#F8FAFC, #1E293B)
    =================================================================== */
 
 :root {
@@ -14,8 +14,6 @@
   
   --gw-chat-accent: #10B981;
   --gw-chat-accent-glow: rgba(16, 185, 129, 0.4);
-  --gw-chat-wa: #25D366;
-  --gw-chat-wa-hover: #20BA5A;
 
   /* LIGHT THEME SURFACES */
   --gw-chat-window-bg: #FFFFFF;
@@ -345,36 +343,6 @@
   flex-shrink: 0;
 }
 
-/* WhatsApp Direct Button in Header */
-.gw-chat-wa-btn {
-  background: rgba(255, 255, 255, 0.18);
-  border: 1px solid rgba(255, 255, 255, 0.3);
-  color: #FFFFFF;
-  border-radius: 20px;
-  padding: 5px 10px;
-  font-size: 11.5px;
-  font-weight: 600;
-  display: inline-flex;
-  align-items: center;
-  gap: 5px;
-  text-decoration: none;
-  transition: all 0.2s ease;
-}
-
-.gw-chat-wa-btn svg {
-  width: 13px;
-  height: 13px;
-  fill: currentColor;
-}
-
-.gw-chat-wa-btn:hover {
-  background: #25D366;
-  border-color: #25D366;
-  color: #FFFFFF;
-  transform: translateY(-1px);
-  box-shadow: 0 3px 10px rgba(37, 211, 102, 0.35);
-}
-
 /* Header Action Buttons (Restart & Close) */
 .gw-chat-action-btn {
   background: rgba(255, 255, 255, 0.15);
@@ -451,7 +419,7 @@
 .gw-msg {
   display: flex;
   flex-direction: column;
-  max-width: 86%;
+  max-width: 80%;
   animation: gwMsgFadeIn 0.28s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
@@ -767,17 +735,6 @@
 
   .gw-chat-header-info span.gw-status-text {
     font-size: 10px !important;
-  }
-
-  .gw-chat-wa-btn {
-    padding: 3px 7px !important;
-    font-size: 10px !important;
-    gap: 3px !important;
-  }
-
-  .gw-chat-wa-btn svg {
-    width: 11px !important;
-    height: 11px !important;
   }
 
   .gw-chat-action-btn {

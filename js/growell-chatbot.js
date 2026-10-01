@@ -9,7 +9,6 @@
   "use strict";
 
   var N8N_CHAT_ENDPOINT = "https://growellmarketing.app.n8n.cloud/webhook/10756f19-f3df-4f0d-af5c-7df121f0c489/chat";
-  var WHATSAPP_NUMBER = "917850932754";
   var STORAGE_KEY_SESSION = "gw_chatbot_session_id";
   var STORAGE_KEY_HISTORY = "gw_chatbot_history";
   var STORAGE_KEY_DISMISSED = "gw_chatbot_auto_dismissed";
@@ -23,7 +22,7 @@
                  window.location.pathname.toLowerCase().indexOf('\\services\\') !== -1;
   var assetPrefix = isLocalFile ? (isSubdir ? "../" : "") : "/";
   var LOGO_URL = isLocalFile ? (assetPrefix + "assets/Growell_logo_circle.webp") : "/assets/Growell_logo_circle.webp";
-  var CSS_URL = isLocalFile ? (assetPrefix + "css/growell-chatbot.css?v=3") : "/css/growell-chatbot.css?v=3";
+  var CSS_URL = isLocalFile ? (assetPrefix + "css/growell-chatbot.css?v=4") : "/css/growell-chatbot.css?v=4";
 
   // Session ID Management
   function getSessionId() {
@@ -152,10 +151,6 @@
           '</div>' +
         '</div>' +
         '<div class="gw-chat-header-actions">' +
-          '<a href="https://wa.me/' + WHATSAPP_NUMBER + '?text=Hi%20Growell%20Team!%20I%20was%20chatting%20with%20your%20website%20AI%20and%20want%20to%20connect%20directly." target="_blank" rel="noopener noreferrer" class="gw-chat-wa-btn" title="Chat on WhatsApp">' +
-            '<svg viewBox="0 0 24 24"><path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.816 9.816 0 0012.04 2zm0 18.09c-1.48 0-2.93-.4-4.2-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.13 8.13 0 01-1.25-4.32c0-4.51 3.67-8.18 8.18-8.18 2.19 0 4.24.85 5.79 2.4 1.55 1.55 2.4 3.6 2.4 5.79 0 4.51-3.67 8.18-8.18 8.18zm4.49-6.13c-.25-.12-1.47-.72-1.7-.81-.23-.08-.39-.12-.56.12-.17.25-.64.81-.79.97-.14.17-.29.19-.54.06-.25-.12-1.05-.39-2-1.23-.74-.66-1.24-1.47-1.39-1.72-.14-.25-.02-.38.11-.5.11-.11.25-.29.37-.43.12-.14.17-.25.25-.41.08-.17.04-.31-.02-.43s-.56-1.34-.76-1.84c-.2-.48-.41-.42-.56-.43h-.48c-.17 0-.43.06-.66.31-.22.25-.86.84-.86 2.05s.88 2.38 1 2.55c.12.17 1.73 2.65 4.2 3.71.59.25 1.05.41 1.41.52.59.19 1.13.16 1.56.1.48-.07 1.47-.6 1.68-1.18.21-.58.21-1.07.14-1.18-.06-.11-.23-.17-.48-.29z"/></svg>' +
-            '<span>WhatsApp</span>' +
-          '</a>' +
           '<button type="button" class="gw-chat-action-btn" id="gwChatRestartBtn" title="Restart Conversation" aria-label="Restart Conversation">' +
             '<svg viewBox="0 0 24 24"><path d="M17.65 6.35C16.2 4.9 14.21 4 12 4c-4.42 0-7.99 3.58-7.99 8s3.57 8 7.99 8c3.73 0 6.84-2.55 7.73-6h-2.08c-.82 2.33-3.04 4-5.65 4-3.31 0-6-2.69-6-6s2.69-6 6-6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35z"/></svg>' +
           '</button>' +
@@ -358,7 +353,7 @@
         hideTyping();
         sendBtn.disabled = false;
         console.error("Growell Chatbot error:", err);
-        var fallbackMsg = "Thank you for reaching out! You can also connect directly with our team on WhatsApp for an immediate response: https://wa.me/" + WHATSAPP_NUMBER;
+        var fallbackMsg = "Thank you for reaching out! Please leave your message or query, and our growth team will get back to you shortly.";
         appendMessage("bot", fallbackMsg);
         saveChatMessage("bot", fallbackMsg);
       });
