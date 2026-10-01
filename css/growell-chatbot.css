@@ -15,11 +15,11 @@
   --gw-chat-accent: #10B981;
   --gw-chat-accent-glow: rgba(16, 185, 129, 0.4);
 
-  /* LIGHT THEME SURFACES */
-  --gw-chat-window-bg: #FFFFFF;
-  --gw-chat-messages-bg: #F8FAFC;
-  --gw-chat-surface: #FFFFFF;
-  --gw-chat-card-border: #E2E8F0;
+  /* LIGHT THEME GLASS SURFACES */
+  --gw-chat-window-bg: rgba(255, 255, 255, 0.94);
+  --gw-chat-messages-bg: rgba(248, 250, 252, 0.85);
+  --gw-chat-surface: rgba(255, 255, 255, 0.9);
+  --gw-chat-card-border: rgba(255, 255, 255, 0.85);
   
   /* TYPOGRAPHY */
   --gw-chat-text: #1E293B;
@@ -49,11 +49,13 @@
   z-index: 999990 !important;
   display: flex;
   align-items: center;
-  background: #FFFFFF;
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
   padding: 10px 14px 10px 16px;
   border-radius: 14px 14px 4px 14px;
   border: 1px solid var(--gw-chat-card-border);
-  box-shadow: 0 8px 24px rgba(45, 23, 90, 0.12), 0 2px 6px rgba(0,0,0,0.04);
+  box-shadow: 0 8px 24px rgba(45, 23, 90, 0.12), inset 0 1px 0 #ffffff;
   font-family: "Lato", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   cursor: pointer;
   animation: gwTeaserFadeIn 0.5s cubic-bezier(0.16, 1, 0.3, 1), gwTeaserFloat 3s ease-in-out infinite alternate;
@@ -216,9 +218,11 @@
   height: 570px;
   max-height: calc(100vh - 120px);
   background: var(--gw-chat-window-bg);
+  backdrop-filter: blur(24px) saturate(180%);
+  -webkit-backdrop-filter: blur(24px) saturate(180%);
   border: 1px solid var(--gw-chat-card-border);
   border-radius: var(--gw-chat-radius);
-  box-shadow: var(--gw-chat-shadow);
+  box-shadow: 0 25px 60px -10px rgba(45, 23, 90, 0.22), 0 4px 20px rgba(0, 0, 0, 0.06), inset 0 1px 0 #ffffff;
   display: flex;
   flex-direction: column;
   overflow: hidden;
