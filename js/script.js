@@ -1134,7 +1134,7 @@
                 <button class="modal-close-btn" id="closeScopeModalBtn">&times;</button>
                 <span class="scope-modal-badge" id="scopeModalBadge">Service Scope</span>
                 <div class="audit-modal-header" style="text-align: left; margin-bottom: 15px;">
-                    <h2 id="scopeModalTitle" style="font-size: 24px;">Service Title</h2>
+                    <div id="scopeModalTitle" class="scope-modal-title" style="font-size: 24px; font-weight: 700; color: #1a1a2e;">Service Title</div>
                     <p id="scopeModalTimeline" style="color: #654E9F; font-weight: 600; font-size: 14px; margin-top: 4px;">Est. Turnaround</p>
                 </div>
                 <p style="font-size: 14.5px; color: #555; margin-bottom: 15px;">Key deliverables included in this service package:</p>
@@ -1251,7 +1251,7 @@
             <div class="audit-modal-content quiz-modal-content">
                 <button class="modal-close-btn" id="closeQuizModalBtn">&times;</button>
                 <div class="audit-modal-header" style="text-align: center; margin-bottom: 10px;">
-                    <h2>Interactive Growth Proposal</h2>
+                    <div class="quiz-modal-title" style="font-size: 22px; font-weight: 700; color: #1a1a2e; margin-bottom: 6px;">Interactive Growth Proposal</div>
                     <p style="font-size: 14px; color: #666;">Get a tailored digital marketing roadmap in 3 clicks.</p>
                 </div>
                 
@@ -1261,7 +1261,7 @@
 
                 <!-- STEP 1 -->
                 <div class="quiz-step" id="quizStep1">
-                    <h3 style="font-size: 17px; text-align: center; color: #222; margin-bottom: 15px;">Step 1: What type of business do you run?</h3>
+                    <div class="quiz-step-title" style="font-size: 17px; font-weight: 700; text-align: center; color: #222; margin-bottom: 15px;">Step 1: What type of business do you run?</div>
                     <div class="quiz-options-grid">
                         <div class="quiz-option-card selected" data-quiz-val="E-Commerce Store">
                             <i class="fa-solid fa-cart-shopping"></i>
@@ -1288,7 +1288,7 @@
 
                 <!-- STEP 2 -->
                 <div class="quiz-step" id="quizStep2" style="display: none;">
-                    <h3 style="font-size: 17px; text-align: center; color: #222; margin-bottom: 15px;">Step 2: What is your primary growth goal?</h3>
+                    <div class="quiz-step-title" style="font-size: 17px; font-weight: 700; text-align: center; color: #222; margin-bottom: 15px;">Step 2: What is your primary growth goal?</div>
                     <div class="quiz-options-grid">
                         <div class="quiz-option-card selected" data-quiz-val="Get Qualified Leads">
                             <i class="fa-solid fa-bullseye"></i>
@@ -1315,7 +1315,7 @@
 
                 <!-- STEP 3 -->
                 <div class="quiz-step" id="quizStep3" style="display: none;">
-                    <h3 style="font-size: 17px; text-align: center; color: #222; margin-bottom: 15px;">Step 3: Where should we send your custom strategy?</h3>
+                    <div class="quiz-step-title" style="font-size: 17px; font-weight: 700; text-align: center; color: #222; margin-bottom: 15px;">Step 3: Where should we send your custom strategy?</div>
                     <form id="quizForm">
                         <div class="audit-form-group" style="margin-bottom: 12px;">
                             <input type="text" id="quizName" placeholder="Your Full Name" required style="width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 8px;">
@@ -1336,7 +1336,7 @@
                 <!-- SUCCESS MESSAGE -->
                 <div id="quizSuccessMsg" style="display: none; text-align: center; padding: 25px 10px;">
                     <i class="fa-solid fa-circle-check" style="font-size: 50px; color: #25D366; margin-bottom: 15px;"></i>
-                    <h3 style="font-size: 22px; color: #222; margin-bottom: 8px;">Proposal Request Received!</h3>
+                    <div class="quiz-success-title" style="font-size: 22px; font-weight: 700; color: #222; margin-bottom: 8px;">Proposal Request Received!</div>
                     <p style="color: #666; font-size: 15px;">Our strategy team will review your business details and send your customized roadmap within 24 hours.</p>
                 </div>
             </div>
@@ -1481,7 +1481,7 @@
                         <span style="background: rgba(101, 78, 159, 0.15); color: #654E9F; font-size: 12px; font-weight: 700; padding: 4px 12px; border-radius: 20px; text-transform: uppercase;"><i class=\"fa-solid fa-bolt\"></i> Special Free Growth Offer</span>
                     </div>
                     <div class="audit-modal-header" style="text-align: center; margin-bottom: 16px;">
-                        <h2 style="font-size: 22px; margin-bottom: 6px;">Wait! Before You Leave...</h2>
+                        <div class="exit-modal-title" style="font-size: 22px; font-weight: 700; margin-bottom: 6px; color: #1a1a2e;">Wait! Before You Leave...</div>
                         <p style="font-size: 14px; color: #555;">Get Our Free <b>7-Point Digital Audit & Growth Strategy Report</b> (&#8377;15,000 Value - 100% Free)</p>
                     </div>
                     <form id="exitIntentForm" style="display: flex; flex-direction: column; gap: 12px;">

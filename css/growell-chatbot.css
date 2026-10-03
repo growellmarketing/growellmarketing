@@ -309,7 +309,8 @@
   min-width: 0;
 }
 
-.gw-chat-header-info h4 {
+.gw-chat-header-info h4,
+.gw-chat-header-info .gw-chat-header-title {
   margin: 0;
   font-size: 15px;
   font-weight: 700;

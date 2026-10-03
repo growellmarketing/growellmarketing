@@ -146,7 +146,7 @@
             '<span class="gw-chat-online-dot"></span>' +
           '</div>' +
           '<div class="gw-chat-header-info">' +
-            '<h4>Growell AI Assistant</h4>' +
+            '<div class="gw-chat-header-title">Growell AI Assistant</div>' +
             '<span class="gw-status-text">Online • Quick Reply</span>' +
           '</div>' +
         '</div>' +
