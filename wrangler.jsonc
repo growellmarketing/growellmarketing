@@ -8,25 +8,6 @@
   },
   "assets": {
     "directory": ".",
-    "html_handling": "drop-trailing-slash",
-    "exclude": [
-      ".git/**",
-      ".github/**",
-      "*.docx",
-      "*.zip",
-      "node_modules/**",
-      ".system_generated/**",
-      "scratch/**",
-      "functions/**",
-      "worker.js",
-      "wrangler.jsonc",
-      "package*.json",
-      "BRANDING PORTFOLIO/**",
-      "New folder/**",
-      "triyal/**",
-      ".portfolio-images-backup/**",
-      "js/animations.js",
-      "js/meta-tracker.js"
-    ]
+    "html_handling": "drop-trailing-slash"
   }
 }
