@@ -6,6 +6,16 @@
   "observability": {
     "enabled": true
   },
+  "routes": [
+    {
+      "pattern": "www.growellmarketing.com/*",
+      "zone_name": "growellmarketing.com"
+    },
+    {
+      "pattern": "growellmarketing.com/*",
+      "zone_name": "growellmarketing.com"
+    }
+  ],
   "assets": {
     "directory": ".",
     "html_handling": "drop-trailing-slash"
