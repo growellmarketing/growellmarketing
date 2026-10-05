@@ -3098,7 +3098,6 @@ section.tint {
     box-shadow: 0 6px 24px rgba(0,0,0,0.07);
     width: 100%;
     aspect-ratio: 16 / 9;
-    max-height: 480px;
     background: #f4f2fa;
 }
 
@@ -3113,7 +3112,6 @@ section.tint {
 @media (max-width: 768px) {
     .blog-hero-image-wrapper {
         aspect-ratio: 16 / 9;
-        max-height: 260px;
         margin-bottom: 22px;
     }
 }
@@ -3418,10 +3416,12 @@ section.tint {
 }
 
 .sidebar-post-img {
-    width: 60px;
-    height: 60px;
+    width: 80px;
+    height: 48px;
+    aspect-ratio: 16 / 9;
     border-radius: 8px;
     object-fit: cover;
+    object-position: center;
     flex-shrink: 0;
     background: #f0edf8;
 }
@@ -4205,10 +4205,11 @@ section.tint {
 }
 
 .blog-img {
-    height: 190px;
     width: 100%;
+    aspect-ratio: 16 / 9;
+    height: auto;
     overflow: hidden;
-    background-color: #d6e1fc86;
+    background-color: #f4f2fa;
     border-radius: 16px 16px 0 0;
 }
 
@@ -4218,11 +4219,11 @@ section.tint {
     object-fit: cover;
     object-position: center;
     display: block;
-    transition: transform 0.4s ease;
+    transition: transform 0.35s ease;
 }
 
 .blog-card:hover .blog-img img {
-    transform: scale(1.05);
+    transform: scale(1.02);
 }
 
 .blog-card-body {
@@ -4499,11 +4500,12 @@ section.tint {
 
 /* Footer Map Container */
 .footer-map-card {
-    border-radius: 14px;
+    border-radius: 14px 14px 0 0;
     overflow: hidden;
     background: rgba(255, 255, 255, 0.85);
     border: 1px solid rgba(101, 78, 159, 0.16);
-    box-shadow: 0 8px 24px rgba(101, 78, 159, 0.08);
+    border-bottom: none;
+    box-shadow: none;
     display: flex;
     flex-direction: column;
 }
@@ -4511,10 +4513,10 @@ section.tint {
 .footer-map-card iframe,
 .footer-grid iframe.google-map {
     width: 100% !important;
-    height: 190px !important;
+    height: 160px !important;
     border: none !important;
     display: block !important;
-    border-radius: 14px 14px 0 0;
+    border-radius: 0;
 }
 
 .footer-map-link {
@@ -4786,7 +4788,6 @@ button,
     transition: transform .6s var(--ease-smooth), filter .6s var(--ease-smooth);
 }
 
-.blog-card:hover ,
 .case-study-card:hover .case-study-img,
 .team-card:hover .team-photo {
     transform: scale(1.04);
@@ -8055,7 +8056,7 @@ input:checked+.slider:before {
     border-radius: 2px;
 }
 
-/* Footer Office Card (Lightweight, No-iFrame Local SEO Card) */
+/* Footer Office Card */
 .footer-office-card {
     border-radius: 14px;
     background: rgba(255, 255, 255, 0.95);
@@ -8067,6 +8068,12 @@ input:checked+.slider:before {
     gap: 10px;
     font-size: 13.5px;
     line-height: 1.5;
+}
+/* When office card follows map card, remove top radius and border for seamless join */
+.footer-map-card + .footer-office-card {
+    border-radius: 0 0 14px 14px;
+    border-top: none;
+    box-shadow: 0 8px 24px rgba(101, 78, 159, 0.08);
 }
 .footer-office-badge {
     display: inline-flex;
