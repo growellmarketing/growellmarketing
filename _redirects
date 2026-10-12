@@ -25,8 +25,9 @@
 /contact.html                                /contact-us                                   301
 
 # Ad Campaign Short URLs
-/scale                                       /growth                                       301
-/free-audit                                  /growth                                       301
-/get-growth-audit                            /growth                                       301
+/scale                                       /contact-us                                   301
+/free-audit                                  /contact-us                                   301
+/get-growth-audit                            /contact-us                                   301
+/growth                                      /contact-us                                   301
 
 /terms-and-conditions                        /terms-conditions                             301

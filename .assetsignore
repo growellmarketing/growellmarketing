@@ -3,7 +3,9 @@
 .github
 .github/**
 *.docx
+**/*.docx
 *.zip
+**/*.zip
 node_modules
 node_modules/**
 .system_generated

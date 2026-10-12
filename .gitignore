@@ -1,7 +1,9 @@
 node_modules
 .wrangler
 *.docx
+**/*.docx
 *.zip
+**/*.zip
 .system_generated
 scratch
 .DS_Store
