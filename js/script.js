@@ -381,19 +381,66 @@
         }
     });
 
-    /* ---------- 1. Auto-tag elements for scroll reveal ---------- */
+    /* ---------- 1. Scroll Progress Bar ---------- */
+    var progressBar = document.createElement("div");
+    progressBar.className = "scroll-progress-bar";
+    progressBar.setAttribute("aria-hidden", "true");
+    document.body.appendChild(progressBar);
+
+    var tickingScroll = false;
+    function updateScrollProgress() {
+        var scrollTop = window.scrollY || document.documentElement.scrollTop;
+        var scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+        var progress = scrollHeight > 0 ? (scrollTop / scrollHeight) * 100 : 0;
+        progressBar.style.width = Math.min(100, Math.max(0, progress)) + "%";
+        tickingScroll = false;
+    }
+
+    window.addEventListener("scroll", function () {
+        if (!tickingScroll) {
+            window.requestAnimationFrame(updateScrollProgress);
+            tickingScroll = true;
+        }
+    }, { passive: true });
+    updateScrollProgress();
+
+    /* ---------- 1.5 Auto-tag elements for buttery scroll reveal ---------- */
+    // Alternating Left / Right Reveal for Service Showcase Sections & Two-Column Grids
+    document.querySelectorAll(".service-showcase-grid, .feature-flex").forEach(function (grid) {
+        var content = grid.querySelector(".service-showcase-content, .feature-text");
+        var image = grid.querySelector(".service-showcase-img, .feature-img");
+        var isReverse = grid.classList.contains("reverse");
+
+        if (content && !content.hasAttribute("data-reveal")) {
+            content.setAttribute("data-reveal", isReverse ? "right" : "left");
+            content.setAttribute("data-reveal-delay", "1");
+        }
+        if (image && !image.hasAttribute("data-reveal")) {
+            image.setAttribute("data-reveal", isReverse ? "left" : "right");
+            image.setAttribute("data-reveal-delay", "2");
+        }
+    });
+
     var revealSelectors = [
         ".benefit-card", ".pillar-card", ".team-card", ".stat-card",
         ".step-card", ".testimonial-card", ".case-study-card", ".blog-card",
         ".pricing-card", ".faq-item", ".contact-info-card",
-        ".feature-flex", ".cta-banner", ".sec-head", ".timeline-point",
-        ".newsletter-box", ".logo-strip", ".comparison-table"
+        ".cta-banner", ".sec-head", ".timeline-point",
+        ".newsletter-box", ".logo-strip", ".comparison-table",
+        ".service-main-card", ".explore-service-card", ".footer-office-card",
+        ".footer-map-card", ".roi-result-card", ".roi-results-box",
+        ".faq-group-card", ".faq-help-card", ".portfolio-stream-card"
     ];
 
     var revealEls = document.querySelectorAll(revealSelectors.join(","));
-    revealEls.forEach(function (el, i) {
-        el.setAttribute("data-reveal", "");
-        el.setAttribute("data-reveal-delay", (i % 6) + 1);
+    revealEls.forEach(function (el) {
+        if (!el.hasAttribute("data-reveal")) {
+            el.setAttribute("data-reveal", "");
+            // Stagger based on position within parent container if multiple siblings exist
+            var parent = el.parentElement;
+            var indexInParent = parent ? Array.prototype.indexOf.call(parent.children, el) : 0;
+            el.setAttribute("data-reveal-delay", (Math.max(0, indexInParent) % 6) + 1);
+        }
     });
 
     if (!reduceMotion && "IntersectionObserver" in window) {
@@ -404,7 +451,7 @@
                     revealObserver.unobserve(entry.target);
                 }
             });
-        }, { threshold: 0.12, rootMargin: "0px 0px -40px 0px" });
+        }, { threshold: 0.08, rootMargin: "0px 0px -30px 0px" });
 
         document.querySelectorAll("[data-reveal]").forEach(function (el) {
             revealObserver.observe(el);
@@ -418,9 +465,14 @@
     /* ---------- 2. Sticky Glassmorphism Navbaar on scroll ---------- */
     var navbaarEl = document.querySelector(".navbaar");
     if (navbaarEl) {
+        var isNavScrolled = null;
         var onScrollNavbar = function () {
-            if (window.scrollY > 35) navbaarEl.classList.add("scrolled");
-            else navbaarEl.classList.remove("scrolled");
+            var shouldScroll = window.scrollY > 35;
+            if (shouldScroll !== isNavScrolled) {
+                isNavScrolled = shouldScroll;
+                if (shouldScroll) navbaarEl.classList.add("scrolled");
+                else navbaarEl.classList.remove("scrolled");
+            }
         };
         window.addEventListener("scroll", onScrollNavbar, { passive: true });
         onScrollNavbar();
@@ -614,17 +666,40 @@
         else window.scrollTo({ top: 0, behavior: "smooth" });
     });
 
+    var isBackToTopShown = false;
     window.addEventListener("scroll", function () {
-        if (window.scrollY > 450) {
-            backToTop.classList.add("show");
-            backToTop.style.opacity = "1";
-            backToTop.style.visibility = "visible";
-        } else {
-            backToTop.classList.remove("show");
-            backToTop.style.opacity = "0";
-            backToTop.style.visibility = "hidden";
+        var shouldShow = window.scrollY > 450;
+        if (shouldShow !== isBackToTopShown) {
+            isBackToTopShown = shouldShow;
+            if (shouldShow) {
+                backToTop.classList.add("show");
+                backToTop.style.opacity = "1";
+                backToTop.style.visibility = "visible";
+            } else {
+                backToTop.classList.remove("show");
+                backToTop.style.opacity = "0";
+                backToTop.style.visibility = "hidden";
+            }
         }
     }, { passive: true });
+
+    /* ---------- 5.5 Pause Infinite Marquees When Off-Screen ---------- */
+    if ("IntersectionObserver" in window) {
+        var marqueeObserver = new IntersectionObserver(function (entries) {
+            entries.forEach(function (entry) {
+                var target = entry.target;
+                if (target.classList.contains("multi-marquee-container")) {
+                    target.classList.toggle("marquee-offscreen", !entry.isIntersecting);
+                } else if (target.classList.contains("portfolio-stream-wrapper")) {
+                    target.classList.toggle("stream-offscreen", !entry.isIntersecting);
+                }
+            });
+        }, { rootMargin: "100px 0px" });
+
+        document.querySelectorAll(".multi-marquee-container, .portfolio-stream-wrapper").forEach(function (el) {
+            marqueeObserver.observe(el);
+        });
+    }
 
     /* ---------- 6. Pricing Toggle (Monthly vs Annual) ---------- */
     var pricingToggle = document.getElementById("pricingToggle");
@@ -907,23 +982,11 @@
         });
     }
 
-    // Portfolio Card Shimmer Skeleton Preloader
+    // Portfolio Card Ready State (let native loading="lazy" handle image fetching)
     if (streamCards && streamCards.length) {
         streamCards.forEach(function (card) {
             var inner = card.querySelector(".stream-card-inner");
-            var previewSrc = card.getAttribute("data-preview-img");
-            if (previewSrc && inner) {
-                var preloadImg = new Image();
-                preloadImg.onload = function () {
-                    inner.classList.add("is-loaded");
-                };
-                preloadImg.src = previewSrc;
-                if (preloadImg.complete) {
-                    inner.classList.add("is-loaded");
-                }
-            } else if (inner) {
-                inner.classList.add("is-loaded");
-            }
+            if (inner) inner.classList.add("is-loaded");
         });
     }
 
@@ -1457,7 +1520,7 @@
 
     /* ---------- 9. GROWELL AI CHATBOT LOADER (SITE-WIDE) ---------- */
     (function () {
-        if (document.getElementById('gwChatLauncher') || document.getElementById('gwChatbotScript')) return;
+        if (document.getElementById('gwChatLauncher') || document.getElementById('gwChatbotScript') || document.querySelector('script[src*="growell-chatbot.js"]')) return;
         var isLocal = window.location.protocol === 'file:';
         var isSubdir = window.location.pathname.toLowerCase().indexOf('/blog/') !== -1 || 
                        window.location.pathname.toLowerCase().indexOf('/services/') !== -1 ||
@@ -1466,7 +1529,7 @@
         var prefix = isLocal ? (isSubdir ? '../' : '') : '/';
         var script = document.createElement('script');
         script.id = 'gwChatbotScript';
-        script.src = prefix + 'js/growell-chatbot.js?v=4';
+        script.src = prefix + 'js/growell-chatbot.js?v=5';
         script.defer = true;
         document.body.appendChild(script);
     })();
@@ -1540,9 +1603,6 @@
             });
         }
     })();
-
-    /* ---------- 11. MOBILE FLOATING STICKY LEAD BAR (REMOVED) ---------- */
-    // Sticky bar removed as requested by user
 
     /* ---------- 12. LOCAL & LOCALHOST NAVIGATION RESOLVER ---------- */
     (function () {

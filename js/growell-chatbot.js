@@ -415,7 +415,7 @@
 
   // Load stylesheet dynamically if not already linked
   function ensureStyles() {
-    if (!document.getElementById("gwChatbotStyles")) {
+    if (!document.getElementById("gwChatbotStyles") && !document.querySelector('link[href*="growell-chatbot.css"]')) {
       var link = document.createElement("link");
       link.id = "gwChatbotStyles";
       link.rel = "stylesheet";

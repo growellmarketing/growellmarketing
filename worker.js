@@ -16,6 +16,9 @@ export default {
         }
 
         if (url.pathname === "/api/lead") {
+            if (request.method === "OPTIONS") {
+                return onRequestOptions({ request, env, ctx });
+            }
             if (request.method === "POST") return postLead({ request, env, ctx });
             return new Response("Method Not Allowed", { status: 405 });
         }
